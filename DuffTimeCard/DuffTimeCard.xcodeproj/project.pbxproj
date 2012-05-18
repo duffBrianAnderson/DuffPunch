@@ -1,0 +1,322 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D316FF141564134B00A99F64 /* SubmitHoursViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D316FF131564134B00A99F64 /* SubmitHoursViewController.m */; };
+		D3DC05171563746E00D6E4AB /* duff_beer.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D3DC05161563746E00D6E4AB /* duff_beer.jpg */; };
+		D3E16D1E1562F1F800FF2B89 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3E16D1D1562F1F800FF2B89 /* UIKit.framework */; };
+		D3E16D201562F1F800FF2B89 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3E16D1F1562F1F800FF2B89 /* Foundation.framework */; };
+		D3E16D221562F1F800FF2B89 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3E16D211562F1F800FF2B89 /* CoreGraphics.framework */; };
+		D3E16D281562F1F800FF2B89 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D3E16D261562F1F800FF2B89 /* InfoPlist.strings */; };
+		D3E16D2A1562F1F800FF2B89 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D3E16D291562F1F800FF2B89 /* main.m */; };
+		D3E16D2E1562F1F800FF2B89 /* DuffTimeCardAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D3E16D2D1562F1F800FF2B89 /* DuffTimeCardAppDelegate.m */; };
+		D3E16D311562F1F900FF2B89 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3E16D2F1562F1F900FF2B89 /* MainStoryboard.storyboard */; };
+		D3E16D341562F1F900FF2B89 /* DuffTimeCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3E16D331562F1F900FF2B89 /* DuffTimeCardViewController.m */; };
+		D3F2649A15656F21001338DC /* Project.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F2649915656F21001338DC /* Project.m */; };
+		D3F2649D15657264001338DC /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F2649C15657264001338DC /* Task.m */; };
+		D3F264A015657306001338DC /* RemoteAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F2649F15657305001338DC /* RemoteAccess.m */; };
+		D3F264B31565C152001338DC /* TaskPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F264B21565C152001338DC /* TaskPageViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		D316FF121564134B00A99F64 /* SubmitHoursViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubmitHoursViewController.h; sourceTree = "<group>"; };
+		D316FF131564134B00A99F64 /* SubmitHoursViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubmitHoursViewController.m; sourceTree = "<group>"; };
+		D3DC05161563746E00D6E4AB /* duff_beer.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = duff_beer.jpg; sourceTree = "<group>"; };
+		D3E16D191562F1F800FF2B89 /* DuffTimeCard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DuffTimeCard.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D3E16D1D1562F1F800FF2B89 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		D3E16D1F1562F1F800FF2B89 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		D3E16D211562F1F800FF2B89 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		D3E16D251562F1F800FF2B89 /* DuffTimeCard-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DuffTimeCard-Info.plist"; sourceTree = "<group>"; };
+		D3E16D271562F1F800FF2B89 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D3E16D291562F1F800FF2B89 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		D3E16D2B1562F1F800FF2B89 /* DuffTimeCard-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DuffTimeCard-Prefix.pch"; sourceTree = "<group>"; };
+		D3E16D2C1562F1F800FF2B89 /* DuffTimeCardAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DuffTimeCardAppDelegate.h; sourceTree = "<group>"; };
+		D3E16D2D1562F1F800FF2B89 /* DuffTimeCardAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DuffTimeCardAppDelegate.m; sourceTree = "<group>"; };
+		D3E16D301562F1F900FF2B89 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		D3E16D321562F1F900FF2B89 /* DuffTimeCardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DuffTimeCardViewController.h; sourceTree = "<group>"; };
+		D3E16D331562F1F900FF2B89 /* DuffTimeCardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DuffTimeCardViewController.m; sourceTree = "<group>"; };
+		D3E16D421563048A00FF2B89 /* NSData+Additions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+Additions.h"; sourceTree = "<group>"; };
+		D3E16D431563048A00FF2B89 /* NSData+Additions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+Additions.m"; sourceTree = "<group>"; };
+		D3F2649815656F21001338DC /* Project.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Project.h; sourceTree = "<group>"; };
+		D3F2649915656F21001338DC /* Project.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Project.m; sourceTree = "<group>"; };
+		D3F2649B15657264001338DC /* Task.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Task.h; sourceTree = "<group>"; };
+		D3F2649C15657264001338DC /* Task.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Task.m; sourceTree = "<group>"; };
+		D3F2649E15657305001338DC /* RemoteAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteAccess.h; sourceTree = "<group>"; };
+		D3F2649F15657305001338DC /* RemoteAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteAccess.m; sourceTree = "<group>"; };
+		D3F264B11565C152001338DC /* TaskPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskPageViewController.h; sourceTree = "<group>"; };
+		D3F264B21565C152001338DC /* TaskPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskPageViewController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D3E16D161562F1F800FF2B89 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3E16D1E1562F1F800FF2B89 /* UIKit.framework in Frameworks */,
+				D3E16D201562F1F800FF2B89 /* Foundation.framework in Frameworks */,
+				D3E16D221562F1F800FF2B89 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D3E16D0E1562F1F800FF2B89 = {
+			isa = PBXGroup;
+			children = (
+				D3E16D231562F1F800FF2B89 /* DuffTimeCard */,
+				D3E16D1C1562F1F800FF2B89 /* Frameworks */,
+				D3E16D1A1562F1F800FF2B89 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D3E16D1A1562F1F800FF2B89 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D3E16D191562F1F800FF2B89 /* DuffTimeCard.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D3E16D1C1562F1F800FF2B89 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D3E16D1D1562F1F800FF2B89 /* UIKit.framework */,
+				D3E16D1F1562F1F800FF2B89 /* Foundation.framework */,
+				D3E16D211562F1F800FF2B89 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D3E16D231562F1F800FF2B89 /* DuffTimeCard */ = {
+			isa = PBXGroup;
+			children = (
+				D3DC05161563746E00D6E4AB /* duff_beer.jpg */,
+				D3E16D421563048A00FF2B89 /* NSData+Additions.h */,
+				D3E16D431563048A00FF2B89 /* NSData+Additions.m */,
+				D3E16D2C1562F1F800FF2B89 /* DuffTimeCardAppDelegate.h */,
+				D3E16D2D1562F1F800FF2B89 /* DuffTimeCardAppDelegate.m */,
+				D3E16D2F1562F1F900FF2B89 /* MainStoryboard.storyboard */,
+				D3F264B11565C152001338DC /* TaskPageViewController.h */,
+				D3F264B21565C152001338DC /* TaskPageViewController.m */,
+				D316FF121564134B00A99F64 /* SubmitHoursViewController.h */,
+				D316FF131564134B00A99F64 /* SubmitHoursViewController.m */,
+				D3E16D321562F1F900FF2B89 /* DuffTimeCardViewController.h */,
+				D3E16D331562F1F900FF2B89 /* DuffTimeCardViewController.m */,
+				D3F2649E15657305001338DC /* RemoteAccess.h */,
+				D3F2649F15657305001338DC /* RemoteAccess.m */,
+				D3F2649815656F21001338DC /* Project.h */,
+				D3F2649915656F21001338DC /* Project.m */,
+				D3F2649B15657264001338DC /* Task.h */,
+				D3F2649C15657264001338DC /* Task.m */,
+				D3E16D241562F1F800FF2B89 /* Supporting Files */,
+			);
+			path = DuffTimeCard;
+			sourceTree = "<group>";
+		};
+		D3E16D241562F1F800FF2B89 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D3E16D251562F1F800FF2B89 /* DuffTimeCard-Info.plist */,
+				D3E16D261562F1F800FF2B89 /* InfoPlist.strings */,
+				D3E16D291562F1F800FF2B89 /* main.m */,
+				D3E16D2B1562F1F800FF2B89 /* DuffTimeCard-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D3E16D181562F1F800FF2B89 /* DuffTimeCard */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D3E16D371562F1F900FF2B89 /* Build configuration list for PBXNativeTarget "DuffTimeCard" */;
+			buildPhases = (
+				D3E16D151562F1F800FF2B89 /* Sources */,
+				D3E16D161562F1F800FF2B89 /* Frameworks */,
+				D3E16D171562F1F800FF2B89 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DuffTimeCard;
+			productName = DuffTimeCard;
+			productReference = D3E16D191562F1F800FF2B89 /* DuffTimeCard.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D3E16D101562F1F800FF2B89 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = DuffTimeCard;
+				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = "Duff Research";
+			};
+			buildConfigurationList = D3E16D131562F1F800FF2B89 /* Build configuration list for PBXProject "DuffTimeCard" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = D3E16D0E1562F1F800FF2B89;
+			productRefGroup = D3E16D1A1562F1F800FF2B89 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D3E16D181562F1F800FF2B89 /* DuffTimeCard */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D3E16D171562F1F800FF2B89 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3E16D281562F1F800FF2B89 /* InfoPlist.strings in Resources */,
+				D3E16D311562F1F900FF2B89 /* MainStoryboard.storyboard in Resources */,
+				D3DC05171563746E00D6E4AB /* duff_beer.jpg in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D3E16D151562F1F800FF2B89 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3E16D2A1562F1F800FF2B89 /* main.m in Sources */,
+				D3E16D2E1562F1F800FF2B89 /* DuffTimeCardAppDelegate.m in Sources */,
+				D3E16D341562F1F900FF2B89 /* DuffTimeCardViewController.m in Sources */,
+				D316FF141564134B00A99F64 /* SubmitHoursViewController.m in Sources */,
+				D3F2649A15656F21001338DC /* Project.m in Sources */,
+				D3F2649D15657264001338DC /* Task.m in Sources */,
+				D3F264A015657306001338DC /* RemoteAccess.m in Sources */,
+				D3F264B31565C152001338DC /* TaskPageViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		D3E16D261562F1F800FF2B89 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D3E16D271562F1F800FF2B89 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		D3E16D2F1562F1F900FF2B89 /* MainStoryboard.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D3E16D301562F1F900FF2B89 /* en */,
+			);
+			name = MainStoryboard.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D3E16D351562F1F900FF2B89 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		D3E16D361562F1F900FF2B89 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D3E16D381562F1F900FF2B89 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "DuffTimeCard/DuffTimeCard-Prefix.pch";
+				INFOPLIST_FILE = "DuffTimeCard/DuffTimeCard-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		D3E16D391562F1F900FF2B89 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "DuffTimeCard/DuffTimeCard-Prefix.pch";
+				INFOPLIST_FILE = "DuffTimeCard/DuffTimeCard-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D3E16D131562F1F800FF2B89 /* Build configuration list for PBXProject "DuffTimeCard" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D3E16D351562F1F900FF2B89 /* Debug */,
+				D3E16D361562F1F900FF2B89 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D3E16D371562F1F900FF2B89 /* Build configuration list for PBXNativeTarget "DuffTimeCard" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D3E16D381562F1F900FF2B89 /* Debug */,
+				D3E16D391562F1F900FF2B89 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D3E16D101562F1F800FF2B89 /* Project object */;
+}
