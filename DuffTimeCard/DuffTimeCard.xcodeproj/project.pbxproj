@@ -17,7 +17,6 @@
 		D3E16D2E1562F1F800FF2B89 /* DuffTimeCardAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D3E16D2D1562F1F800FF2B89 /* DuffTimeCardAppDelegate.m */; };
 		D3E16D311562F1F900FF2B89 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3E16D2F1562F1F900FF2B89 /* MainStoryboard.storyboard */; };
 		D3E16D341562F1F900FF2B89 /* DuffTimeCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3E16D331562F1F900FF2B89 /* DuffTimeCardViewController.m */; };
-		D3F2649A15656F21001338DC /* Project.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F2649915656F21001338DC /* Project.m */; };
 		D3F2649D15657264001338DC /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F2649C15657264001338DC /* Task.m */; };
 		D3F264A015657306001338DC /* RemoteAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F2649F15657305001338DC /* RemoteAccess.m */; };
 		D3F264B31565C152001338DC /* TaskPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F264B21565C152001338DC /* TaskPageViewController.m */; };
@@ -42,8 +41,6 @@
 		D3E16D331562F1F900FF2B89 /* DuffTimeCardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DuffTimeCardViewController.m; sourceTree = "<group>"; };
 		D3E16D421563048A00FF2B89 /* NSData+Additions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+Additions.h"; sourceTree = "<group>"; };
 		D3E16D431563048A00FF2B89 /* NSData+Additions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+Additions.m"; sourceTree = "<group>"; };
-		D3F2649815656F21001338DC /* Project.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Project.h; sourceTree = "<group>"; };
-		D3F2649915656F21001338DC /* Project.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Project.m; sourceTree = "<group>"; };
 		D3F2649B15657264001338DC /* Task.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Task.h; sourceTree = "<group>"; };
 		D3F2649C15657264001338DC /* Task.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Task.m; sourceTree = "<group>"; };
 		D3F2649E15657305001338DC /* RemoteAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteAccess.h; sourceTree = "<group>"; };
@@ -110,8 +107,6 @@
 				D3E16D331562F1F900FF2B89 /* DuffTimeCardViewController.m */,
 				D3F2649E15657305001338DC /* RemoteAccess.h */,
 				D3F2649F15657305001338DC /* RemoteAccess.m */,
-				D3F2649815656F21001338DC /* Project.h */,
-				D3F2649915656F21001338DC /* Project.m */,
 				D3F2649B15657264001338DC /* Task.h */,
 				D3F2649C15657264001338DC /* Task.m */,
 				D3E16D241562F1F800FF2B89 /* Supporting Files */,
@@ -199,7 +194,6 @@
 				D3E16D2E1562F1F800FF2B89 /* DuffTimeCardAppDelegate.m in Sources */,
 				D3E16D341562F1F900FF2B89 /* DuffTimeCardViewController.m in Sources */,
 				D316FF141564134B00A99F64 /* SubmitHoursViewController.m in Sources */,
-				D3F2649A15656F21001338DC /* Project.m in Sources */,
 				D3F2649D15657264001338DC /* Task.m in Sources */,
 				D3F264A015657306001338DC /* RemoteAccess.m in Sources */,
 				D3F264B31565C152001338DC /* TaskPageViewController.m in Sources */,
