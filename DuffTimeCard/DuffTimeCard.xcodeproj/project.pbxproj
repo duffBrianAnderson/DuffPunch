@@ -19,7 +19,6 @@
 		D3E16D341562F1F900FF2B89 /* DuffTimeCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3E16D331562F1F900FF2B89 /* DuffTimeCardViewController.m */; };
 		D3F2649D15657264001338DC /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F2649C15657264001338DC /* Task.m */; };
 		D3F264A015657306001338DC /* RemoteAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F2649F15657305001338DC /* RemoteAccess.m */; };
-		D3F264B31565C152001338DC /* TaskPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F264B21565C152001338DC /* TaskPageViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,8 +44,6 @@
 		D3F2649C15657264001338DC /* Task.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Task.m; sourceTree = "<group>"; };
 		D3F2649E15657305001338DC /* RemoteAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteAccess.h; sourceTree = "<group>"; };
 		D3F2649F15657305001338DC /* RemoteAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteAccess.m; sourceTree = "<group>"; };
-		D3F264B11565C152001338DC /* TaskPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskPageViewController.h; sourceTree = "<group>"; };
-		D3F264B21565C152001338DC /* TaskPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskPageViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,8 +96,6 @@
 				D3E16D2C1562F1F800FF2B89 /* DuffTimeCardAppDelegate.h */,
 				D3E16D2D1562F1F800FF2B89 /* DuffTimeCardAppDelegate.m */,
 				D3E16D2F1562F1F900FF2B89 /* MainStoryboard.storyboard */,
-				D3F264B11565C152001338DC /* TaskPageViewController.h */,
-				D3F264B21565C152001338DC /* TaskPageViewController.m */,
 				D316FF121564134B00A99F64 /* SubmitHoursViewController.h */,
 				D316FF131564134B00A99F64 /* SubmitHoursViewController.m */,
 				D3E16D321562F1F900FF2B89 /* DuffTimeCardViewController.h */,
@@ -196,7 +191,6 @@
 				D316FF141564134B00A99F64 /* SubmitHoursViewController.m in Sources */,
 				D3F2649D15657264001338DC /* Task.m in Sources */,
 				D3F264A015657306001338DC /* RemoteAccess.m in Sources */,
-				D3F264B31565C152001338DC /* TaskPageViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
