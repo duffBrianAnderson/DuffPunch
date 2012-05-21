@@ -7,6 +7,7 @@
 //
 
 #import "DuffTimeCardAppDelegate.h"
+#import "RemoteAccess.h"
 
 @implementation DuffTimeCardAppDelegate
 
@@ -38,7 +39,8 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    NSLog(@"becoming active");
+    BOOL loggedIn = [RemoteAccess getInstance].isLoggedIn;
+    NSLog(@"%d", loggedIn);
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

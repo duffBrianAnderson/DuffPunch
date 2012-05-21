@@ -15,7 +15,7 @@
 @property (strong, nonatomic) NSString *serverName;
 @property (strong, nonatomic) NSString *email;
 @property (strong, nonatomic) NSString *password;
-@property (nonatomic) BOOL isLoggedIn;
+@property (strong, nonatomic) NSString *authString;
 
 @end
 
@@ -90,20 +90,30 @@ static RemoteAccess *mSharedInstance  = nil;
 {
     BOOL success = true;
     
+    NSURLResponse *projectResponse = [[NSHTTPURLResponse alloc] init];
+    NSURLResponse *taskResponse = [[NSHTTPURLResponse alloc] init];
     
     // get complete project list:
-    NSData *projectsData = [self requestDataFromServer:GET_PROJECT_URL];
+    NSData *projectsData = [self requestDataFromServer:GET_PROJECT_URL response:projectResponse];
     self.projectNames = [self createProjectNamesTableFromJSON:projectsData];
     
     //get the tasks for this user:
-    NSData *tasksData = [self requestDataFromServer:GET_TASK_URL];
+    NSData *tasksData = [self requestDataFromServer:GET_TASK_URL response:taskResponse];
     self.tasks = [self createTaskArrayFromJSON:tasksData];
+    
+    int x = [(NSHTTPURLResponse *)projectResponse statusCode];
+    int y = [(NSHTTPURLResponse *)taskResponse statusCode];
+    
+//    NSLog(@"%d, %d", x , y);
+//    
+//    if(x != 200 || y != 200)
+//        success = false;
     
     return success;
 }
 
 
-- (NSData *)requestDataFromServer:(NSString *)serverName
+- (NSData *)requestDataFromServer:(NSString *)serverName response:(NSURLResponse *)response
 {
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:serverName]];
     
@@ -111,14 +121,14 @@ static RemoteAccess *mSharedInstance  = nil;
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64Encoding]];    
     [request setValue:authValue forHTTPHeaderField:@"Authorization"];
     
-    NSURLResponse *outResponse;
-    NSError *outError;
+//    NSURLResponse *outResponse;
+//    NSError *outError;
     
-    NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:&outResponse error:&outError];
+    NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
     return returnData;
 }
 
-- (NSArray *)createTaskArrayFromJSON:(NSData *)jsonData
+- (NSArray *)createTaskArrayFromJSON:(NSData *)jsonData 
 {
     NSMutableArray *tasksBuilder = [[NSMutableArray alloc] init];
     NSArray *jsonTables = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableLeaves error:nil];
@@ -169,6 +179,7 @@ static RemoteAccess *mSharedInstance  = nil;
 {
     self.email = nil;
     self.password = nil;
+    self.authString = nil;
     self.isLoggedIn = false;
 }
 

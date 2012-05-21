@@ -95,7 +95,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="-97" y="-590"/>
+            <point key="canvasLocation" x="-115" y="-560"/>
         </scene>
         <!--Submit Hours View Controller-->
         <scene sceneID="zQp-iS-pKU">
@@ -176,7 +176,12 @@
                                     <barButtonItem title="Logout" id="ld0-PB-tCD">
                                         <color key="tintColor" red="0.69000509510869568" green="0.0" blue="0.048718899937376055" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
-                                            <action selector="onLogout:" destination="o13-hm-jlt" id="yx7-86-Ux8"/>
+                                            <action selector="onLogout:" destination="o13-hm-jlt" id="y0H-1F-pjb"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem title="Sync" id="Afz-36-N2j">
+                                        <connections>
+                                            <action selector="onSync:" destination="o13-hm-jlt" id="o98-Jv-saw"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
@@ -200,7 +205,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="f9a-IP-2gl"/>
+                    <navigationItem key="navigationItem" id="pXJ-U3-phY">
+                        <barButtonItem key="backBarButtonItem" title="Logout" id="RrO-1L-rN7"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="hoursLabel" destination="PIu-7S-heP" id="Ppz-e6-Ows"/>
                         <outlet property="loadingView" destination="l6u-Gq-jtP" id="ZMk-OU-05G"/>
@@ -208,7 +215,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="375" y="-712"/>
+            <point key="canvasLocation" x="304" y="-778"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="s2n-Am-n7F">
@@ -216,7 +223,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bin-F4-eXI" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController navigationBarHidden="YES" id="sXd-Pz-dzK" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" hidden="YES" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="yxY-9W-ySY">
+                    <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="yxY-9W-ySY">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -226,34 +233,12 @@
                     </connections>
                 </navigationController>
             </objects>
-            <point key="canvasLocation" x="-663" y="-390"/>
+            <point key="canvasLocation" x="-646" y="-395"/>
         </scene>
     </scenes>
     <resources>
         <image name="duff_beer.jpg" width="452" height="320"/>
     </resources>
-    <classes>
-        <class className="DuffTimeCardViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/DuffTimeCardViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="backgroundTap:"/>
-                <relationship kind="action" name="textFieldDoneEditing:"/>
-                <relationship kind="outlet" name="emailTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="loginButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="loginProgressIndicator" candidateClass="UIActivityIndicatorView"/>
-                <relationship kind="outlet" name="passwordTextField" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="SubmitHoursViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SubmitHoursViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="currentTaskButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="hoursLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="loadingView" candidateClass="UIActivityIndicatorView"/>
-                <relationship kind="outlet" name="projectScroller" candidateClass="UIScrollView"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

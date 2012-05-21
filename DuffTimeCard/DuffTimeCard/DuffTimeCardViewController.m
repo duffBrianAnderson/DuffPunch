@@ -76,6 +76,12 @@ NSString * const TASK_URL = @"https://timetrackerservice.herokuapp.com/tasks";
     // Release any retained subviews of the main view.
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    self.emailTextField.text = @"";
+    self.passwordTextField.text = @"";
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);

@@ -36,39 +36,7 @@
 {
     [super viewDidLoad];
     
-    [self.loadingView startAnimating];
-    RemoteAccess *remoteAccess = [RemoteAccess getInstance];
-    
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, NULL), ^{
-        [remoteAccess synchronizeWithServer];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.tasks = remoteAccess.tasks;    
-            self.projectNamesTable = remoteAccess.projectNames;
-            self.projectIdsForCurrentUser = remoteAccess.projectIdsForCurrentUser;
-            
-            NSArray *colors = [NSArray arrayWithObjects:[UIColor redColor], [UIColor greenColor], [UIColor blueColor], nil];
-            int numProjects = self.projectIdsForCurrentUser.count;
-            for (int i = 0; i < numProjects; i++)
-            {
-                CGRect frame;
-                frame.origin.x = self.projectScroller.frame.size.width * i;
-                frame.origin.y = 0;
-                frame.size = self.projectScroller.frame.size;
-                
-                UILabel *subview = [[UILabel alloc] initWithFrame:frame];
-                subview.backgroundColor = [colors objectAtIndex:i];
-                int idAsInt = [(NSNumber *)[self.projectIdsForCurrentUser objectAtIndex:i] intValue];
-                subview.text = [self.projectNamesTable objectForKey:[NSString stringWithFormat:@"%d",idAsInt]];
-                subview.textAlignment = UITextAlignmentCenter;
-                [self.projectScroller addSubview:subview];
-            }
-            
-            self.projectScroller.contentSize = CGSizeMake(self.projectScroller.frame.size.width * numProjects, self.projectScroller.frame.size.height);
-            [self.loadingView stopAnimating];
-        });
-    });
+    NSLog(@"viewDidLoad");
     
 //    if([remoteAccess synchronizeWithServer])
 //    {
@@ -106,6 +74,12 @@
     // Release any retained subviews of the main view.
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    NSLog(@"view appearing");
+    [self startSync];
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
@@ -122,8 +96,63 @@
    // use http POST and send the new task up to server
 }
 
-- (IBAction)onLogout
+- (void)startSync
+{
+    [self.loadingView startAnimating];
+    RemoteAccess *remoteAccess = [RemoteAccess getInstance];
+    
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, NULL), ^{
+        BOOL success = [remoteAccess synchronizeWithServer];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(success)
+            {
+                self.tasks = remoteAccess.tasks;    
+                self.projectNamesTable = remoteAccess.projectNames;
+                self.projectIdsForCurrentUser = remoteAccess.projectIdsForCurrentUser;
+                
+                NSArray *colors = [NSArray arrayWithObjects:[UIColor redColor], [UIColor greenColor], [UIColor blueColor], nil];
+                int numProjects = self.projectIdsForCurrentUser.count;
+                for (int i = 0; i < numProjects; i++)
+                {
+                    CGRect frame;
+                    frame.origin.x = self.projectScroller.frame.size.width * i;
+                    frame.origin.y = 0;
+                    frame.size = self.projectScroller.frame.size;
+                    
+                    UILabel *subview = [[UILabel alloc] initWithFrame:frame];
+                    subview.backgroundColor = [colors objectAtIndex:i];
+                    int idAsInt = [(NSNumber *)[self.projectIdsForCurrentUser objectAtIndex:i] intValue];
+                    subview.text = [self.projectNamesTable objectForKey:[NSString stringWithFormat:@"%d",idAsInt]];
+                    subview.textAlignment = UITextAlignmentCenter;
+                    [self.projectScroller addSubview:subview];
+                }
+                
+                self.projectScroller.contentSize = CGSizeMake(self.projectScroller.frame.size.width * numProjects, self.projectScroller.frame.size.height);
+                [self.loadingView stopAnimating];
+            }
+            else 
+            {
+                NSLog(@"error");       
+            }
+        });
+    });
+}
+
+- (IBAction)onLogout:(id)sender 
 {
     [[RemoteAccess getInstance] logout];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)onSync:(id)sender 
+{
+    for(UIView *view in [self.projectScroller subviews])
+    {
+        if([view isKindOfClass:[UILabel class]])
+           [view removeFromSuperview];
+    }
+    [self startSync];
 }
 @end
