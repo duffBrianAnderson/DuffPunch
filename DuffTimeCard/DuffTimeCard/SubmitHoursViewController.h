@@ -12,5 +12,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *hoursLabel;
 @property (weak, nonatomic) IBOutlet UIButton *currentTaskButton;
+@property (weak, nonatomic) IBOutlet UIScrollView *projectScroller;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingView;
 
 @end

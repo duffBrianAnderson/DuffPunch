@@ -21,6 +21,7 @@ NSString * const TASK_URL = @"https://timetrackerservice.herokuapp.com/tasks";
 @synthesize emailTextField = mEmailTextField;
 @synthesize passwordTextField = mPasswordTextField;
 @synthesize loginProgressIndicator = mLoginProgressIndicator;
+@synthesize loginButton = mLoginButton;
 
 - (IBAction)textFieldDoneEditing:(id)sender
 {
@@ -70,6 +71,7 @@ NSString * const TASK_URL = @"https://timetrackerservice.herokuapp.com/tasks";
     [self setEmailTextField:nil];
     [self setPasswordTextField:nil];
     [self setLoginProgressIndicator:nil];
+    [self setLoginButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -81,16 +83,22 @@ NSString * const TASK_URL = @"https://timetrackerservice.herokuapp.com/tasks";
 
 - (IBAction)onLogin 
 {
-    [self.loginProgressIndicator setHidden:NO];
-    BOOL success = [self loginWithEmail:self.emailTextField.text password:self.passwordTextField.text];
-    [self.loginProgressIndicator setHidden:YES];
+    [self.loginProgressIndicator startAnimating];
+    self.loginButton.enabled = NO;
     
-    if(success)
-    {
-        [self performSegueWithIdentifier:@"loginComplete" sender:self];
-    }
-    else
-       [self displayInvalidCredentialsDialog];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, NULL), ^{
+        BOOL success = [self loginWithEmail:self.emailTextField.text password:self.passwordTextField.text];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.loginProgressIndicator stopAnimating];
+            self.loginButton.enabled = YES;
+            
+            if(success)
+                [self performSegueWithIdentifier:@"loginComplete" sender:self];
+            else
+                [self displayInvalidCredentialsDialog];
+        });
+    });
 }   
 
 - (void)displayInvalidCredentialsDialog

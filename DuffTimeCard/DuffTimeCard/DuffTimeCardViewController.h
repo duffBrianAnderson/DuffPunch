@@ -13,6 +13,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loginProgressIndicator;
+@property (weak, nonatomic) IBOutlet UIButton *loginButton;
 
 // used for keyboard dismissal
 - (IBAction)textFieldDoneEditing:(id)sender;

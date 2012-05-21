@@ -29,10 +29,12 @@ static RemoteAccess *mSharedInstance  = nil;
 @synthesize authString = mAuthString;
 @synthesize tasks = mTasks;
 @synthesize projectNames = mProjectNames;
+@synthesize projectIdsForCurrentUser = mProjectIdsForCurrentUser;
 @synthesize serverName = mServerName;
 @synthesize email = mEmail;
 @synthesize password = mPassword;
 @synthesize isLoggedIn = mIsLoggedIn;
+@synthesize mostRecentTask = mMostRecentTask;
 
 + (RemoteAccess *)getInstance
 {
@@ -65,8 +67,6 @@ static RemoteAccess *mSharedInstance  = nil;
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) outResponse;
     int responseStatusCode = [httpResponse statusCode];
     
-    //NSString *errorMessage = [outError localizedFailureReason];
-    
     if(responseStatusCode == 200)
     {
         // login succeeded
@@ -85,16 +85,23 @@ static RemoteAccess *mSharedInstance  = nil;
     return mIsLoggedIn;
 }
 
-- (NSArray *)getTasks
+
+- (BOOL)synchronizeWithServer
 {
-    if(!self.tasks)
-    {
-       NSData *resultData = [self requestDataFromServer:GET_TASK_URL];
-       self.tasks = [self createTaskArrayFromJSON:resultData];
-    }
+    BOOL success = true;
     
-    return self.tasks;
+    
+    // get complete project list:
+    NSData *projectsData = [self requestDataFromServer:GET_PROJECT_URL];
+    self.projectNames = [self createProjectNamesTableFromJSON:projectsData];
+    
+    //get the tasks for this user:
+    NSData *tasksData = [self requestDataFromServer:GET_TASK_URL];
+    self.tasks = [self createTaskArrayFromJSON:tasksData];
+    
+    return success;
 }
+
 
 - (NSData *)requestDataFromServer:(NSString *)serverName
 {
@@ -106,7 +113,6 @@ static RemoteAccess *mSharedInstance  = nil;
     
     NSURLResponse *outResponse;
     NSError *outError;
-    NSLog(@"getting data");
     
     NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:&outResponse error:&outError];
     return returnData;
@@ -117,30 +123,31 @@ static RemoteAccess *mSharedInstance  = nil;
     NSMutableArray *tasksBuilder = [[NSMutableArray alloc] init];
     NSArray *jsonTables = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableLeaves error:nil];
     
+    NSMutableSet *projectIdForCurrentUserBuilder = [[NSMutableSet alloc] init];
+    
     for(NSDictionary *currentTask in jsonTables)
     {
         NSString *name = [currentTask objectForKey:@"task_name"];
-        int hours = [(NSNumber *)[currentTask objectForKey:@"hours"] intValue];
+        
+        id hoursNSNumber = [currentTask objectForKey:@"hours"];
+        int hours = 0;
+        if(![hoursNSNumber isMemberOfClass:[NSNull class]])
+           hours = [(NSNumber *)[currentTask objectForKey:@"hours"] intValue];
+        
         int projectIndex = [(NSNumber *)[currentTask objectForKey:@"project_id"] intValue];
         NSString *notes = [currentTask objectForKey:@"notes"];
+        
+        [projectIdForCurrentUserBuilder addObject:[[NSNumber alloc] initWithInt:projectIndex]];
         
         Task *taskToAdd = [[Task alloc] initWithName:name hours:hours projectIndex:projectIndex notes:notes];
         [tasksBuilder addObject:taskToAdd];
     }
     
+    self.projectIdsForCurrentUser = [projectIdForCurrentUserBuilder allObjects];
+    
     return [tasksBuilder copy];
 }
 
-- (NSDictionary *)getProjectNamesTable
-{
-    if(!self.projectNames)
-    {
-        NSData *resultData = [self requestDataFromServer:GET_PROJECT_URL];
-        self.projectNames = [self createProjectNamesTableFromJSON:resultData];
-    }
-    
-    return self.projectNames;
-}
 
 - (NSDictionary *)createProjectNamesTableFromJSON:(NSData *)jsonData
 {
@@ -156,6 +163,13 @@ static RemoteAccess *mSharedInstance  = nil;
     }
     
     return [projectsBuilder copy];
+}
+
+- (void)logout
+{
+    self.email = nil;
+    self.password = nil;
+    self.isLoggedIn = false;
 }
 
 @end
