@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingView;
 @property (weak, nonatomic) IBOutlet UITextField *notesTextField;
 @property (weak, nonatomic) IBOutlet UITextField *taskNameTextField;
+@property (weak, nonatomic) IBOutlet UIPageControl *projectPageControl;
 
 // used for keyboard dismissal
 - (IBAction)textFieldDoneEditing:(id)sender;

@@ -84,7 +84,7 @@ NSString * const TASK_URL = @"https://timetrackerservice.herokuapp.com/tasks";
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 - (IBAction)onLogin 
