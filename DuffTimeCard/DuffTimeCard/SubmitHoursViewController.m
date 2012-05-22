@@ -134,7 +134,7 @@
    // use http POST and send the new task up to server
     Task *taskToUpload = [[Task alloc] initWithName:self.taskNameTextField.text hours:[self.hoursLabel.text intValue] projectIndex:self.currentProjectID notes:self.notesTextField.text];
      
-    NSLog(@"task: %@, %d, %d, %@", taskToUpload.name, taskToUpload.hours, taskToUpload.projectIndex, taskToUpload.notes); 
+    NSLog(@"task: %@, %d, %d, %@", taskToUpload.name, taskToUpload.hours, taskToUpload.projectIndex, taskToUpload.notes);
 }
 
 - (void)startSync
@@ -142,43 +142,35 @@
     [self.loadingView startAnimating];
     RemoteAccess *remoteAccess = [RemoteAccess getInstance];
     
+    [remoteAccess synchronizeWithServer:self];
+}
+
+- (void)onDataSyncComplete
+{
+    RemoteAccess *remoteAccess = [RemoteAccess getInstance];
+    self.tasks = remoteAccess.tasks;    
+    self.projectNamesTable = remoteAccess.projectNames;
+    self.projectIdsForCurrentUser = remoteAccess.projectIdsForCurrentUser;
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, NULL), ^{
-        BOOL success = [remoteAccess synchronizeWithServer];
+    NSArray *colors = [NSArray arrayWithObjects:[UIColor redColor], [UIColor greenColor], [UIColor blueColor], nil];
+    int numProjects = self.projectIdsForCurrentUser.count;
+    for (int i = 0; i < numProjects; i++)
+    {
+        CGRect frame;
+        frame.origin.x = self.projectScroller.frame.size.width * i;
+        frame.origin.y = 0;
+        frame.size = self.projectScroller.frame.size;
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if(success)
-            {
-                self.tasks = remoteAccess.tasks;    
-                self.projectNamesTable = remoteAccess.projectNames;
-                self.projectIdsForCurrentUser = remoteAccess.projectIdsForCurrentUser;
-                
-                NSArray *colors = [NSArray arrayWithObjects:[UIColor redColor], [UIColor greenColor], [UIColor blueColor], nil];
-                int numProjects = self.projectIdsForCurrentUser.count;
-                for (int i = 0; i < numProjects; i++)
-                {
-                    CGRect frame;
-                    frame.origin.x = self.projectScroller.frame.size.width * i;
-                    frame.origin.y = 0;
-                    frame.size = self.projectScroller.frame.size;
-                    
-                    UILabel *subview = [[UILabel alloc] initWithFrame:frame];
-                    subview.backgroundColor = [colors objectAtIndex:i];
-                    int idAsInt = [(NSNumber *)[self.projectIdsForCurrentUser objectAtIndex:i] intValue];
-                    subview.text = [self.projectNamesTable objectForKey:[NSString stringWithFormat:@"%d",idAsInt]];
-                    subview.textAlignment = UITextAlignmentCenter;
-                    [self.projectScroller addSubview:subview];
-                }
-                
-                self.projectScroller.contentSize = CGSizeMake(self.projectScroller.frame.size.width * numProjects, self.projectScroller.frame.size.height);
-                [self.loadingView stopAnimating];
-            }
-            else 
-            {
-                NSLog(@"error");       
-            }
-        });
-    });
+        UILabel *subview = [[UILabel alloc] initWithFrame:frame];
+        subview.backgroundColor = [colors objectAtIndex:i];
+        int idAsInt = [(NSNumber *)[self.projectIdsForCurrentUser objectAtIndex:i] intValue];
+        subview.text = [self.projectNamesTable objectForKey:[NSString stringWithFormat:@"%d",idAsInt]];
+        subview.textAlignment = UITextAlignmentCenter;
+        [self.projectScroller addSubview:subview];
+    }
+    
+    self.projectScroller.contentSize = CGSizeMake(self.projectScroller.frame.size.width * numProjects, self.projectScroller.frame.size.height);
+    [self.loadingView stopAnimating];
 }
 
 - (IBAction)onLogout:(id)sender 
@@ -196,4 +188,5 @@
     }
     [self startSync];
 }
+
 @end

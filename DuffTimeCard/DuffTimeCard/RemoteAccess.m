@@ -12,10 +12,13 @@
 
 @interface RemoteAccess()
 
-@property (strong, nonatomic) NSString *serverName;
 @property (strong, nonatomic) NSString *email;
 @property (strong, nonatomic) NSString *password;
 @property (strong, nonatomic) NSString *authString;
+
+//This is where we'll store the data that's downloaded before setting to the project and task data.
+@property (strong, nonatomic) NSMutableData *receivedData;
+@property (strong, nonatomic) id <RemoteAccessProtocol> delegate;
 
 @end
 
@@ -30,11 +33,13 @@ static RemoteAccess *mSharedInstance  = nil;
 @synthesize tasks = mTasks;
 @synthesize projectNames = mProjectNames;
 @synthesize projectIdsForCurrentUser = mProjectIdsForCurrentUser;
-@synthesize serverName = mServerName;
 @synthesize email = mEmail;
 @synthesize password = mPassword;
 @synthesize isLoggedIn = mIsLoggedIn;
 @synthesize mostRecentTask = mMostRecentTask;
+
+@synthesize receivedData = mReceivedData;
+@synthesize delegate = mDelegate;
 
 + (RemoteAccess *)getInstance
 {
@@ -70,7 +75,6 @@ static RemoteAccess *mSharedInstance  = nil;
     if(responseStatusCode == 200)
     {
         // login succeeded
-        mServerName = serverName;
         mEmail = email;
         mPassword = password;
         mAuthString = authString;
@@ -86,49 +90,18 @@ static RemoteAccess *mSharedInstance  = nil;
 }
 
 
-- (BOOL)synchronizeWithServer
-{
-    BOOL success = true;
-    
-    NSURLResponse *projectResponse = [[NSHTTPURLResponse alloc] init];
-    NSURLResponse *taskResponse = [[NSHTTPURLResponse alloc] init];
-    
-    // get complete project list:
-    NSData *projectsData = [self requestDataFromServer:GET_PROJECT_URL response:projectResponse];
-    self.projectNames = [self createProjectNamesTableFromJSON:projectsData];
-    
-    //get the tasks for this user:
-    NSData *tasksData = [self requestDataFromServer:GET_TASK_URL response:taskResponse];
-    self.tasks = [self createTaskArrayFromJSON:tasksData];
-    
-    int x = [(NSHTTPURLResponse *)projectResponse statusCode];
-    int y = [(NSHTTPURLResponse *)taskResponse statusCode];
-    
-//    NSLog(@"%d, %d", x , y);
-//    
-//    if(x != 200 || y != 200)
-//        success = false;
-    
-    return success;
-}
-
-
-- (NSData *)requestDataFromServer:(NSString *)serverName response:(NSURLResponse *)response
+- (void)requestDataFromServer:(NSString *)serverName
 {
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:serverName]];
     
     NSData *authData = [mAuthString dataUsingEncoding:NSUTF8StringEncoding];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64Encoding]];    
     [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-    
-//    NSURLResponse *outResponse;
-//    NSError *outError;
-    
-    NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-    return returnData;
+
+    [[NSURLConnection alloc] initWithRequest:request delegate:self];
 }
 
-- (NSArray *)createTaskArrayFromJSON:(NSData *)jsonData 
+- (NSArray *)createTaskArrayFromJSON:(NSData *)jsonData
 {
     NSMutableArray *tasksBuilder = [[NSMutableArray alloc] init];
     NSArray *jsonTables = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableLeaves error:nil];
@@ -175,6 +148,14 @@ static RemoteAccess *mSharedInstance  = nil;
     return [projectsBuilder copy];
 }
 
+- (BOOL)submitNewTask:(Task *)task
+{
+    BOOL success = false;
+    
+    // do http post and then return whether it was successful or not.
+    return success;
+}
+
 - (void)logout
 {
     self.email = nil;
@@ -182,5 +163,60 @@ static RemoteAccess *mSharedInstance  = nil;
     self.authString = nil;
     self.isLoggedIn = false;
 }
+
+/**
+ * We need to hit the server twice, first to get the hashtable of projectId's to project names, and the second to pull down all the tasks for the current user. The second is kicked off
+ * in the NSURLConnectionDataDelegate method "connectionDidFinishLoading"
+ */
+- (void)synchronizeWithServer:(id <RemoteAccessProtocol>)delegate
+{        
+    self.delegate = delegate;
+    [self requestDataFromServer:GET_PROJECT_URL];
+}
+
+// NSURLConnectionDataDelegate methods:
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+    int code = [httpResponse statusCode];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    if(self.receivedData == nil)
+        self.receivedData = [[NSMutableData alloc] initWithData:data];
+    else 
+      [self.receivedData appendData:data];
+        
+}
+
+//- (NSInputStream *)connection:(NSURLConnection *)connection needNewBodyStream:(NSURLRequest *)request;
+//- (void)connection:(NSURLConnection *)connection   didSendBodyData:(NSInteger)bytesWritten
+// totalBytesWritten:(NSInteger)totalBytesWritten
+//totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite;
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+        if([GET_PROJECT_URL isEqualToString:connection.currentRequest.URL.absoluteString])
+        {            
+            self.projectNames = [self createProjectNamesTableFromJSON:self.receivedData];
+            
+            // now get all the tasks:
+            self.receivedData = nil;
+            [self requestDataFromServer:GET_TASK_URL];
+        }
+        else if([GET_TASK_URL isEqualToString:connection.currentRequest.URL.absoluteString])
+        {            
+            self.tasks = [self createTaskArrayFromJSON:self.receivedData];
+
+            [self.delegate onDataSyncComplete];
+            self.receivedData = nil;
+            self.delegate = nil;
+        }
+}
+
+
+
 
 @end

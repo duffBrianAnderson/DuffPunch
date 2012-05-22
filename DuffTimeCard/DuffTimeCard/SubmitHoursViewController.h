@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RemoteAccess.h"
 
-@interface SubmitHoursViewController : UIViewController
+@interface SubmitHoursViewController : UIViewController <RemoteAccessProtocol>
 
 @property (weak, nonatomic) IBOutlet UILabel *hoursLabel;
 @property (weak, nonatomic) IBOutlet UIScrollView *projectScroller;

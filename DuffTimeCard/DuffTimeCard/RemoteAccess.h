@@ -9,7 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "Task.h"
 
-@interface RemoteAccess : NSObject
+@protocol RemoteAccessProtocol <NSObject>
+
+- (void)onDataSyncComplete;
+
+@end
+
+@interface RemoteAccess : NSObject <NSURLConnectionDataDelegate>
 
 @property (strong, nonatomic) NSArray *tasks;
 @property (strong, nonatomic) NSDictionary *projectNames;
@@ -20,6 +26,7 @@
 + (RemoteAccess *)getInstance;
 - (BOOL)loginToServer:(NSString *)serverName email:(NSString *)email password:(NSString *)password;
 - (void)logout;
-- (BOOL)synchronizeWithServer;
+- (void)synchronizeWithServer:(id <RemoteAccessProtocol>)delegate;
+- (BOOL)submitNewTask:(Task *)task;
 
 @end
