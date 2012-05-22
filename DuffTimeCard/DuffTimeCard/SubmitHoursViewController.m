@@ -23,9 +23,10 @@
 @implementation SubmitHoursViewController
 
 @synthesize hoursLabel = mHoursLabel;
-@synthesize currentTaskButton = mCurrentTaskButton;
 @synthesize projectScroller = mProjectScroller;
 @synthesize loadingView = mLoadingView;
+@synthesize notesTextField = mNotesTextField;
+@synthesize taskNameTextField = mTaskNameTextField;
 @synthesize currentTask = mCurrentTask;
 @synthesize currentProjectID = mCurrentProjectID;
 @synthesize tasks = mTasks;
@@ -35,8 +36,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    NSLog(@"viewDidLoad");
     
 //    if([remoteAccess synchronizeWithServer])
 //    {
@@ -67,17 +66,56 @@
 - (void)viewDidUnload
 {
     [self setHoursLabel:nil];
-    [self setCurrentTaskButton:nil];
     [self setProjectScroller:nil];
     [self setLoadingView:nil];
+    [self setTaskNameTextField:nil];
+    [self setNotesTextField:nil];
+    [self setTaskNameTextField:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
+}
+
+- (IBAction)textFieldDoneEditing:(id)sender
+{
+    [sender resignFirstResponder];
+}
+
+- (IBAction)backgroundTap:(id)senderg
+{
+    [self.taskNameTextField resignFirstResponder];
+    [self.notesTextField resignFirstResponder];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     NSLog(@"view appearing");
     [self startSync];
+}
+
+
+- (IBAction)startEditingTextField:(id)sender 
+{
+    [self animateTextField:sender up:YES];
+}
+
+
+- (IBAction)stopEditingTextField:(id)sender 
+{
+    [self animateTextField:sender up:NO];
+}
+
+- (void) animateTextField: (UITextField*) textField up: (BOOL) up
+{
+    const int movementDistance = 150;
+    const float movementDuration = 0.3f;
+    
+    int movement = (up ? -movementDistance : movementDistance);
+    
+    [UIView beginAnimations: @"anim" context: nil];
+    [UIView setAnimationBeginsFromCurrentState: YES];
+    [UIView setAnimationDuration: movementDuration];
+    self.view.frame = CGRectOffset(self.view.frame, 0, movement);
+    [UIView commitAnimations];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -94,6 +132,9 @@
 - (IBAction)onSubmit
 {
    // use http POST and send the new task up to server
+    Task *taskToUpload = [[Task alloc] initWithName:self.taskNameTextField.text hours:[self.hoursLabel.text intValue] projectIndex:self.currentProjectID notes:self.notesTextField.text];
+     
+    NSLog(@"task: %@, %d, %d, %@", taskToUpload.name, taskToUpload.hours, taskToUpload.projectIndex, taskToUpload.notes); 
 }
 
 - (void)startSync
