@@ -31,4 +31,14 @@
 }
 
 
+- (NSDictionary *)createJSONObjectFromTask
+{
+    NSArray *keyArray = [NSArray arrayWithObjects:@"task_name", @"hours", @"project_id", @"notes",nil];
+    NSLog(@"%d", self.projectIndex);
+    NSArray *valueArray = [NSArray arrayWithObjects:self.name, [[NSNumber alloc] initWithInt:self.hours], [[NSNumber alloc] initWithInt:self.projectIndex], self.notes, nil];
+    NSDictionary *jsonObj = [[NSDictionary alloc] initWithObjects:valueArray forKeys:keyArray];
+    
+    return jsonObj;
+}
+
 @end

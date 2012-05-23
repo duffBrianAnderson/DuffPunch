@@ -16,5 +16,6 @@
 @property (strong, nonatomic) NSString *notes;
 
 - (Task *)initWithName:(NSString *)name hours:(int)hours projectIndex:(int)projectIndex notes:(NSString *)notes;
+- (NSDictionary *)createJSONObjectFromTask;
 
 @end

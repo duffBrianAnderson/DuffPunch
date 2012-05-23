@@ -17,7 +17,9 @@
 @property (strong, nonatomic) NSArray *tasks;
 @property (strong, nonatomic) NSDictionary *projectNamesTable;
 @property (strong, nonatomic) NSArray *projectIdsForCurrentUser;
+
 @property (nonatomic) BOOL submitOK;
+@property (nonatomic) BOOL shouldSubmitNewTask;
 
 @end
 
@@ -29,12 +31,16 @@
 @synthesize notesTextField = mNotesTextField;
 @synthesize taskNameTextField = mTaskNameTextField;
 @synthesize projectPageControl = mProjectPageControl;
+@synthesize submitButton = mSubmitButton;
+@synthesize syncButton = mSyncButton;
 @synthesize currentTask = mCurrentTask;
 @synthesize currentProjectID = mCurrentProjectID;
 @synthesize tasks = mTasks;
 @synthesize projectNamesTable = mProjectNamesTable;
 @synthesize projectIdsForCurrentUser = mProjectIdsForCurrentUser;
+
 @synthesize submitOK = mSubmitOK;
+@synthesize shouldSubmitNewTask = mShouldSubmitNewTask;
 
 - (void)viewDidLoad
 {
@@ -50,8 +56,18 @@
     [self setNotesTextField:nil];
     [self setTaskNameTextField:nil];
     [self setProjectPageControl:nil];
+    [self setSubmitButton:nil];
+    [self setSyncButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
+}
+
+- (void)resetUIToDefaults
+{
+    self.hoursLabel.text = @"8";
+    self.taskNameTextField.text = @"";
+    self.notesTextField.text = @"";
+    [self updateSubmitButton];
 }
 
 - (void)updateSubmitButton
@@ -82,6 +98,7 @@
 {
     NSLog(@"view appearing");
     [self startSync];
+    [self updateSubmitButton];
 }
 
 
@@ -124,11 +141,13 @@
 - (IBAction)onSubmit
 {
     if(self.submitOK)
-    {
-        // use http POST and send the new task up to server
-        Task *taskToUpload = [[Task alloc] initWithName:self.taskNameTextField.text hours:[self.hoursLabel.text intValue] projectIndex:self.currentProjectID notes:self.notesTextField.text];
+    {    
+        //create the new task        
+        self.currentTask = [[Task alloc] initWithName:self.taskNameTextField.text hours:[self.hoursLabel.text intValue] projectIndex:self.currentProjectID notes:self.notesTextField.text];
         
-        NSLog(@"task: %@, %d, %d, %@", taskToUpload.name, taskToUpload.hours, taskToUpload.projectIndex, taskToUpload.notes);
+        // sync with the server before we push anything up there to prevent screwing things up:
+        self.shouldSubmitNewTask = YES;
+        [self startSync];
     }
     else 
     {
@@ -137,14 +156,25 @@
     }
 }
 
+- (void)submit
+{
+    [[RemoteAccess getInstance] submitNewTask:self.currentTask delegate:self];
+}
+
 - (void)startSync
 {
+    for(UIView *view in [self.projectScroller subviews])
+    {
+        if([view isKindOfClass:[UILabel class]])
+            [view removeFromSuperview];
+    }
     [self.loadingView startAnimating];
     RemoteAccess *remoteAccess = [RemoteAccess getInstance];
     
     [remoteAccess synchronizeWithServer:self];
 }
 
+//####  RemoteAccessProtocol methods:
 - (void)onDataSyncComplete
 {
     RemoteAccess *remoteAccess = [RemoteAccess getInstance];
@@ -154,6 +184,22 @@
     
     NSArray *colors = [NSArray arrayWithObjects:[UIColor redColor], [UIColor greenColor], [UIColor blueColor], nil];
     int numProjects = self.projectIdsForCurrentUser.count;
+    
+    if(numProjects == 0)
+    {
+        CGRect frame;
+        frame.origin.x = 0;
+        frame.origin.y = 0;
+        frame.size = self.projectScroller.frame.size;
+        
+        UILabel *subview = [[UILabel alloc] initWithFrame:frame];
+        subview.backgroundColor = [colors objectAtIndex:0];
+        subview.text = @"No Projects";
+        subview.textAlignment = UITextAlignmentCenter;
+        [self.projectScroller addSubview:subview];
+    }
+        
+    
     for (int i = 0; i < numProjects; i++)
     {
         CGRect frame;
@@ -162,7 +208,7 @@
         frame.size = self.projectScroller.frame.size;
         
         UILabel *subview = [[UILabel alloc] initWithFrame:frame];
-        subview.backgroundColor = [colors objectAtIndex:i];
+        subview.backgroundColor = [colors objectAtIndex:i % colors.count];
         int idAsInt = [(NSNumber *)[self.projectIdsForCurrentUser objectAtIndex:i] intValue];
         subview.text = [self.projectNamesTable objectForKey:[NSString stringWithFormat:@"%d",idAsInt]];
         subview.textAlignment = UITextAlignmentCenter;
@@ -172,6 +218,41 @@
     self.projectScroller.contentSize = CGSizeMake(self.projectScroller.frame.size.width * numProjects, self.projectScroller.frame.size.height);
     self.projectPageControl.numberOfPages = numProjects;
     [self.loadingView stopAnimating];
+    
+    CGFloat pageWidth = self.projectScroller.frame.size.width;
+    int page = floor((self.projectScroller.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+    self.projectPageControl.currentPage = page;
+    [self updateCurrentProjectId:page];
+    
+    if(self.shouldSubmitNewTask)
+    {
+        [self submit];
+    }
+}
+
+- (void)onSubmitComplete
+{
+    NSLog(@"submitting complete");
+    UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Submission complete!" message:nil delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    [dialog show];
+    
+    self.shouldSubmitNewTask = NO;
+    self.currentTask = nil;
+    [self resetUIToDefaults];
+}
+
+- (void)onSyncError
+{
+    
+}
+
+
+// ### end protocol
+
+- (void)updateCurrentProjectId:(int)currentID
+{
+    if(self.projectIdsForCurrentUser.count > 0)        
+       self.currentProjectID = [(NSNumber *)[self.projectIdsForCurrentUser objectAtIndex:currentID] intValue];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)sender 
@@ -179,7 +260,7 @@
     CGFloat pageWidth = self.projectScroller.frame.size.width;
     int page = floor((self.projectScroller.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
     self.projectPageControl.currentPage = page;
-    self.currentProjectID = [(NSNumber *)[self.projectIdsForCurrentUser objectAtIndex:page] intValue];
+    [self updateCurrentProjectId:page];
 }
 
 - (IBAction)onLogout:(id)sender
@@ -190,11 +271,6 @@
 
 - (IBAction)onSync:(id)sender
 {
-    for(UIView *view in [self.projectScroller subviews])
-    {
-        if([view isKindOfClass:[UILabel class]])
-           [view removeFromSuperview];
-    }
     [self startSync];
 }
 

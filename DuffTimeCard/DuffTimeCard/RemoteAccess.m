@@ -18,7 +18,15 @@
 
 //This is where we'll store the data that's downloaded before setting to the project and task data.
 @property (strong, nonatomic) NSMutableData *receivedData;
-@property (strong, nonatomic) id <RemoteAccessProtocol> delegate;
+@property (weak, nonatomic) id <RemoteAccessProtocol> delegate;
+
+
+/*
+ * When we submit, we first sync up with the server so "synchronizeWithServer" is called.
+ * After syncing with the server however, the self.delegate property is nil'd out (see "connectionDidFinishLoading").  We don't want this to happen if we're kicking off a submit task,
+ * so we use this property as a flag to say that we're going to submit after this sync so don't set the delegate to nil.
+ */
+@property (nonatomic) BOOL isAPreSubmitSync;
 
 @end
 
@@ -40,6 +48,8 @@ static RemoteAccess *mSharedInstance  = nil;
 
 @synthesize receivedData = mReceivedData;
 @synthesize delegate = mDelegate;
+
+@synthesize isAPreSubmitSync = mIsAPreSubmitSync;
 
 + (RemoteAccess *)getInstance
 {
@@ -112,15 +122,23 @@ static RemoteAccess *mSharedInstance  = nil;
     {
         NSString *name = [currentTask objectForKey:@"task_name"];
         
+        // it's possible to get NSNULL for "hours" or "project_id", so make sure we handle this gracefully, by simply not including a NULL project in the project scroller.
+        
         id hoursNSNumber = [currentTask objectForKey:@"hours"];
         int hours = 0;
         if(![hoursNSNumber isMemberOfClass:[NSNull class]])
            hours = [(NSNumber *)[currentTask objectForKey:@"hours"] intValue];
         
-        int projectIndex = [(NSNumber *)[currentTask objectForKey:@"project_id"] intValue];
+        
+        id projectIDNSNumber = [currentTask objectForKey:@"project_id"];
+        int projectIndex = -1;
+        if(![projectIDNSNumber isMemberOfClass:[NSNull class]])
+           projectIndex = [(NSNumber *)[currentTask objectForKey:@"project_id"] intValue];
+             
         NSString *notes = [currentTask objectForKey:@"notes"];
         
-        [projectIdForCurrentUserBuilder addObject:[[NSNumber alloc] initWithInt:projectIndex]];
+        if(projectIndex != -1)
+           [projectIdForCurrentUserBuilder addObject:[[NSNumber alloc] initWithInt:projectIndex]];
         
         Task *taskToAdd = [[Task alloc] initWithName:name hours:hours projectIndex:projectIndex notes:notes];
         [tasksBuilder addObject:taskToAdd];
@@ -148,13 +166,25 @@ static RemoteAccess *mSharedInstance  = nil;
     return [projectsBuilder copy];
 }
 
-- (BOOL)submitNewTask:(Task *)task
+
+- (void)submitNewTask:(Task *)task delegate:(id <RemoteAccessProtocol>)delegate
 {
-    BOOL success = false;
-    
+    self.isAPreSubmitSync = YES;
+    self.delegate = delegate;
     // do http post and then return whether it was successful or not.
-    return success;
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:GET_TASK_URL]];
+    request.HTTPMethod = @"POST";
+    
+    NSData *authData = [mAuthString dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64Encoding]];    
+    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+        
+    NSData *newTaskData = [NSJSONSerialization dataWithJSONObject:[task createJSONObjectFromTask] options:nil error:nil];                    
+    request.HTTPBody = newTaskData;
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [[NSURLConnection alloc] initWithRequest:request delegate:self];
 }
+
 
 - (void)logout
 {
@@ -163,6 +193,7 @@ static RemoteAccess *mSharedInstance  = nil;
     self.authString = nil;
     self.isLoggedIn = false;
 }
+
 
 /**
  * We need to hit the server twice, first to get the hashtable of projectId's to project names, and the second to pull down all the tasks for the current user. The second is kicked off
@@ -180,6 +211,7 @@ static RemoteAccess *mSharedInstance  = nil;
 {
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
     int code = [httpResponse statusCode];
+    NSLog(@"%d", code);
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
@@ -198,7 +230,13 @@ static RemoteAccess *mSharedInstance  = nil;
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-        if([GET_PROJECT_URL isEqualToString:connection.currentRequest.URL.absoluteString])
+        if([connection.currentRequest.HTTPMethod isEqualToString:@"POST"])
+        {
+            [self.delegate onSubmitComplete];
+            self.delegate = nil;
+            self.isAPreSubmitSync = NO;
+        }
+        else if([GET_PROJECT_URL isEqualToString:connection.currentRequest.URL.absoluteString])
         {            
             self.projectNames = [self createProjectNamesTableFromJSON:self.receivedData];
             
@@ -212,11 +250,10 @@ static RemoteAccess *mSharedInstance  = nil;
 
             [self.delegate onDataSyncComplete];
             self.receivedData = nil;
-            self.delegate = nil;
+            
+            if(!self.isAPreSubmitSync)
+              self.delegate = nil;
         }
 }
-
-
-
 
 @end

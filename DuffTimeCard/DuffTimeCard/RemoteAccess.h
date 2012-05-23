@@ -11,7 +11,10 @@
 
 @protocol RemoteAccessProtocol <NSObject>
 
+@required
 - (void)onDataSyncComplete;
+- (void)onSyncError;
+- (void)onSubmitComplete;
 
 @end
 
@@ -27,6 +30,6 @@
 - (BOOL)loginToServer:(NSString *)serverName email:(NSString *)email password:(NSString *)password;
 - (void)logout;
 - (void)synchronizeWithServer:(id <RemoteAccessProtocol>)delegate;
-- (BOOL)submitNewTask:(Task *)task;
+- (void)submitNewTask:(Task *)task delegate:(id <RemoteAccessProtocol>)delgate;
 
 @end

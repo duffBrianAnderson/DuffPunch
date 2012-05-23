@@ -184,6 +184,7 @@
                                             <action selector="onLogout:" destination="o13-hm-jlt" id="y0H-1F-pjb"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="24R-B3-iGc"/>
                                     <barButtonItem title="Sync" id="Afz-36-N2j">
                                         <connections>
                                             <action selector="onSync:" destination="o13-hm-jlt" id="o98-Jv-saw"/>
@@ -231,6 +232,8 @@
                         <outlet property="notesTextField" destination="yWR-X3-MdQ" id="vqw-Dd-On0"/>
                         <outlet property="projectPageControl" destination="cWl-Uv-dXb" id="3d0-fe-j9S"/>
                         <outlet property="projectScroller" destination="XMC-f8-7Le" id="FzA-Lg-5yK"/>
+                        <outlet property="submitButton" destination="bi2-Gu-YJS" id="8mt-NN-3MY"/>
+                        <outlet property="syncButton" destination="Afz-36-N2j" id="xiE-21-rzg"/>
                         <outlet property="taskNameTextField" destination="Kle-3z-2uD" id="1LJ-Mp-oXv"/>
                     </connections>
                 </viewController>
