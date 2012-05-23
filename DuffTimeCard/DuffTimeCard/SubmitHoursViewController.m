@@ -140,6 +140,7 @@
 
 - (IBAction)onSubmit
 {
+    [self enableSyncAndSubmitButtons:NO];
     if(self.submitOK)
     {    
         //create the new task        
@@ -151,6 +152,7 @@
     }
     else 
     {
+        [self enableSyncAndSubmitButtons:YES];
         UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Cannot submit task:" message:@"Task must have a name." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
         [dialog show];
     }
@@ -163,11 +165,6 @@
 
 - (void)startSync
 {
-    for(UIView *view in [self.projectScroller subviews])
-    {
-        if([view isKindOfClass:[UILabel class]])
-            [view removeFromSuperview];
-    }
     [self.loadingView startAnimating];
     RemoteAccess *remoteAccess = [RemoteAccess getInstance];
     
@@ -177,6 +174,12 @@
 //####  RemoteAccessProtocol methods:
 - (void)onDataSyncComplete
 {
+    for(UIView *view in [self.projectScroller subviews])
+    {
+        if([view isKindOfClass:[UILabel class]])
+            [view removeFromSuperview];
+    }
+    
     RemoteAccess *remoteAccess = [RemoteAccess getInstance];
     self.tasks = remoteAccess.tasks;    
     self.projectNamesTable = remoteAccess.projectNames;
@@ -228,6 +231,10 @@
     {
         [self submit];
     }
+    else 
+    {
+        [self enableSyncAndSubmitButtons:YES];
+    }
 }
 
 - (void)onSubmitComplete
@@ -236,6 +243,7 @@
     UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Submission complete!" message:nil delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     [dialog show];
     
+    [self enableSyncAndSubmitButtons:YES];
     self.shouldSubmitNewTask = NO;
     self.currentTask = nil;
     [self resetUIToDefaults];
@@ -243,7 +251,18 @@
 
 - (void)onSyncError
 {
-    
+    [self enableSyncAndSubmitButtons:YES];
+    [self.loadingView stopAnimating];
+    UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error syncing!" message:nil delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    [dialog show];
+}
+
+- (void)onAuthError
+{
+    [self enableSyncAndSubmitButtons:YES];
+    [self.loadingView stopAnimating];
+    UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Username or password is wrong!" message:nil delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    [dialog show];
 }
 
 
@@ -271,7 +290,14 @@
 
 - (IBAction)onSync:(id)sender
 {
+    [self enableSyncAndSubmitButtons:NO];
     [self startSync];
+}
+
+- (void)enableSyncAndSubmitButtons:(BOOL)shouldEnable
+{
+    self.syncButton.enabled = shouldEnable;
+    self.submitButton.enabled = shouldEnable;
 }
 
 @end

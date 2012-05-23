@@ -15,10 +15,11 @@
 - (void)onDataSyncComplete;
 - (void)onSyncError;
 - (void)onSubmitComplete;
+- (void)onAuthError;
 
 @end
 
-@interface RemoteAccess : NSObject <NSURLConnectionDataDelegate>
+@interface RemoteAccess : NSObject <NSURLConnectionDataDelegate, NSURLConnectionDelegate>
 
 @property (strong, nonatomic) NSArray *tasks;
 @property (strong, nonatomic) NSDictionary *projectNames;

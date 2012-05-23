@@ -211,7 +211,7 @@ static RemoteAccess *mSharedInstance  = nil;
 {
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
     int code = [httpResponse statusCode];
-    NSLog(@"%d", code);
+    NSLog(@"HTTP status code: %d", code);
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
@@ -230,6 +230,7 @@ static RemoteAccess *mSharedInstance  = nil;
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
+    NSLog(@"connectionDidFinishLoading");
         if([connection.currentRequest.HTTPMethod isEqualToString:@"POST"])
         {
             [self.delegate onSubmitComplete];
@@ -254,6 +255,18 @@ static RemoteAccess *mSharedInstance  = nil;
             if(!self.isAPreSubmitSync)
               self.delegate = nil;
         }
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    NSLog(@"didFailWithError");
+    [self.delegate onSyncError];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
+{
+    NSLog(@"didReceiveAuthenticationChallenge");
+    [self.delegate onAuthError];
 }
 
 @end
