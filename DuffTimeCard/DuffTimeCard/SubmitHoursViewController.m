@@ -96,7 +96,6 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    NSLog(@"view appearing");
     [self startSync];
     [self updateSubmitButton];
 }
@@ -143,8 +142,12 @@
     [self enableSyncAndSubmitButtons:NO];
     if(self.submitOK)
     {    
-        //create the new task        
-        self.currentTask = [[Task alloc] initWithName:self.taskNameTextField.text hours:[self.hoursLabel.text intValue] projectIndex:self.currentProjectID notes:self.notesTextField.text];
+        //create the new task
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd"];
+        NSString *todaysDateFormatted = [formatter stringFromDate:[[NSDate alloc] init]];
+        
+        self.currentTask = [[Task alloc] initWithName:self.taskNameTextField.text hours:[self.hoursLabel.text intValue] projectIndex:self.currentProjectID notes:self.notesTextField.text date:todaysDateFormatted];
         
         // sync with the server before we push anything up there to prevent screwing things up:
         self.shouldSubmitNewTask = YES;

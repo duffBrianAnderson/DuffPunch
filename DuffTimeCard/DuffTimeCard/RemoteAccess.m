@@ -134,13 +134,18 @@ static RemoteAccess *mSharedInstance  = nil;
         int projectIndex = -1;
         if(![projectIDNSNumber isMemberOfClass:[NSNull class]])
            projectIndex = [(NSNumber *)[currentTask objectForKey:@"project_id"] intValue];
+        
+        id taskDateString = [currentTask objectForKey:@"performed_on"];
+        NSString * taskDate = @"null";
+        if(![taskDateString isMemberOfClass:[NSNull class]])
+            taskDate = (NSString *)taskDateString;
              
         NSString *notes = [currentTask objectForKey:@"notes"];
         
         if(projectIndex != -1)
            [projectIdForCurrentUserBuilder addObject:[[NSNumber alloc] initWithInt:projectIndex]];
         
-        Task *taskToAdd = [[Task alloc] initWithName:name hours:hours projectIndex:projectIndex notes:notes];
+        Task *taskToAdd = [[Task alloc] initWithName:name hours:hours projectIndex:projectIndex notes:notes date:taskDate];
         [tasksBuilder addObject:taskToAdd];
     }
     
@@ -205,7 +210,7 @@ static RemoteAccess *mSharedInstance  = nil;
     [self requestDataFromServer:GET_PROJECT_URL];
 }
 
-// NSURLConnectionDataDelegate methods:
+// ### NSURLConnectionDataDelegate/NSURLConnectionDelegate methods:
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
@@ -223,14 +228,8 @@ static RemoteAccess *mSharedInstance  = nil;
         
 }
 
-//- (NSInputStream *)connection:(NSURLConnection *)connection needNewBodyStream:(NSURLRequest *)request;
-//- (void)connection:(NSURLConnection *)connection   didSendBodyData:(NSInteger)bytesWritten
-// totalBytesWritten:(NSInteger)totalBytesWritten
-//totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite;
-
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    NSLog(@"connectionDidFinishLoading");
         if([connection.currentRequest.HTTPMethod isEqualToString:@"POST"])
         {
             [self.delegate onSubmitComplete];
@@ -259,14 +258,14 @@ static RemoteAccess *mSharedInstance  = nil;
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    NSLog(@"didFailWithError");
     [self.delegate onSyncError];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 {
-    NSLog(@"didReceiveAuthenticationChallenge");
     [self.delegate onAuthError];
 }
+
+// #### end delegate methods.
 
 @end

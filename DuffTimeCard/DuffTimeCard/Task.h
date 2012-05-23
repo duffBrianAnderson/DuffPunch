@@ -14,8 +14,9 @@
 @property (nonatomic) int hours;
 @property (nonatomic) int projectIndex;
 @property (strong, nonatomic) NSString *notes;
+@property (strong, nonatomic) NSString *date;
 
-- (Task *)initWithName:(NSString *)name hours:(int)hours projectIndex:(int)projectIndex notes:(NSString *)notes;
+- (Task *)initWithName:(NSString *)name hours:(int)hours projectIndex:(int)projectIndex notes:(NSString *)notes date:(NSString *)date;
 - (NSDictionary *)createJSONObjectFromTask;
 
 @end
