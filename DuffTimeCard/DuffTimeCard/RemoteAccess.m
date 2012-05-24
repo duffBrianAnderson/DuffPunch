@@ -125,10 +125,9 @@ static RemoteAccess *mSharedInstance  = nil;
         // it's possible to get NSNULL for "hours" or "project_id", so make sure we handle this gracefully, by simply not including a NULL project in the project scroller.
         
         id hoursNSNumber = [currentTask objectForKey:@"hours"];
-        int hours = 0;
+        double hours = 0;
         if(![hoursNSNumber isMemberOfClass:[NSNull class]])
-           hours = [(NSNumber *)[currentTask objectForKey:@"hours"] intValue];
-        
+           hours = [(NSNumber *)[currentTask objectForKey:@"hours"] doubleValue];
         
         id projectIDNSNumber = [currentTask objectForKey:@"project_id"];
         int projectIndex = -1;

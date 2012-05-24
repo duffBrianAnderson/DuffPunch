@@ -16,7 +16,7 @@
 @synthesize notes = mNotes;
 @synthesize date = mDate;
 
-- (Task *)initWithName:(NSString *)name hours:(int)hours projectIndex:(int)projectIndex notes:(NSString *)notes date:(NSString *)date;
+- (Task *)initWithName:(NSString *)name hours:(double)hours projectIndex:(int)projectIndex notes:(NSString *)notes date:(NSString *)date;
 {
     self = [super init];
     if(self)
@@ -36,7 +36,7 @@
 - (NSDictionary *)createJSONObjectFromTask
 {
     NSArray *keyArray = [NSArray arrayWithObjects:@"task_name", @"hours", @"project_id", @"notes", @"performed_on", nil];
-    NSArray *valueArray = [NSArray arrayWithObjects:self.name, [[NSNumber alloc] initWithInt:self.hours], [[NSNumber alloc] initWithInt:self.projectIndex], self.notes, self.date, nil];
+    NSArray *valueArray = [NSArray arrayWithObjects:self.name, [[NSNumber alloc] initWithDouble:self.hours], [[NSNumber alloc] initWithInt:self.projectIndex], self.notes, self.date, nil];
     NSDictionary *jsonObj = [[NSDictionary alloc] initWithObjects:valueArray forKeys:keyArray];
     
     return jsonObj;

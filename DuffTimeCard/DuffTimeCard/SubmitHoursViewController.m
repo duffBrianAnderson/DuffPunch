@@ -34,6 +34,8 @@
 @synthesize projectPageControl = mProjectPageControl;
 @synthesize submitButton = mSubmitButton;
 @synthesize syncButton = mSyncButton;
+@synthesize fullHour = mFullHour;
+@synthesize halfHour = mHalfHour;
 @synthesize currentTask = mCurrentTask;
 @synthesize currentProjectID = mCurrentProjectID;
 @synthesize tasks = mTasks;
@@ -69,6 +71,8 @@
     [self setProjectPageControl:nil];
     [self setSubmitButton:nil];
     [self setSyncButton:nil];
+    [self setFullHour:nil];
+    [self setHalfHour:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -142,10 +146,17 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (IBAction)onStepperValueChanged:(id)sender 
+const int fullHourLabelTag = 0;
+const int halfHourLabelTag = 1;
+
+- (IBAction)onStepperValueChanged:(UIStepper *)sender 
 {
-    int newValue = (int)((UIStepper *)sender).value;
-    self.hoursLabel.text = [NSString stringWithFormat:@"%d", newValue];
+    double newValue = sender.value;
+    
+    self.fullHour.value = newValue;
+    self.halfHour.value = newValue;
+
+    self.hoursLabel.text = [NSString stringWithFormat:@"%g", newValue];
 }
 
 - (IBAction)onSubmit
@@ -163,7 +174,7 @@
         [formatter setDateFormat:@"yyyy-MM-dd"];
         NSString *todaysDateFormatted = [formatter stringFromDate:[[NSDate alloc] init]];
         
-        self.currentTask = [[Task alloc] initWithName:self.taskNameTextField.text hours:[self.hoursLabel.text intValue] projectIndex:self.currentProjectID notes:self.notesTextField.text date:todaysDateFormatted];
+        self.currentTask = [[Task alloc] initWithName:self.taskNameTextField.text hours:[self.hoursLabel.text doubleValue] projectIndex:self.currentProjectID notes:self.notesTextField.text date:todaysDateFormatted];
         
         // sync with the server before we push anything up there to prevent screwing things up:
         self.shouldSubmitNewTask = YES;
