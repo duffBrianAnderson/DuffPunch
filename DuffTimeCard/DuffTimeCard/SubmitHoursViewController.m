@@ -20,6 +20,7 @@
 
 @property (nonatomic) BOOL submitOK;
 @property (nonatomic) BOOL shouldSubmitNewTask;
+@property (strong, nonatomic) UIView *animateView;
 
 @end
 
@@ -39,12 +40,22 @@
 @synthesize projectNamesTable = mProjectNamesTable;
 @synthesize projectIdsForCurrentUser = mProjectIdsForCurrentUser;
 
+@synthesize animateView = mAnimateView;
+
 @synthesize submitOK = mSubmitOK;
 @synthesize shouldSubmitNewTask = mShouldSubmitNewTask;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+//    UIViewController *animationController = [[UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil] instantiateViewControllerWithIdentifier:@"animationViewController"];
+//    [self addChildViewController:animationController];
+//    
+//    self.animateView = (UIView *)[animationController.view.subviews objectAtIndex:0];
+//    [self.view addSubview:self.animateView];
+//    
+//    int rightSide = self.view.frame.size.width;
+//    self.animateView.frame = CGRectMake(rightSide, self.animateView.frame.origin.y, self.animateView.frame.size.width, self.animateView.frame.size.height);
 }
 
 - (void)viewDidUnload
@@ -140,7 +151,12 @@
 - (IBAction)onSubmit
 {
     [self enableSyncAndSubmitButtons:NO];
-    if(self.submitOK)
+    
+    if([self.taskNameTextField.text isEqualToString:@"DUFF"])
+    {
+        [self easterEggAnimate];
+    }
+    else if(self.submitOK)
     {    
         //create the new task
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -289,6 +305,40 @@
 {
     [[RemoteAccess getInstance] logout];
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)easterEggAnimate
+{
+    UIViewController *animationController = [[UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil] instantiateViewControllerWithIdentifier:@"animationViewController"];
+    [self addChildViewController:animationController];
+    
+    UIView *animationView = (UIView *)[animationController.view.subviews objectAtIndex:0];
+    [self.view addSubview:animationView];
+    
+    int index = [self.view.subviews indexOfObject:animationView];
+    
+    
+    NSLog(@"index = %d", index);
+    
+    int rightSide = self.view.frame.size.width;
+    animationView.frame = CGRectMake(rightSide, animationView.frame.origin.y, animationView.frame.size.width, animationView.frame.size.height);
+    
+    [UIView beginAnimations: [NSString stringWithFormat:@"%d", index] context: nil];
+    [UIView setAnimationDelegate:self];
+    [UIView setAnimationBeginsFromCurrentState: NO];
+    [UIView setAnimationDuration:1.0f];
+    [UIView setAnimationCurve:UIViewAnimationCurveLinear];
+    [UIView setAnimationDidStopSelector:@selector(onEasterEggStop:finished:context:)];
+    animationView.frame = CGRectOffset(animationView.frame, -450, 0);
+    [UIView commitAnimations];
+}
+
+- (void)onEasterEggStop:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context
+{
+    int indexToRemove = animationID.intValue;
+    NSLog(@"in easter egg, trying to remove view at index: %d, last index = %d", indexToRemove,self.view.subviews.count - 1);
+    [[self.view.subviews objectAtIndex:indexToRemove] removeFromSuperview];
+    [self enableSyncAndSubmitButtons:YES];
 }
 
 - (IBAction)onSync:(id)sender

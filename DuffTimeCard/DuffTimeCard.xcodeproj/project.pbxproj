@@ -17,6 +17,7 @@
 		D3E16D2E1562F1F800FF2B89 /* DuffTimeCardAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D3E16D2D1562F1F800FF2B89 /* DuffTimeCardAppDelegate.m */; };
 		D3E16D311562F1F900FF2B89 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3E16D2F1562F1F900FF2B89 /* MainStoryboard.storyboard */; };
 		D3E16D341562F1F900FF2B89 /* DuffTimeCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3E16D331562F1F900FF2B89 /* DuffTimeCardViewController.m */; };
+		D3EC3C58156DFB2A000938D4 /* homer.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D3EC3C57156DFB2A000938D4 /* homer.jpg */; };
 		D3F2649D15657264001338DC /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F2649C15657264001338DC /* Task.m */; };
 		D3F264A015657306001338DC /* RemoteAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F2649F15657305001338DC /* RemoteAccess.m */; };
 /* End PBXBuildFile section */
@@ -40,6 +41,7 @@
 		D3E16D331562F1F900FF2B89 /* DuffTimeCardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DuffTimeCardViewController.m; sourceTree = "<group>"; };
 		D3E16D421563048A00FF2B89 /* NSData+Additions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+Additions.h"; sourceTree = "<group>"; };
 		D3E16D431563048A00FF2B89 /* NSData+Additions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+Additions.m"; sourceTree = "<group>"; };
+		D3EC3C57156DFB2A000938D4 /* homer.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = homer.jpg; sourceTree = "<group>"; };
 		D3F2649B15657264001338DC /* Task.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Task.h; sourceTree = "<group>"; };
 		D3F2649C15657264001338DC /* Task.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Task.m; sourceTree = "<group>"; };
 		D3F2649E15657305001338DC /* RemoteAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteAccess.h; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 		D3E16D231562F1F800FF2B89 /* DuffTimeCard */ = {
 			isa = PBXGroup;
 			children = (
+				D3EC3C57156DFB2A000938D4 /* homer.jpg */,
 				D3DC05161563746E00D6E4AB /* duff_beer.jpg */,
 				D3E16D421563048A00FF2B89 /* NSData+Additions.h */,
 				D3E16D431563048A00FF2B89 /* NSData+Additions.m */,
@@ -175,6 +178,7 @@
 				D3E16D281562F1F800FF2B89 /* InfoPlist.strings in Resources */,
 				D3E16D311562F1F900FF2B89 /* MainStoryboard.storyboard in Resources */,
 				D3DC05171563746E00D6E4AB /* duff_beer.jpg in Resources */,
+				D3EC3C58156DFB2A000938D4 /* homer.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
