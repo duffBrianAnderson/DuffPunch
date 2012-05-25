@@ -266,6 +266,7 @@ static RemoteAccess *mSharedInstance  = nil;
             self.delegate = nil;
             self.isAPreSubmitSync = NO;
             self.mostRecentTask = self.possibleMostRecentTask;
+            self.receivedData = nil;
         }
         else if([GET_PROJECT_URL isEqualToString:connection.currentRequest.URL.absoluteString])
         {            
@@ -293,11 +294,13 @@ static RemoteAccess *mSharedInstance  = nil;
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
     [self.delegate onSyncError];
+    self.receivedData = nil;
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 {
     [self.delegate onAuthError];
+    self.receivedData = nil;
 }
 
 // #### end delegate methods.

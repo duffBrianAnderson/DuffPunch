@@ -368,7 +368,7 @@ const int halfHourLabelTag = 1;
     int pageToScrollTo = [self.projectIdsForCurrentUser indexOfObject:[[NSNumber alloc] initWithInt:recentTask.projectIndex]];
     
     // it's possible for the task to have no project, if that's the case, just default to the first project.
-    if(pageToScrollTo == -1)
+    if(recentTask.projectIndex == -1)
         pageToScrollTo = 0;
     
     [self updateCurrentProjectId:pageToScrollTo];
