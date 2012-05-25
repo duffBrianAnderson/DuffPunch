@@ -9,6 +9,7 @@
 #import "SubmitHoursViewController.h"
 #import "Task.h"
 #import "RemoteAccess.h"
+#import "DuffTimeCardAppDelegate.h"
 
 @interface SubmitHoursViewController()
 
@@ -50,14 +51,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-//    UIViewController *animationController = [[UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil] instantiateViewControllerWithIdentifier:@"animationViewController"];
-//    [self addChildViewController:animationController];
-//    
-//    self.animateView = (UIView *)[animationController.view.subviews objectAtIndex:0];
-//    [self.view addSubview:self.animateView];
-//    
-//    int rightSide = self.view.frame.size.width;
-//    self.animateView.frame = CGRectMake(rightSide, self.animateView.frame.origin.y, self.animateView.frame.size.width, self.animateView.frame.size.height);
+     DuffTimeCardAppDelegate *appDelegate = (DuffTimeCardAppDelegate *)[[UIApplication sharedApplication] delegate];
+    appDelegate.submitTaskViewController = self;
 }
 
 - (void)viewDidUnload
@@ -343,7 +338,6 @@ const int halfHourLabelTag = 1;
 - (void)onEasterEggStop:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context
 {
     int indexToRemove = animationID.intValue;
-    NSLog(@"in easter egg, trying to remove view at index: %d, last index = %d", indexToRemove,self.view.subviews.count - 1);
     [[self.view.subviews objectAtIndex:indexToRemove] removeFromSuperview];
     [self enableSyncAndSubmitButtons:YES];
 }
@@ -383,5 +377,10 @@ const int halfHourLabelTag = 1;
     self.hoursLabel.text = [NSString stringWithFormat:@"%g",recentTask.hours];
     self.fullHour.value = self.halfHour.value = recentTask.hours;
     self.notesTextField.text = recentTask.notes;
+}
+
+- (void)onResume
+{
+    NSLog(@"onResume");
 }
 @end
