@@ -204,6 +204,13 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="24R-B3-iGc"/>
+                                    <barButtonItem title="copy most recent" id="kCp-Br-EYz">
+                                        <color key="tintColor" red="0.30203815379782373" green="0.86646569293478259" blue="0.067040295205939252" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="onCopyMostRecentPressed:" destination="o13-hm-jlt" id="8Z1-91-GTz"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="FvD-Wn-6xz"/>
                                     <barButtonItem title="Sync" id="Afz-36-N2j">
                                         <connections>
                                             <action selector="onSync:" destination="o13-hm-jlt" id="o98-Jv-saw"/>
@@ -212,7 +219,7 @@
                                 </items>
                             </toolbar>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" style="gray" id="l6u-Gq-jtP">
-                                <rect key="frame" x="146" y="15" width="20" height="20"/>
+                                <rect key="frame" x="234" y="12" width="20" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="color" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>

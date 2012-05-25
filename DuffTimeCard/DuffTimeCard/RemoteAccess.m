@@ -16,6 +16,8 @@
 @property (strong, nonatomic) NSString *password;
 @property (strong, nonatomic) NSString *authString;
 
+@property (strong, nonatomic) Task *possibleMostRecentTask;
+
 //This is where we'll store the data that's downloaded before setting to the project and task data.
 @property (strong, nonatomic) NSMutableData *receivedData;
 @property (weak, nonatomic) id <RemoteAccessProtocol> delegate;
@@ -50,6 +52,8 @@ static RemoteAccess *mSharedInstance  = nil;
 @synthesize delegate = mDelegate;
 
 @synthesize isAPreSubmitSync = mIsAPreSubmitSync;
+
+@synthesize possibleMostRecentTask = mPossibleMostRecentTask;
 
 + (RemoteAccess *)getInstance
 {
@@ -97,6 +101,28 @@ static RemoteAccess *mSharedInstance  = nil;
     }
     
     return mIsLoggedIn;
+}
+
+
+- (void)findAndSetMostRecentTask
+{
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    
+    //set the mostRecent to the first task in self.tasks, and loop through, changing it if necessary.
+    NSDate *mostRecentSoFar = [formatter dateFromString:((Task *)[self.tasks objectAtIndex:0]).date];
+    int maxIndex = 0;
+    
+    for(Task *currentTask in self.tasks)
+    {        
+        NSDate *currentDate = [formatter dateFromString:currentTask.date];
+        
+        if([mostRecentSoFar compare:currentDate] == NSOrderedAscending && currentTask.projectIndex != -1)
+            maxIndex = [self.tasks indexOfObject:currentTask];
+    }
+    
+    self.mostRecentTask = (Task *)[self.tasks objectAtIndex:maxIndex];
 }
 
 
@@ -186,6 +212,7 @@ static RemoteAccess *mSharedInstance  = nil;
     NSData *newTaskData = [NSJSONSerialization dataWithJSONObject:[task createJSONObjectFromTask] options:nil error:nil];                    
     request.HTTPBody = newTaskData;
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    self.possibleMostRecentTask = task;
     [[NSURLConnection alloc] initWithRequest:request delegate:self];
 }
 
@@ -196,6 +223,10 @@ static RemoteAccess *mSharedInstance  = nil;
     self.password = nil;
     self.authString = nil;
     self.isLoggedIn = false;
+    
+    self.tasks = nil;
+    self.projectNames = nil;
+    self.projectIdsForCurrentUser = nil;
 }
 
 
@@ -234,6 +265,7 @@ static RemoteAccess *mSharedInstance  = nil;
             [self.delegate onSubmitComplete];
             self.delegate = nil;
             self.isAPreSubmitSync = NO;
+            self.mostRecentTask = self.possibleMostRecentTask;
         }
         else if([GET_PROJECT_URL isEqualToString:connection.currentRequest.URL.absoluteString])
         {            
@@ -252,6 +284,9 @@ static RemoteAccess *mSharedInstance  = nil;
             
             if(!self.isAPreSubmitSync)
               self.delegate = nil;
+            
+            [self findAndSetMostRecentTask];
+            NSLog(@"%@", self.mostRecentTask.name);
         }
 }
 

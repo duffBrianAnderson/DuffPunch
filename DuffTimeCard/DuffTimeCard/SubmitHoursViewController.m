@@ -82,7 +82,6 @@
     self.hoursLabel.text = @"8";
     self.taskNameTextField.text = @"";
     self.notesTextField.text = @"";
-    [self updateSubmitButton];
 }
 
 - (void)updateSubmitButton
@@ -98,21 +97,17 @@
     [sender resignFirstResponder];
     
     NSLog(@"Done editing");
-    
-    [self updateSubmitButton];
 }
 
-- (IBAction)backgroundTap:(id)senderg
+- (IBAction)backgroundTap:(id)sender
 {
     [self.taskNameTextField resignFirstResponder];
     [self.notesTextField resignFirstResponder];
-    [self updateSubmitButton];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [self startSync];
-    [self updateSubmitButton];
 }
 
 
@@ -162,6 +157,7 @@ const int halfHourLabelTag = 1;
 - (IBAction)onSubmit
 {
     [self enableSyncAndSubmitButtons:NO];
+    [self updateSubmitButton];
     
     if([self.taskNameTextField.text isEqualToString:@"DUFF"])
     {
@@ -364,4 +360,28 @@ const int halfHourLabelTag = 1;
     self.submitButton.enabled = shouldEnable;
 }
 
+
+- (IBAction)onCopyMostRecentPressed:(id)sender 
+{
+    Task *recentTask = [RemoteAccess getInstance].mostRecentTask;
+    
+    int pageToScrollTo = [self.projectIdsForCurrentUser indexOfObject:[[NSNumber alloc] initWithInt:recentTask.projectIndex]];
+    
+    // it's possible for the task to have no project, if that's the case, just default to the first project.
+    if(pageToScrollTo == -1)
+        pageToScrollTo = 0;
+    
+    [self updateCurrentProjectId:pageToScrollTo];
+    
+    CGRect frame;
+    frame.origin.x = self.projectScroller.frame.size.width * pageToScrollTo;
+    frame.origin.y = 0;
+    frame.size = self.projectScroller.frame.size;
+    [self.projectScroller scrollRectToVisible:frame animated:YES];
+    
+    self.taskNameTextField.text = recentTask.name;
+    self.hoursLabel.text = [NSString stringWithFormat:@"%g",recentTask.hours];
+    self.fullHour.value = self.halfHour.value = recentTask.hours;
+    self.notesTextField.text = recentTask.notes;
+}
 @end
