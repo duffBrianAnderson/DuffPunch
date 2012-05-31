@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		D316FF141564134B00A99F64 /* SubmitHoursViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D316FF131564134B00A99F64 /* SubmitHoursViewController.m */; };
+		D3A057871577E433009D06A2 /* TaskDetailTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A057861577E433009D06A2 /* TaskDetailTVC.m */; };
+		D3B4658C1576DEA8003C4CB5 /* TasksListTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D3B4658B1576DEA8003C4CB5 /* TasksListTVC.m */; };
+		D3B465901576DF70003C4CB5 /* Project.m in Sources */ = {isa = PBXBuildFile; fileRef = D3B4658F1576DF70003C4CB5 /* Project.m */; };
 		D3DC05171563746E00D6E4AB /* duff_beer.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D3DC05161563746E00D6E4AB /* duff_beer.jpg */; };
 		D3E16D1E1562F1F800FF2B89 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3E16D1D1562F1F800FF2B89 /* UIKit.framework */; };
 		D3E16D201562F1F800FF2B89 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3E16D1F1562F1F800FF2B89 /* Foundation.framework */; };
@@ -20,11 +23,18 @@
 		D3EC3C58156DFB2A000938D4 /* homer.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D3EC3C57156DFB2A000938D4 /* homer.jpg */; };
 		D3F2649D15657264001338DC /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F2649C15657264001338DC /* Task.m */; };
 		D3F264A015657306001338DC /* RemoteAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F2649F15657305001338DC /* RemoteAccess.m */; };
+		D3F9CDEC1576B8D800C7FE14 /* ProjectListTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F9CDEB1576B8D800C7FE14 /* ProjectListTVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		D316FF121564134B00A99F64 /* SubmitHoursViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubmitHoursViewController.h; sourceTree = "<group>"; };
 		D316FF131564134B00A99F64 /* SubmitHoursViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubmitHoursViewController.m; sourceTree = "<group>"; };
+		D3A057851577E433009D06A2 /* TaskDetailTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskDetailTVC.h; sourceTree = "<group>"; };
+		D3A057861577E433009D06A2 /* TaskDetailTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskDetailTVC.m; sourceTree = "<group>"; };
+		D3B4658A1576DEA8003C4CB5 /* TasksListTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TasksListTVC.h; sourceTree = "<group>"; };
+		D3B4658B1576DEA8003C4CB5 /* TasksListTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TasksListTVC.m; sourceTree = "<group>"; };
+		D3B4658E1576DF70003C4CB5 /* Project.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Project.h; sourceTree = "<group>"; };
+		D3B4658F1576DF70003C4CB5 /* Project.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Project.m; sourceTree = "<group>"; };
 		D3DC05161563746E00D6E4AB /* duff_beer.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = duff_beer.jpg; sourceTree = "<group>"; };
 		D3E16D191562F1F800FF2B89 /* DuffTimeCard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DuffTimeCard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3E16D1D1562F1F800FF2B89 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -46,6 +56,8 @@
 		D3F2649C15657264001338DC /* Task.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Task.m; sourceTree = "<group>"; };
 		D3F2649E15657305001338DC /* RemoteAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteAccess.h; sourceTree = "<group>"; };
 		D3F2649F15657305001338DC /* RemoteAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteAccess.m; sourceTree = "<group>"; };
+		D3F9CDEA1576B8D800C7FE14 /* ProjectListTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectListTVC.h; sourceTree = "<group>"; };
+		D3F9CDEB1576B8D800C7FE14 /* ProjectListTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectListTVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +74,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D3A057891577EA7F009D06A2 /* TableViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				D3F9CDEA1576B8D800C7FE14 /* ProjectListTVC.h */,
+				D3F9CDEB1576B8D800C7FE14 /* ProjectListTVC.m */,
+				D3B4658A1576DEA8003C4CB5 /* TasksListTVC.h */,
+				D3B4658B1576DEA8003C4CB5 /* TasksListTVC.m */,
+				D3A057851577E433009D06A2 /* TaskDetailTVC.h */,
+				D3A057861577E433009D06A2 /* TaskDetailTVC.m */,
+			);
+			name = TableViewControllers;
+			sourceTree = "<group>";
+		};
+		D3A0578A1577ED8D009D06A2 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				D3EC3C57156DFB2A000938D4 /* homer.jpg */,
+				D3DC05161563746E00D6E4AB /* duff_beer.jpg */,
+			);
+			name = images;
+			sourceTree = "<group>";
+		};
+		D3A0578B1577F067009D06A2 /* data */ = {
+			isa = PBXGroup;
+			children = (
+				D3F2649E15657305001338DC /* RemoteAccess.h */,
+				D3F2649F15657305001338DC /* RemoteAccess.m */,
+				D3F2649B15657264001338DC /* Task.h */,
+				D3F2649C15657264001338DC /* Task.m */,
+				D3B4658E1576DF70003C4CB5 /* Project.h */,
+				D3B4658F1576DF70003C4CB5 /* Project.m */,
+			);
+			name = data;
+			sourceTree = "<group>";
+		};
 		D3E16D0E1562F1F800FF2B89 = {
 			isa = PBXGroup;
 			children = (
@@ -92,8 +139,9 @@
 		D3E16D231562F1F800FF2B89 /* DuffTimeCard */ = {
 			isa = PBXGroup;
 			children = (
-				D3EC3C57156DFB2A000938D4 /* homer.jpg */,
-				D3DC05161563746E00D6E4AB /* duff_beer.jpg */,
+				D3A0578B1577F067009D06A2 /* data */,
+				D3A0578A1577ED8D009D06A2 /* images */,
+				D3A057891577EA7F009D06A2 /* TableViewControllers */,
 				D3E16D421563048A00FF2B89 /* NSData+Additions.h */,
 				D3E16D431563048A00FF2B89 /* NSData+Additions.m */,
 				D3E16D2C1562F1F800FF2B89 /* DuffTimeCardAppDelegate.h */,
@@ -103,10 +151,6 @@
 				D316FF131564134B00A99F64 /* SubmitHoursViewController.m */,
 				D3E16D321562F1F900FF2B89 /* DuffTimeCardViewController.h */,
 				D3E16D331562F1F900FF2B89 /* DuffTimeCardViewController.m */,
-				D3F2649E15657305001338DC /* RemoteAccess.h */,
-				D3F2649F15657305001338DC /* RemoteAccess.m */,
-				D3F2649B15657264001338DC /* Task.h */,
-				D3F2649C15657264001338DC /* Task.m */,
 				D3E16D241562F1F800FF2B89 /* Supporting Files */,
 			);
 			path = DuffTimeCard;
@@ -195,6 +239,10 @@
 				D316FF141564134B00A99F64 /* SubmitHoursViewController.m in Sources */,
 				D3F2649D15657264001338DC /* Task.m in Sources */,
 				D3F264A015657306001338DC /* RemoteAccess.m in Sources */,
+				D3F9CDEC1576B8D800C7FE14 /* ProjectListTVC.m in Sources */,
+				D3B4658C1576DEA8003C4CB5 /* TasksListTVC.m in Sources */,
+				D3B465901576DF70003C4CB5 /* Project.m in Sources */,
+				D3A057871577E433009D06A2 /* TaskDetailTVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

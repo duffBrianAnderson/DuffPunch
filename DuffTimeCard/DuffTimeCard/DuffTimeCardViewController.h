@@ -15,8 +15,4 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loginProgressIndicator;
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
 
-// used for keyboard dismissal
-- (IBAction)textFieldDoneEditing:(id)sender;
-- (IBAction)backgroundTap:(id)sender;
-
 @end

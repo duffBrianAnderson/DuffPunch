@@ -8,7 +8,7 @@
 
 #import "RemoteAccess.h"
 #import "NSData+Additions.h"
-#import "Task.h"
+#import "Project.h"
 
 @interface RemoteAccess()
 
@@ -38,6 +38,8 @@ NSString * const GET_TASK_URL = @"https://timetrackerservice.herokuapp.com/tasks
 NSString * const GET_PROJECT_URL = @"https://timetrackerservice.herokuapp.com/projects.json";
 
 static RemoteAccess *mSharedInstance  = nil;
+
+@synthesize projects = mProjects;
 
 @synthesize authString = mAuthString;
 @synthesize tasks = mTasks;
@@ -179,6 +181,25 @@ static RemoteAccess *mSharedInstance  = nil;
     return [tasksBuilder copy];
 }
 
+- (NSDictionary *)createProjectDictionaryFromTaskList:(NSArray *)taskList
+{    
+    NSMutableDictionary *projectDictionaryBuilder = [[NSMutableDictionary alloc] init];
+    for(NSNumber *currentID in self.projectIdsForCurrentUser)
+    {
+        Project *p = [[Project alloc] initWithName:[self.projectNames objectForKey:currentID.stringValue] withID:currentID];
+        [projectDictionaryBuilder setObject:p forKey:currentID];
+    }
+    
+    for(Task *currentTask in taskList)
+    {
+        Project *p = [projectDictionaryBuilder objectForKey:[[NSNumber alloc] initWithInt:currentTask.projectIndex]];
+        [p addTask:currentTask];
+        [projectDictionaryBuilder setObject:p forKey:[[NSNumber alloc] initWithInt:currentTask.projectIndex]];
+    }
+    
+    return [projectDictionaryBuilder copy];
+}
+
 
 - (NSDictionary *)createProjectNamesTableFromJSON:(NSData *)jsonData
 {
@@ -279,6 +300,7 @@ static RemoteAccess *mSharedInstance  = nil;
         else if([GET_TASK_URL isEqualToString:connection.currentRequest.URL.absoluteString])
         {            
             self.tasks = [self createTaskArrayFromJSON:self.receivedData];
+            self.projects = [self createProjectDictionaryFromTaskList:self.tasks];
 
             [self.delegate onDataSyncComplete];
             self.receivedData = nil;

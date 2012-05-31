@@ -21,6 +21,8 @@
 
 @interface RemoteAccess : NSObject <NSURLConnectionDataDelegate, NSURLConnectionDelegate>
 
+@property (strong, nonatomic) NSDictionary *projects;
+
 @property (strong, nonatomic) NSArray *tasks;
 @property (strong, nonatomic) NSDictionary *projectNames;
 @property (strong, nonatomic) NSArray *projectIdsForCurrentUser;

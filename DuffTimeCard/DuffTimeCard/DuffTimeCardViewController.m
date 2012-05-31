@@ -12,12 +12,17 @@
 
 @interface DuffTimeCardViewController ()
 
+@property (nonatomic) BOOL keyboardOpen;
+
 @end
 
 @implementation DuffTimeCardViewController
 
-NSString * const TASK_URL = @"https://timetrackerservice.herokuapp.com/tasks";
+#define PASSWORD_FIELD_TAG 1
 
+#define TASK_URL @"https://timetrackerservice.herokuapp.com/tasks"
+
+@synthesize keyboardOpen = mKeyboardOpen;
 @synthesize emailTextField = mEmailTextField;
 @synthesize passwordTextField = mPasswordTextField;
 @synthesize loginProgressIndicator = mLoginProgressIndicator;
@@ -26,29 +31,42 @@ NSString * const TASK_URL = @"https://timetrackerservice.herokuapp.com/tasks";
 - (IBAction)textFieldDoneEditing:(id)sender
 {
     [sender resignFirstResponder];
+    [self animateTextField:sender up:NO];
+    self.keyboardOpen = NO;
+    
+    if([sender tag] == PASSWORD_FIELD_TAG)
+    {
+        [self onLogin];
+    }
 }
 
 - (IBAction)backgroundTap:(id)sender
 {
     [self.emailTextField resignFirstResponder];
     [self.passwordTextField resignFirstResponder];
+    
+    if(self.keyboardOpen)
+    {
+        [self animateTextField:sender up:NO];
+        self.keyboardOpen = NO;
+    }
 }
 
 
 - (IBAction)startedEditingTextField:(id)sender 
 {
-    [self animateTextField:sender up:YES];
+    //don't slide up if the keyboard is already open.
+    if(!self.keyboardOpen)
+    {
+       [self animateTextField:sender up:YES];
+        self.keyboardOpen = YES;
+    }
 }
 
-
-- (IBAction)endedEditingTextField:(id)sender 
-{
-    [self animateTextField:sender up:NO];
-}
 
 - (void) animateTextField: (UITextField*) textField up: (BOOL) up
 {
-    const int movementDistance = 50; // tweak as needed
+    const int movementDistance = 90; // tweak as needed
     const float movementDuration = 0.3f; // tweak as needed
     
     int movement = (up ? -movementDistance : movementDistance);
@@ -63,7 +81,8 @@ NSString * const TASK_URL = @"https://timetrackerservice.herokuapp.com/tasks";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:nil action:nil];
 }
 
 - (void)viewDidUnload
@@ -100,7 +119,7 @@ NSString * const TASK_URL = @"https://timetrackerservice.herokuapp.com/tasks";
             self.loginButton.enabled = YES;
             
             if(success)
-                [self performSegueWithIdentifier:@"loginComplete" sender:self];
+                [self performSegueWithIdentifier:@"loginComplete2" sender:self];
             else
                 [self displayInvalidCredentialsDialog];
         });

@@ -10,6 +10,7 @@
 #import "Task.h"
 #import "RemoteAccess.h"
 #import "DuffTimeCardAppDelegate.h"
+#import <AudioToolbox/AudioToolbox.h>
 
 @interface SubmitHoursViewController()
 
@@ -47,6 +48,8 @@
 
 @synthesize submitOK = mSubmitOK;
 @synthesize shouldSubmitNewTask = mShouldSubmitNewTask;
+
+SystemSoundID mEasterEggSound;
 
 - (void)viewDidLoad
 {
