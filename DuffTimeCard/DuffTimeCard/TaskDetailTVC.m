@@ -15,6 +15,16 @@
 
 @implementation TaskDetailTVC
 
+
+#define PROJECT_NAME_SECTION_INDEX 0
+#define TASK_NAME_SECTION_INDEX 1
+#define HOURS_SECTION_INDEX 2
+#define NOTES_INDEX 3
+
+#define CANCEL_STRING @"Cancel"
+#define OK_STRING @"OK"
+#define OK_BUTTON_INDEX 1
+
 @synthesize projectNameLabel = mProjectNameLabel;
 @synthesize taskNameLabel = mTaskNameLabel;
 @synthesize hoursLabel = mHoursLabel;
@@ -35,15 +45,13 @@
     [super viewDidLoad];
     
     self.navigationItem.title = self.task.name;
-    int projectID = self.task.projectIndex;
-    NSString *projectName = [[RemoteAccess getInstance].projectNames objectForKey:[[NSNumber alloc] initWithInt:projectID]];
+    
+    NSString *projectName = [[RemoteAccess getInstance].projectNames objectForKey:[NSString stringWithFormat:@"%d", self.task.projectIndex]];
     self.projectNameLabel.text = projectName;
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    self.taskNameLabel.text = self.task.name;
+    self.hoursLabel.text = [NSString stringWithFormat:@"%g", self.task.hours];
+    self.notesLabel.text = self.task.notes;
 }
 
 - (void)viewDidUnload
@@ -53,8 +61,6 @@
     [self setHoursLabel:nil];
     [self setNotesLabel:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -62,59 +68,91 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-#pragma mark - Table view data source
 
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)showDialog:(int)dialogType
 {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+    UIAlertView *inputDialog;
+    UIAlertViewStyle dialogStyle;
+    NSString *dialogTitle;
+    UIKeyboardType dialogKeyboardtype = UIKeyboardTypeDefault;
+    int dialogTag;
+    
+    switch(dialogType)
+    {
+        case TASK_NAME_SECTION_INDEX:
+        {
+            dialogTitle = @"Task name";
+            dialogStyle = UIAlertViewStylePlainTextInput;
+            dialogTag = TASK_NAME_SECTION_INDEX;
+            
+            break;
+        }
+        case HOURS_SECTION_INDEX:
+        {
+            dialogTitle = @"Hours:";
+            dialogStyle = UIAlertViewStylePlainTextInput;
+            dialogTag = HOURS_SECTION_INDEX;
+            dialogKeyboardtype = UIKeyboardTypeNumberPad;
+            break;
+        }
+        case NOTES_INDEX:
+        {
+            dialogTitle = @"Notes:";
+            dialogStyle = UIAlertViewStylePlainTextInput;
+            dialogTag = NOTES_INDEX;
+            break;
+        }
+    }
+    
+    inputDialog = [[UIAlertView alloc] initWithTitle:dialogTitle message:nil delegate:self cancelButtonTitle:CANCEL_STRING otherButtonTitles:OK_STRING, nil];
+    inputDialog.alertViewStyle = dialogStyle;
+    inputDialog.tag = dialogTag;
+    
+    [inputDialog textFieldAtIndex:0].keyboardType = dialogKeyboardtype;
+    
+    [inputDialog show];
 }
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    [self showDialog:indexPath.section];
+}
+
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(buttonIndex == OK_BUTTON_INDEX)
+    {
+        UILabel *labelToChange;
+        switch (alertView.tag) 
+        {
+            case TASK_NAME_SECTION_INDEX:
+            {
+                labelToChange = self.taskNameLabel;
+                break;
+            }
+            case HOURS_SECTION_INDEX:
+            {
+                labelToChange = self.hoursLabel;
+                break;
+            }
+            case NOTES_INDEX:
+            {
+                labelToChange = self.notesLabel;
+                break;
+            }
+        }
+        
+
+       labelToChange.text = [alertView textFieldAtIndex:0].text;
+    }
+
+   [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:YES];
 }
 
 @end

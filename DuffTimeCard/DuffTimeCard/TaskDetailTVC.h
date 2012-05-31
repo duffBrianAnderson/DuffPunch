@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Task.h"
 
-@interface TaskDetailTVC : UITableViewController
+@interface TaskDetailTVC : UITableViewController <UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *projectNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *taskNameLabel;
