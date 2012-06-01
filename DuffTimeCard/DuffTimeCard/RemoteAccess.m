@@ -150,6 +150,7 @@ static RemoteAccess *mSharedInstance  = nil;
     {
         NSString *name = [currentTask objectForKey:@"task_name"];
         
+        
         // it's possible to get NSNULL for "hours" or "project_id", so make sure we handle this gracefully, by simply not including a NULL project in the project scroller.
         
         id hoursNSNumber = [currentTask objectForKey:@"hours"];
@@ -261,7 +262,7 @@ static RemoteAccess *mSharedInstance  = nil;
     [self requestDataFromServer:GET_PROJECT_URL];
 }
 
-// ### NSURLConnectionDataDelegate/NSURLConnectionDelegate methods:
+#pragma mark - NSURLConnectionDataDelegate/NSURLConnectionDelegate methods:
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
@@ -309,7 +310,6 @@ static RemoteAccess *mSharedInstance  = nil;
               self.delegate = nil;
             
             [self findAndSetMostRecentTask];
-            NSLog(@"%@", self.mostRecentTask.name);
         }
 }
 
@@ -324,7 +324,5 @@ static RemoteAccess *mSharedInstance  = nil;
     [self.delegate onAuthError];
     self.receivedData = nil;
 }
-
-// #### end delegate methods.
 
 @end

@@ -29,7 +29,10 @@
 @synthesize taskNameLabel = mTaskNameLabel;
 @synthesize hoursLabel = mHoursLabel;
 @synthesize notesLabel = mNotesLabel;
+@synthesize submitButton = mSubmitButton;
 @synthesize task = mTask;
+@synthesize shouldHideSubmitButton = mShouldHideSubmitButton;
+@synthesize submittingProgressIndicator = mSubbmittingProgressIdicator;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -52,6 +55,9 @@
     self.taskNameLabel.text = self.task.name;
     self.hoursLabel.text = [NSString stringWithFormat:@"%g", self.task.hours];
     self.notesLabel.text = self.task.notes;
+    
+    if(self.shouldHideSubmitButton)
+        self.submitButton.hidden = YES;
 }
 
 - (void)viewDidUnload
@@ -60,6 +66,8 @@
     [self setTaskNameLabel:nil];
     [self setHoursLabel:nil];
     [self setNotesLabel:nil];
+    [self setSubmitButton:nil];
+    [self setSubmittingProgressIndicator:nil];
     [super viewDidUnload];
 }
 
@@ -76,6 +84,7 @@
     NSString *dialogTitle;
     UIKeyboardType dialogKeyboardtype = UIKeyboardTypeDefault;
     int dialogTag;
+    NSString *dialogString;
     
     switch(dialogType)
     {
@@ -84,6 +93,7 @@
             dialogTitle = @"Task name";
             dialogStyle = UIAlertViewStylePlainTextInput;
             dialogTag = TASK_NAME_SECTION_INDEX;
+            dialogString = self.taskNameLabel.text;
             
             break;
         }
@@ -92,7 +102,8 @@
             dialogTitle = @"Hours:";
             dialogStyle = UIAlertViewStylePlainTextInput;
             dialogTag = HOURS_SECTION_INDEX;
-            dialogKeyboardtype = UIKeyboardTypeNumberPad;
+            dialogKeyboardtype = UIKeyboardTypeNumbersAndPunctuation;
+            dialogString = self.hoursLabel.text;
             break;
         }
         case NOTES_INDEX:
@@ -100,6 +111,7 @@
             dialogTitle = @"Notes:";
             dialogStyle = UIAlertViewStylePlainTextInput;
             dialogTag = NOTES_INDEX;
+            dialogString= self.notesLabel.text;
             break;
         }
     }
@@ -109,6 +121,7 @@
     inputDialog.tag = dialogTag;
     
     [inputDialog textFieldAtIndex:0].keyboardType = dialogKeyboardtype;
+    [inputDialog textFieldAtIndex:0].text = dialogString;
     
     [inputDialog show];
 }
@@ -154,5 +167,98 @@
 
    [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:YES];
 }
+
+
+/*
+ * check all fields, make sure everything is valid before trying to submit the new task.
+ */
+- (BOOL)submitOK
+{
+    self.task.name = self.taskNameLabel.text;
+    self.task.hours = self.hoursLabel.text.doubleValue;
+    self.task.notes = self.notesLabel.text;
+    
+    return YES;
+}
+
+- (void)submitTask
+{
+    //[self.loadingView startAnimating];
+    RemoteAccess *remoteAccess = [RemoteAccess getInstance];
+    
+    [remoteAccess synchronizeWithServer:self];
+}
+
+
+- (IBAction)submitButtonPressed:(id)sender
+{
+    NSLog(@"submitting");
+    
+    //self.submitButton.titleLabel.text = @"Submitting";
+    [self.submitButton setTitle:@"Submitting" forState:UIControlStateNormal];
+    [self.submittingProgressIndicator startAnimating];
+    
+    self.submitButton.enabled = NO;
+    
+    if([self.taskNameLabel.text isEqualToString:@"DUFF"])
+    {
+        [self easterEggAnimate];
+    }
+    else if([self submitOK])
+    {    
+        // sync with the server before we push anything up there to prevent screwing things up:
+        [self submitTask];
+    }
+    else 
+    {
+        self.submitButton.enabled = YES;
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Cannot submit task:" message:@"Task must have a name." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [dialog show];
+    }
+}
+
+- (void)easterEggAnimate
+{
+    
+}
+    
+    
+#pragma mark - RemoteAccessProtocol
+    
+
+- (void)onDataSyncComplete
+{
+    [[RemoteAccess getInstance] submitNewTask:self.task delegate:self];
+}
+
+- (void)onSubmitComplete
+{
+    [self.submitButton setTitle:@"Submit" forState:UIControlStateNormal];    
+    [self.submittingProgressIndicator stopAnimating];
+    
+    UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Submission complete!" message:nil delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    [dialog show];
+}
+
+- (void)onSyncError
+{
+    self.submitButton.enabled = YES;
+    [self.submitButton setTitle:@"Submit" forState:UIControlStateNormal];    
+    [self.submittingProgressIndicator stopAnimating];
+    
+    UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error syncing!" message:nil delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    [dialog show];
+}
+
+- (void)onAuthError
+{
+    self.submitButton.enabled = YES;
+    [self.submitButton setTitle:@"Submit" forState:UIControlStateNormal];    
+    [self.submittingProgressIndicator stopAnimating];
+    
+    UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Username or password is wrong!" message:nil delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    [dialog show];
+}
+
 
 @end

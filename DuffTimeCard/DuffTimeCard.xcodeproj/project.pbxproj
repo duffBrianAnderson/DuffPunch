@@ -9,9 +9,11 @@
 /* Begin PBXBuildFile section */
 		D316FF141564134B00A99F64 /* SubmitHoursViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D316FF131564134B00A99F64 /* SubmitHoursViewController.m */; };
 		D3A057871577E433009D06A2 /* TaskDetailTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A057861577E433009D06A2 /* TaskDetailTVC.m */; };
+		D3A0578F15782579009D06A2 /* Icon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D3A0578E15782579009D06A2 /* Icon.jpg */; };
 		D3B4658C1576DEA8003C4CB5 /* TasksListTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D3B4658B1576DEA8003C4CB5 /* TasksListTVC.m */; };
 		D3B465901576DF70003C4CB5 /* Project.m in Sources */ = {isa = PBXBuildFile; fileRef = D3B4658F1576DF70003C4CB5 /* Project.m */; };
 		D3DC05171563746E00D6E4AB /* duff_beer.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D3DC05161563746E00D6E4AB /* duff_beer.jpg */; };
+		D3E1403C15784450000398BA /* Launch.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D3E1403B15784450000398BA /* Launch.jpg */; };
 		D3E16D1E1562F1F800FF2B89 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3E16D1D1562F1F800FF2B89 /* UIKit.framework */; };
 		D3E16D201562F1F800FF2B89 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3E16D1F1562F1F800FF2B89 /* Foundation.framework */; };
 		D3E16D221562F1F800FF2B89 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3E16D211562F1F800FF2B89 /* CoreGraphics.framework */; };
@@ -31,11 +33,13 @@
 		D316FF131564134B00A99F64 /* SubmitHoursViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubmitHoursViewController.m; sourceTree = "<group>"; };
 		D3A057851577E433009D06A2 /* TaskDetailTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskDetailTVC.h; sourceTree = "<group>"; };
 		D3A057861577E433009D06A2 /* TaskDetailTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskDetailTVC.m; sourceTree = "<group>"; };
+		D3A0578E15782579009D06A2 /* Icon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Icon.jpg; sourceTree = "<group>"; };
 		D3B4658A1576DEA8003C4CB5 /* TasksListTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TasksListTVC.h; sourceTree = "<group>"; };
 		D3B4658B1576DEA8003C4CB5 /* TasksListTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TasksListTVC.m; sourceTree = "<group>"; };
 		D3B4658E1576DF70003C4CB5 /* Project.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Project.h; sourceTree = "<group>"; };
 		D3B4658F1576DF70003C4CB5 /* Project.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Project.m; sourceTree = "<group>"; };
 		D3DC05161563746E00D6E4AB /* duff_beer.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = duff_beer.jpg; sourceTree = "<group>"; };
+		D3E1403B15784450000398BA /* Launch.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Launch.jpg; sourceTree = "<group>"; };
 		D3E16D191562F1F800FF2B89 /* DuffTimeCard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DuffTimeCard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3E16D1D1562F1F800FF2B89 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D3E16D1F1562F1F800FF2B89 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -90,6 +94,8 @@
 		D3A0578A1577ED8D009D06A2 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				D3E1403B15784450000398BA /* Launch.jpg */,
+				D3A0578E15782579009D06A2 /* Icon.jpg */,
 				D3EC3C57156DFB2A000938D4 /* homer.jpg */,
 				D3DC05161563746E00D6E4AB /* duff_beer.jpg */,
 			);
@@ -142,8 +148,6 @@
 				D3A0578B1577F067009D06A2 /* data */,
 				D3A0578A1577ED8D009D06A2 /* images */,
 				D3A057891577EA7F009D06A2 /* TableViewControllers */,
-				D3E16D421563048A00FF2B89 /* NSData+Additions.h */,
-				D3E16D431563048A00FF2B89 /* NSData+Additions.m */,
 				D3E16D2C1562F1F800FF2B89 /* DuffTimeCardAppDelegate.h */,
 				D3E16D2D1562F1F800FF2B89 /* DuffTimeCardAppDelegate.m */,
 				D3E16D2F1562F1F900FF2B89 /* MainStoryboard.storyboard */,
@@ -159,6 +163,8 @@
 		D3E16D241562F1F800FF2B89 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D3E16D421563048A00FF2B89 /* NSData+Additions.h */,
+				D3E16D431563048A00FF2B89 /* NSData+Additions.m */,
 				D3E16D251562F1F800FF2B89 /* DuffTimeCard-Info.plist */,
 				D3E16D261562F1F800FF2B89 /* InfoPlist.strings */,
 				D3E16D291562F1F800FF2B89 /* main.m */,
@@ -223,6 +229,8 @@
 				D3E16D311562F1F900FF2B89 /* MainStoryboard.storyboard in Resources */,
 				D3DC05171563746E00D6E4AB /* duff_beer.jpg in Resources */,
 				D3EC3C58156DFB2A000938D4 /* homer.jpg in Resources */,
+				D3A0578F15782579009D06A2 /* Icon.jpg in Resources */,
+				D3E1403C15784450000398BA /* Launch.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
