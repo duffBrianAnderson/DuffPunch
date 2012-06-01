@@ -21,11 +21,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "DuffTimeCard/RemoteAccess.m"
-         timestampString = "360181897.061139"
+         timestampString = "360279219.204877"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "294"
-         endingLineNumber = "294"
+         startingLineNumber = "287"
+         endingLineNumber = "287"
          landmarkName = "-connectionDidFinishLoading:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -47,11 +47,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "DuffTimeCard/RemoteAccess.m"
-         timestampString = "360181897.061139"
+         timestampString = "360279219.204877"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "275"
-         endingLineNumber = "275"
+         startingLineNumber = "268"
+         endingLineNumber = "268"
          landmarkName = "-connection:didReceiveData:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -73,11 +73,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "DuffTimeCard/ProjectListTVC.m"
-         timestampString = "360182341.13737"
+         timestampString = "360282482.468995"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "128"
-         endingLineNumber = "128"
+         startingLineNumber = "121"
+         endingLineNumber = "121"
          landmarkName = "-prepareForSegue:sender:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -86,11 +86,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "DuffTimeCard/ProjectListTVC.m"
-         timestampString = "360182341.13737"
+         timestampString = "360282482.468995"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "130"
-         endingLineNumber = "130"
+         startingLineNumber = "123"
+         endingLineNumber = "123"
          landmarkName = "-prepareForSegue:sender:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -98,26 +98,26 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "DuffTimeCard/TaskDetailTVC.m"
-         timestampString = "360264067.683602"
+         filePath = "DuffTimeCard/ProjectListTVC.m"
+         timestampString = "360282482.468995"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "144"
-         endingLineNumber = "144"
-         landmarkName = "-alertView:clickedButtonAtIndex:"
+         startingLineNumber = "116"
+         endingLineNumber = "116"
+         landmarkName = "-prepareForSegue:sender:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "DuffTimeCard/TasksListTVC.m"
-         timestampString = "360202838.287887"
+         filePath = "DuffTimeCard/RemoteAccess.m"
+         timestampString = "360279219.204877"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "88"
-         endingLineNumber = "88"
-         landmarkName = "-prepareForSegue:sender:"
+         startingLineNumber = "288"
+         endingLineNumber = "288"
+         landmarkName = "-connectionDidFinishLoading:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

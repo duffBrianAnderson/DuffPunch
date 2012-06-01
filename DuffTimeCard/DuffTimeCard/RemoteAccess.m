@@ -44,7 +44,6 @@ static RemoteAccess *mSharedInstance  = nil;
 @synthesize authString = mAuthString;
 @synthesize tasks = mTasks;
 @synthesize projectNames = mProjectNames;
-@synthesize projectIdsForCurrentUser = mProjectIdsForCurrentUser;
 @synthesize email = mEmail;
 @synthesize password = mPassword;
 @synthesize isLoggedIn = mIsLoggedIn;
@@ -109,22 +108,22 @@ static RemoteAccess *mSharedInstance  = nil;
 - (void)findAndSetMostRecentTask
 {
     
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd"];
-    
-    //set the mostRecent to the first task in self.tasks, and loop through, changing it if necessary.
-    NSDate *mostRecentSoFar = [formatter dateFromString:((Task *)[self.tasks objectAtIndex:0]).date];
-    int maxIndex = 0;
-    
-    for(Task *currentTask in self.tasks)
-    {        
-        NSDate *currentDate = [formatter dateFromString:currentTask.date];
-        
-        if([mostRecentSoFar compare:currentDate] == NSOrderedAscending && currentTask.projectIndex != -1)
-            maxIndex = [self.tasks indexOfObject:currentTask];
-    }
-    
-    self.mostRecentTask = (Task *)[self.tasks objectAtIndex:maxIndex];
+//    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//    [formatter setDateFormat:@"yyyy-MM-dd"];
+//    
+//    //set the mostRecent to the first task in self.tasks, and loop through, changing it if necessary.
+//    NSDate *mostRecentSoFar = [formatter dateFromString:((Task *)[self.tasks objectAtIndex:0]).date];
+//    int maxIndex = 0;
+//    
+//    for(Task *currentTask in self.tasks)
+//    {        
+//        NSDate *currentDate = [formatter dateFromString:currentTask.date];
+//        
+//        if([mostRecentSoFar compare:currentDate] == NSOrderedAscending && currentTask.projectIndex != -1)
+//            maxIndex = [self.tasks indexOfObject:currentTask];
+//    }
+//    
+//    self.mostRecentTask = (Task *)[self.tasks objectAtIndex:maxIndex];
 }
 
 
@@ -139,29 +138,29 @@ static RemoteAccess *mSharedInstance  = nil;
     [[NSURLConnection alloc] initWithRequest:request delegate:self];
 }
 
-- (NSArray *)createTaskArrayFromJSON:(NSData *)jsonData
+
+- (void)initializeData:(NSData *)jsonData
 {
     NSMutableArray *tasksBuilder = [[NSMutableArray alloc] init];
-    NSArray *jsonTables = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableLeaves error:nil];
+    NSMutableDictionary *projectDictionaryBuilder = [[NSMutableDictionary alloc] init];
+    NSArray *jsonTables = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableLeaves error:nil];    
     
-    NSMutableSet *projectIdForCurrentUserBuilder = [[NSMutableSet alloc] init];
-    
+    // loop through all tasks and initialize the data.
     for(NSDictionary *currentTask in jsonTables)
     {
         NSString *name = [currentTask objectForKey:@"task_name"];
         
         
-        // it's possible to get NSNULL for "hours" or "project_id", so make sure we handle this gracefully, by simply not including a NULL project in the project scroller.
+        // it's possible to get NSNULL for "hours" or "project_id", so make sure we handle this gracefully
         
         id hoursNSNumber = [currentTask objectForKey:@"hours"];
         double hours = 0;
         if(![hoursNSNumber isMemberOfClass:[NSNull class]])
            hours = [(NSNumber *)[currentTask objectForKey:@"hours"] doubleValue];
         
-        id projectIDNSNumber = [currentTask objectForKey:@"project_id"];
-        int projectIndex = -1;
-        if(![projectIDNSNumber isMemberOfClass:[NSNull class]])
-           projectIndex = [(NSNumber *)[currentTask objectForKey:@"project_id"] intValue];
+        NSNumber * projectID = [currentTask objectForKey:@"project_id"];
+        if([projectID isMemberOfClass:[NSNull class]])
+            projectID = [[NSNumber alloc] initWithInt:-1];
         
         id taskDateString = [currentTask objectForKey:@"performed_on"];
         NSString * taskDate = @"null";
@@ -170,35 +169,25 @@ static RemoteAccess *mSharedInstance  = nil;
              
         NSString *notes = [currentTask objectForKey:@"notes"];
         
-        if(projectIndex != -1)
-           [projectIdForCurrentUserBuilder addObject:[[NSNumber alloc] initWithInt:projectIndex]];
-        
-        Task *taskToAdd = [[Task alloc] initWithName:name hours:hours projectIndex:projectIndex notes:notes date:taskDate];
+        Task *taskToAdd = [[Task alloc] initWithName:name hours:hours projectIndex:projectID notes:notes date:taskDate];
         [tasksBuilder addObject:taskToAdd];
+        
+        if(![[projectDictionaryBuilder allKeys] containsObject:projectID])
+        {
+            Project *p = [[Project alloc] initWithName:[self.projectNames objectForKey:projectID] withID:projectID];
+            [p addTask:taskToAdd];
+            [projectDictionaryBuilder setObject:p forKey:projectID];
+        }
+        else 
+        {
+            Project *p = [projectDictionaryBuilder objectForKey:projectID];
+            [p addTask:taskToAdd];
+            [projectDictionaryBuilder setObject:p forKey:projectID];
+        }
     }
     
-    self.projectIdsForCurrentUser = [projectIdForCurrentUserBuilder allObjects];
-    
-    return [tasksBuilder copy];
-}
-
-- (NSDictionary *)createProjectDictionaryFromTaskList:(NSArray *)taskList
-{    
-    NSMutableDictionary *projectDictionaryBuilder = [[NSMutableDictionary alloc] init];
-    for(NSNumber *currentID in self.projectIdsForCurrentUser)
-    {
-        Project *p = [[Project alloc] initWithName:[self.projectNames objectForKey:currentID.stringValue] withID:currentID];
-        [projectDictionaryBuilder setObject:p forKey:currentID];
-    }
-    
-    for(Task *currentTask in taskList)
-    {
-        Project *p = [projectDictionaryBuilder objectForKey:[[NSNumber alloc] initWithInt:currentTask.projectIndex]];
-        [p addTask:currentTask];
-        [projectDictionaryBuilder setObject:p forKey:[[NSNumber alloc] initWithInt:currentTask.projectIndex]];
-    }
-    
-    return [projectDictionaryBuilder copy];
+    self.tasks = [tasksBuilder copy];
+    self.projects = [projectDictionaryBuilder copy];
 }
 
 
@@ -207,12 +196,16 @@ static RemoteAccess *mSharedInstance  = nil;
     NSMutableDictionary *projectsBuilder = [[NSMutableDictionary alloc] init];
     NSArray *jsonDataArray = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableLeaves error:nil];
     
+    
+    //add K/V pair for null projects:
+    [projectsBuilder setObject:@"No Project" forKey:[[NSNumber alloc] initWithInt:-1]];
+    
     for(NSDictionary *currentProject in jsonDataArray)
     {
         NSString *name = [currentProject objectForKey:@"name"];
-        int projectID =  [(NSNumber *)[currentProject objectForKey:@"id"] intValue];
+        NSNumber *projectID =  (NSNumber *)[currentProject objectForKey:@"id"];
 
-        [projectsBuilder setValue:name forKey:[NSString stringWithFormat:@"%d", projectID]];
+        [projectsBuilder setObject:name forKey:projectID];
     }
     
     return [projectsBuilder copy];
@@ -248,7 +241,7 @@ static RemoteAccess *mSharedInstance  = nil;
     
     self.tasks = nil;
     self.projectNames = nil;
-    self.projectIdsForCurrentUser = nil;
+    self.projects = nil;
 }
 
 
@@ -300,9 +293,10 @@ static RemoteAccess *mSharedInstance  = nil;
         }
         else if([GET_TASK_URL isEqualToString:connection.currentRequest.URL.absoluteString])
         {            
-            self.tasks = [self createTaskArrayFromJSON:self.receivedData];
-            self.projects = [self createProjectDictionaryFromTaskList:self.tasks];
-
+//            self.tasks = [self createTaskArrayFromJSON:self.receivedData];
+//            self.projects = [self createProjectDictionaryFromTaskList:self.tasks];
+            [self initializeData:self.receivedData];
+            
             [self.delegate onDataSyncComplete];
             self.receivedData = nil;
             

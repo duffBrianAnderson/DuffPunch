@@ -33,25 +33,19 @@
 {
     [super viewDidLoad];
 
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [self startSync];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
-- (void)viewWillAppear:(BOOL)animated
+
+- (IBAction)refreshButtonPressed:(id)sender 
 {
     [self startSync];
 }
-
 
 - (void)startSync
 {
@@ -98,8 +92,6 @@
 
 - (void)onSyncError
 {
-//    [self enableSyncAndSubmitButtons:YES];
-//    [self.loadingView stopAnimating];
     UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error syncing!" message:nil delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     [dialog show];
 }
@@ -113,7 +105,8 @@
 
 - (void)onAuthError
 {
-    
+    UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Username or password is wrong!" message:nil delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    [dialog show];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

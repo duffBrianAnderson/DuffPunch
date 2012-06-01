@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "Task.h"
+#import "Project.h"
+#import "RemoteAccess.h"
+#import "TaskDetailTVC.h"
 
-@interface TasksListTVC : UITableViewController
+@interface TasksListTVC : UITableViewController <RemoteAccessProtocol, TaskDetailTVCDelegate>
 
 @property (strong, nonatomic) NSString *projectName;
 @property (strong, nonatomic) NSNumber *projectID;

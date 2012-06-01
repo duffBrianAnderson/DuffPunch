@@ -219,7 +219,7 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" style="gray" id="l6u-Gq-jtP">
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" style="gray" id="l6u-Gq-jtP">
                                 <rect key="frame" x="234" y="12" width="20" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="color" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -331,7 +331,13 @@
                             <outlet property="delegate" destination="S0i-Xs-nq2" id="g7k-Rt-IAW"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Projects" id="P67-V4-aCw"/>
+                    <navigationItem key="navigationItem" title="Projects" id="P67-V4-aCw">
+                        <barButtonItem key="rightBarButtonItem" title="Refresh" id="67t-Kx-TSj">
+                            <connections>
+                                <action selector="refreshButtonPressed:" destination="S0i-Xs-nq2" id="0Y0-rZ-hzA"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
             </objects>
             <point key="canvasLocation" x="392" y="-146"/>
@@ -364,7 +370,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="7wS-mI-xYr">
-                            <rect key="frame" x="0.0" y="434" width="320" height="56"/>
+                            <rect key="frame" x="0.0" y="475" width="320" height="56"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="yte-cN-4pe">
@@ -436,19 +442,47 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="Hours:" id="AnV-fs-tuz">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="S3J-gZ-F43" rowHeight="35" style="IBUITableViewCellStyleDefault" id="Wu4-z1-eoL">
-                                        <rect key="frame" x="0.0" y="228" width="320" height="36"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="76" id="Wu4-z1-eoL">
+                                        <rect key="frame" x="0.0" y="228" width="320" height="77"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="10" y="1" width="300" height="34"/>
+                                            <rect key="frame" x="10" y="1" width="300" height="75"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="8" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="S3J-gZ-F43">
-                                                    <rect key="frame" x="10" y="0.0" width="280" height="34"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                <stepper opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="8" maximumValue="100" id="C5N-f0-j6K">
+                                                    <rect key="frame" x="65" y="24" width="94" height="27"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <connections>
+                                                        <action selector="onHoursChanged:" destination="DIU-Ca-ec9" eventType="valueChanged" id="wrX-Ak-7hA"/>
+                                                    </connections>
+                                                </stepper>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="8" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="mjl-sv-bfF">
+                                                    <rect key="frame" x="13" y="18" width="50" height="39"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                                    <color key="textColor" red="0.1361552748" green="0.15003087479999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
+                                                <stepper opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="8" maximumValue="100" stepValue="0.5" id="Xx9-dX-Pg8">
+                                                    <rect key="frame" x="186" y="24" width="94" height="27"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <connections>
+                                                        <action selector="onHoursChanged:" destination="DIU-Ca-ec9" eventType="valueChanged" id="9cu-Yf-P8G"/>
+                                                    </connections>
+                                                </stepper>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="(1 hr)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="LfR-Uh-veD">
+                                                    <rect key="frame" x="91" y="3" width="42" height="16"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="(0.5 hr)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="vgl-hw-caa">
+                                                    <rect key="frame" x="212" y="0.0" width="42" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -458,20 +492,19 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="Notes:" id="MNq-TH-Ww3">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="UmR-hq-ORw" rowHeight="113" style="IBUITableViewCellStyleDefault" id="oda-II-l6K">
-                                        <rect key="frame" x="0.0" y="310" width="320" height="114"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="113" id="oda-II-l6K">
+                                        <rect key="frame" x="0.0" y="351" width="320" height="114"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="1" width="300" height="112"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="UmR-hq-ORw">
-                                                    <rect key="frame" x="10" y="0.0" width="280" height="92"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                </label>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="iJp-hl-nb1">
+                                                    <rect key="frame" x="11" y="8" width="278" height="95"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                                </textView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
@@ -486,8 +519,10 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="New Task" id="vCq-1w-Z9A"/>
                     <connections>
-                        <outlet property="hoursLabel" destination="S3J-gZ-F43" id="cZA-9X-wfc"/>
-                        <outlet property="notesLabel" destination="UmR-hq-ORw" id="MeF-Cm-gi7"/>
+                        <outlet property="halfHourStepper" destination="Xx9-dX-Pg8" id="o6w-ab-jX7"/>
+                        <outlet property="hourStepper" destination="C5N-f0-j6K" id="6Zh-De-e9Z"/>
+                        <outlet property="hoursLabel" destination="mjl-sv-bfF" id="4gU-1O-PKq"/>
+                        <outlet property="notesLabel" destination="iJp-hl-nb1" id="MUa-TN-LqI"/>
                         <outlet property="projectNameLabel" destination="wAZ-fe-Mlo" id="0au-hF-MYW"/>
                         <outlet property="submitButton" destination="yte-cN-4pe" id="TwP-5a-rui"/>
                         <outlet property="submittingProgressIndicator" destination="buF-gv-kZU" id="HBA-L8-mRR"/>
@@ -495,7 +530,7 @@
                     </connections>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="1288" y="-329"/>
+            <point key="canvasLocation" x="1340" y="-332"/>
         </scene>
         <!--Tasks ListTVC - Project Name-->
         <scene sceneID="jch-JF-TGk">
@@ -563,7 +598,13 @@
                             <outlet property="delegate" destination="pcr-cM-KEC" id="UKC-6o-8vf"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Project Name" id="KDm-x3-vAb"/>
+                    <navigationItem key="navigationItem" title="Project Name" id="KDm-x3-vAb">
+                        <barButtonItem key="rightBarButtonItem" title="Refresh" id="1F9-OD-jdg">
+                            <connections>
+                                <action selector="refreshButtonPressed:" destination="pcr-cM-KEC" id="zvi-Ww-Mrw"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
             </objects>
             <point key="canvasLocation" x="812" y="-165"/>
@@ -573,51 +614,6 @@
         <image name="duff_beer.jpg" width="452" height="320"/>
         <image name="homer.jpg" width="358" height="350"/>
     </resources>
-    <classes>
-        <class className="DuffTimeCardViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/DuffTimeCardViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="emailTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="loginButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="loginProgressIndicator" candidateClass="UIActivityIndicatorView"/>
-                <relationship kind="outlet" name="passwordTextField" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="ProjectListTVC" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ProjectListTVC.h"/>
-        </class>
-        <class className="SubmitHoursViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SubmitHoursViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="backgroundTap:"/>
-                <relationship kind="action" name="textFieldDoneEditing:"/>
-                <relationship kind="outlet" name="fullHour" candidateClass="UIStepper"/>
-                <relationship kind="outlet" name="halfHour" candidateClass="UIStepper"/>
-                <relationship kind="outlet" name="hoursLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="loadingView" candidateClass="UIActivityIndicatorView"/>
-                <relationship kind="outlet" name="notesTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="projectPageControl" candidateClass="UIPageControl"/>
-                <relationship kind="outlet" name="projectScroller" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="submitButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="syncButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="taskNameTextField" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="TaskDetailTVC" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TaskDetailTVC.h"/>
-            <relationships>
-                <relationship kind="outlet" name="hoursLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="notesLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="projectNameLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="submitButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="submittingProgressIndicator" candidateClass="UIActivityIndicatorView"/>
-                <relationship kind="outlet" name="taskNameLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="TasksListTVC" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TasksListTVC.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

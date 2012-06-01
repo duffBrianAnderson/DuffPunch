@@ -154,32 +154,32 @@ const int halfHourLabelTag = 1;
 
 - (IBAction)onSubmit
 {
-    [self enableSyncAndSubmitButtons:NO];
-    [self updateSubmitButton];
-    
-    if([self.taskNameTextField.text isEqualToString:@"DUFF"])
-    {
-        [self easterEggAnimate];
-    }
-    else if(self.submitOK)
-    {    
-        //create the new task
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"yyyy-MM-dd"];
-        NSString *todaysDateFormatted = [formatter stringFromDate:[[NSDate alloc] init]];
-        
-        self.currentTask = [[Task alloc] initWithName:self.taskNameTextField.text hours:[self.hoursLabel.text doubleValue] projectIndex:self.currentProjectID notes:self.notesTextField.text date:todaysDateFormatted];
-        
-        // sync with the server before we push anything up there to prevent screwing things up:
-        self.shouldSubmitNewTask = YES;
-        [self startSync];
-    }
-    else 
-    {
-        [self enableSyncAndSubmitButtons:YES];
-        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Cannot submit task:" message:@"Task must have a name." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-        [dialog show];
-    }
+//    [self enableSyncAndSubmitButtons:NO];
+//    [self updateSubmitButton];
+//    
+//    if([self.taskNameTextField.text isEqualToString:@"DUFF"])
+//    {
+//        [self easterEggAnimate];
+//    }
+//    else if(self.submitOK)
+//    {    
+//        //create the new task
+//        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//        [formatter setDateFormat:@"yyyy-MM-dd"];
+//        NSString *todaysDateFormatted = [formatter stringFromDate:[[NSDate alloc] init]];
+//        
+//        self.currentTask = [[Task alloc] initWithName:self.taskNameTextField.text hours:[self.hoursLabel.text doubleValue] projectIndex:self.currentProjectID notes:self.notesTextField.text date:todaysDateFormatted];
+//        
+//        // sync with the server before we push anything up there to prevent screwing things up:
+//        self.shouldSubmitNewTask = YES;
+//        [self startSync];
+//    }
+//    else 
+//    {
+//        [self enableSyncAndSubmitButtons:YES];
+//        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Cannot submit task:" message:@"Task must have a name." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+//        [dialog show];
+//    }
 }
 
 - (void)submit
@@ -207,7 +207,7 @@ const int halfHourLabelTag = 1;
     RemoteAccess *remoteAccess = [RemoteAccess getInstance];
     self.tasks = remoteAccess.tasks;    
     self.projectNamesTable = remoteAccess.projectNames;
-    self.projectIdsForCurrentUser = remoteAccess.projectIdsForCurrentUser;
+   // self.projectIdsForCurrentUser = remoteAccess.projectIdsForCurrentUser;
     
     NSArray *colors = [NSArray arrayWithObjects:[UIColor redColor], [UIColor greenColor], [UIColor blueColor], nil];
     int numProjects = self.projectIdsForCurrentUser.count;
@@ -364,9 +364,9 @@ const int halfHourLabelTag = 1;
     
     int pageToScrollTo = [self.projectIdsForCurrentUser indexOfObject:[[NSNumber alloc] initWithInt:recentTask.projectIndex]];
     
-    // it's possible for the task to have no project, if that's the case, just default to the first project.
-    if(recentTask.projectIndex == -1)
-        pageToScrollTo = 0;
+//    // it's possible for the task to have no project, if that's the case, just default to the first project.
+//    if(recentTask.projectIndex == -1)
+//        pageToScrollTo = 0;
     
     [self updateCurrentProjectId:pageToScrollTo];
     

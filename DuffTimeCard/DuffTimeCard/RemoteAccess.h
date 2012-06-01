@@ -24,8 +24,9 @@
 @property (strong, nonatomic) NSDictionary *projects;
 
 @property (strong, nonatomic) NSArray *tasks;
+
+// this dictionary is a hash table with project ids as the keys and names as values.
 @property (strong, nonatomic) NSDictionary *projectNames;
-@property (strong, nonatomic) NSArray *projectIdsForCurrentUser;
 @property (strong, nonatomic) Task *mostRecentTask;
 @property (nonatomic) BOOL isLoggedIn;
 

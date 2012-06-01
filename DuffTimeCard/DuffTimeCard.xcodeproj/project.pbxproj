@@ -146,7 +146,6 @@
 			isa = PBXGroup;
 			children = (
 				D3A0578B1577F067009D06A2 /* data */,
-				D3A0578A1577ED8D009D06A2 /* images */,
 				D3A057891577EA7F009D06A2 /* TableViewControllers */,
 				D3E16D2C1562F1F800FF2B89 /* DuffTimeCardAppDelegate.h */,
 				D3E16D2D1562F1F800FF2B89 /* DuffTimeCardAppDelegate.m */,
@@ -163,6 +162,7 @@
 		D3E16D241562F1F800FF2B89 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D3A0578A1577ED8D009D06A2 /* images */,
 				D3E16D421563048A00FF2B89 /* NSData+Additions.h */,
 				D3E16D431563048A00FF2B89 /* NSData+Additions.m */,
 				D3E16D251562F1F800FF2B89 /* DuffTimeCard-Info.plist */,

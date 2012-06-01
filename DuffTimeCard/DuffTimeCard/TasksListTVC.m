@@ -43,6 +43,17 @@
     // e.g. self.myOutlet = nil;
 }
 
+
+- (IBAction)refreshButtonPressed:(id)sender 
+{
+    [self startSync];
+}
+
+- (void)startSync
+{
+    [[RemoteAccess getInstance] synchronizeWithServer:self];
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
@@ -67,8 +78,6 @@
     return cell;
 }
 
-#pragma mark - Table view delegate
-
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
@@ -79,15 +88,58 @@
         [formatter setDateFormat:@"yyyy-MM-dd"];
         NSString *todaysDateFormatted = [formatter stringFromDate:[[NSDate alloc] init]];
         
-        Task *newTask = [[Task alloc] initWithName:@"New Task" hours:8.0 projectIndex:[self.projectID intValue] notes:@"" date:todaysDateFormatted];
+        Task *newTask = [[Task alloc] initWithName:@"New Task" hours:8.0 projectIndex:self.projectID notes:@"" date:todaysDateFormatted];
         
         ((TaskDetailTVC *)[segue destinationViewController]).task = newTask;
     }
     else if([[segue identifier] isEqualToString:@"EditTask"])
     {
         ((TaskDetailTVC *)[segue destinationViewController]).task = [self.tasks objectAtIndex:indexPath.row];
-        ((TaskDetailTVC *)[segue destinationViewController]).shouldHideSubmitButton = YES;
+        ((TaskDetailTVC *)[segue destinationViewController]).isExistingTask = YES;  
+        ((TaskDetailTVC *)[segue destinationViewController]).delegate = self;
     }
+}
+
+#pragma mark - RemoteAccessProtocol
+
+- (void)onDataSyncComplete
+{
+    RemoteAccess *remoteAccess = [RemoteAccess getInstance];
+//    self.projectList = [remoteAccess.projects allValues];
+    
+    Project *p = [remoteAccess.projects objectForKey:self.projectID];
+    self.tasks = p.getTaskArray;
+    
+    [self.tableView reloadData];
+}
+
+
+- (void)onSyncError
+{
+    //    [self enableSyncAndSubmitButtons:YES];
+    //    [self.loadingView stopAnimating];
+    UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error syncing!" message:nil delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    [dialog show];
+}
+
+
+- (void)onSubmitComplete
+{
+    // do nothing, we're not submitting anything from this ViewController
+}
+
+
+- (void)onAuthError
+{
+    UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Username or password is wrong!" message:nil delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    [dialog show];
+}
+
+#pragma mark - TaskDetailTVC
+
+- (void)updateAfterSubmission
+{
+    [self startSync];
 }
 
 @end
