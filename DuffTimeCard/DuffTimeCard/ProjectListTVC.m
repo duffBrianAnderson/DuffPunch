@@ -74,6 +74,12 @@
     [super viewDidUnload];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    self.projectList = [[RemoteAccess getInstance].projects allValues];
+    [self.tableView reloadData];
+}
+
 - (void)addNoProjectsTextView
 {
     CGSize s = self.tableView.frame.size;

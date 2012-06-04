@@ -59,13 +59,13 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "DuffTimeCard/TaskDetailTVC.m"
-         timestampString = "360529931.559469"
+         filePath = "DuffTimeCard/ProjectListTVC.m"
+         timestampString = "360535763.782448"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "60"
-         endingLineNumber = "60"
-         landmarkName = "-viewDidLoad"
+         startingLineNumber = "80"
+         endingLineNumber = "80"
+         landmarkName = "-viewWillAppear:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

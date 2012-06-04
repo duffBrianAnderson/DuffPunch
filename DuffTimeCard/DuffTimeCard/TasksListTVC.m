@@ -23,7 +23,6 @@
 
 @implementation TasksListTVC
 
-//#define NEW_TASK_VIEW_HEIGHT 66
 #define REFRESH_HEADER_HEIGHT 52.0f
 #define SYNCING_STRING @"Syncing"
 #define PULL_DOWN_REFRESH_MESSAGE @"Pull down to refresh"
@@ -61,8 +60,10 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    self.refreshHeaderContainer = nil;
+    self.refreshArrowImageView = nil;
+    self.refreshLabel = nil;
+    self.refreshSpinner = nil;
 }
 
 - (void)addPullToRefreshHeader
