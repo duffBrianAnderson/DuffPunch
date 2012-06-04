@@ -21,7 +21,7 @@
 		D3E16D2A1562F1F800FF2B89 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D3E16D291562F1F800FF2B89 /* main.m */; };
 		D3E16D2E1562F1F800FF2B89 /* DuffTimeCardAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D3E16D2D1562F1F800FF2B89 /* DuffTimeCardAppDelegate.m */; };
 		D3E16D311562F1F900FF2B89 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3E16D2F1562F1F900FF2B89 /* MainStoryboard.storyboard */; };
-		D3E16D341562F1F900FF2B89 /* DuffTimeCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3E16D331562F1F900FF2B89 /* DuffTimeCardViewController.m */; };
+		D3E16D341562F1F900FF2B89 /* LoginScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3E16D331562F1F900FF2B89 /* LoginScreenViewController.m */; };
 		D3EC3C58156DFB2A000938D4 /* homer.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D3EC3C57156DFB2A000938D4 /* homer.jpg */; };
 		D3F2649D15657264001338DC /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F2649C15657264001338DC /* Task.m */; };
 		D3F264A015657306001338DC /* RemoteAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F2649F15657305001338DC /* RemoteAccess.m */; };
@@ -50,8 +50,8 @@
 		D3E16D2C1562F1F800FF2B89 /* DuffTimeCardAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DuffTimeCardAppDelegate.h; sourceTree = "<group>"; };
 		D3E16D2D1562F1F800FF2B89 /* DuffTimeCardAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DuffTimeCardAppDelegate.m; sourceTree = "<group>"; };
 		D3E16D301562F1F900FF2B89 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		D3E16D321562F1F900FF2B89 /* DuffTimeCardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DuffTimeCardViewController.h; sourceTree = "<group>"; };
-		D3E16D331562F1F900FF2B89 /* DuffTimeCardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DuffTimeCardViewController.m; sourceTree = "<group>"; };
+		D3E16D321562F1F900FF2B89 /* LoginScreenViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginScreenViewController.h; sourceTree = "<group>"; };
+		D3E16D331562F1F900FF2B89 /* LoginScreenViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginScreenViewController.m; sourceTree = "<group>"; };
 		D3E16D421563048A00FF2B89 /* NSData+Additions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+Additions.h"; sourceTree = "<group>"; };
 		D3E16D431563048A00FF2B89 /* NSData+Additions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+Additions.m"; sourceTree = "<group>"; };
 		D3EC3C57156DFB2A000938D4 /* homer.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = homer.jpg; sourceTree = "<group>"; };
@@ -150,8 +150,8 @@
 				D3E16D2C1562F1F800FF2B89 /* DuffTimeCardAppDelegate.h */,
 				D3E16D2D1562F1F800FF2B89 /* DuffTimeCardAppDelegate.m */,
 				D3E16D2F1562F1F900FF2B89 /* MainStoryboard.storyboard */,
-				D3E16D321562F1F900FF2B89 /* DuffTimeCardViewController.h */,
-				D3E16D331562F1F900FF2B89 /* DuffTimeCardViewController.m */,
+				D3E16D321562F1F900FF2B89 /* LoginScreenViewController.h */,
+				D3E16D331562F1F900FF2B89 /* LoginScreenViewController.m */,
 				D3E16D241562F1F800FF2B89 /* Supporting Files */,
 			);
 			path = DuffTimeCard;
@@ -242,7 +242,7 @@
 			files = (
 				D3E16D2A1562F1F800FF2B89 /* main.m in Sources */,
 				D3E16D2E1562F1F800FF2B89 /* DuffTimeCardAppDelegate.m in Sources */,
-				D3E16D341562F1F900FF2B89 /* DuffTimeCardViewController.m in Sources */,
+				D3E16D341562F1F900FF2B89 /* LoginScreenViewController.m in Sources */,
 				D3F2649D15657264001338DC /* Task.m in Sources */,
 				D3F264A015657306001338DC /* RemoteAccess.m in Sources */,
 				D3F9CDEC1576B8D800C7FE14 /* ProjectListTVC.m in Sources */,

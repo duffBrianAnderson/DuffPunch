@@ -1,22 +1,22 @@
 //
-//  DuffTimeCardViewController.m
+//  LoginScreenViewController.m
 //  DuffTimeCard
 //
 //  Created by Brian Anderson on 5/15/12.
 //  Copyright (c) 2012 Duff Research. All rights reserved.
 //
 
-#import "DuffTimeCardViewController.h"
+#import "LoginScreenViewController.h"
 #import "NSData+Additions.h"
 #import "RemoteAccess.h"
 
-@interface DuffTimeCardViewController ()
+@interface LoginScreenViewController ()
 
 @property (nonatomic) BOOL keyboardOpen;
 
 @end
 
-@implementation DuffTimeCardViewController
+@implementation LoginScreenViewController
 
 #define PASSWORD_FIELD_TAG 1
 

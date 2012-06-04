@@ -1,5 +1,5 @@
 //
-//  DuffTimeCardViewController.h
+//  LoginScreenViewController.h
 //  DuffTimeCard
 //
 //  Created by Brian Anderson on 5/15/12.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DuffTimeCardViewController : UIViewController
+@interface LoginScreenViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
