@@ -16,7 +16,7 @@
 - (void)onSyncError;
 - (void)onSubmitComplete;
 - (void)onAuthError;
-- (void)onResponseReceivedWithStatusCode:(int)statusCode;
+- (void)onResponseReceivedWithStatusCode:(BOOL)success;
 
 @end
 

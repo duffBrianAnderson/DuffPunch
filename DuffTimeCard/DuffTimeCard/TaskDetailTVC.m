@@ -190,11 +190,6 @@
     }
 }
 
-- (void)easterEggAnimate
-{
-    
-}
-
 
 #pragma mark - Table view delegate
 
@@ -289,6 +284,43 @@
     }
     
     return YES;
+}
+
+
+#pragma mark - EasterEgg
+
+- (void)easterEggAnimate
+{
+    UIViewController *animationController = [[UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil] instantiateViewControllerWithIdentifier:@"animationViewController"];
+    [self addChildViewController:animationController];
+    
+    UIView *animationView = (UIView *)[animationController.view.subviews objectAtIndex:0];
+    [self.view addSubview:animationView];
+    
+    int index = [self.view.subviews indexOfObject:animationView];
+    
+    
+    NSLog(@"index = %d", index);
+    
+    int rightSide = self.view.frame.size.width;
+    animationView.frame = CGRectMake(rightSide, animationView.frame.origin.y, animationView.frame.size.width, animationView.frame.size.height);
+    
+    [UIView beginAnimations: [NSString stringWithFormat:@"%d", index] context: nil];
+        [UIView setAnimationDelegate:self];
+        [UIView setAnimationBeginsFromCurrentState: NO];
+        [UIView setAnimationDuration:1.0f];
+        [UIView setAnimationCurve:UIViewAnimationCurveLinear];
+        [UIView setAnimationDidStopSelector:@selector(onEasterEggStop:finished:context:)];
+        animationView.frame = CGRectOffset(animationView.frame, -450, 0);
+    [UIView commitAnimations];
+}
+
+- (void)onEasterEggStop:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context
+{
+    int indexToRemove = animationID.intValue;
+    NSLog(@"%d", indexToRemove);
+    [[self.view.subviews objectAtIndex:indexToRemove] removeFromSuperview];
+    self.submitButton.enabled = YES;
 }
 
 @end

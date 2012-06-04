@@ -115,12 +115,12 @@
 
 #pragma mark - RemoteAccessProtocol methods:
 
-- (void)onResponseReceivedWithStatusCode:(int)statusCode
+- (void)onResponseReceivedWithStatusCode:(BOOL)success
 {
     [self.loginProgressIndicator stopAnimating];
     self.loginButton.enabled = YES;
     
-    if(statusCode == 200)
+    if(success)
        [self performSegueWithIdentifier:@"loginComplete" sender:self];
     else 
     {

@@ -36,6 +36,7 @@
 
 NSString * const GET_TASK_URL = @"https://timetrackerservice.herokuapp.com/tasks.json";
 NSString * const GET_PROJECT_URL = @"https://timetrackerservice.herokuapp.com/projects.json";
+NSString * const TASK_URL = @"https://timetrackerservice.herokuapp.com/tasks";
 
 static RemoteAccess *mSharedInstance  = nil;
 
@@ -79,6 +80,12 @@ static RemoteAccess *mSharedInstance  = nil;
     NSData *authData = [authString dataUsingEncoding:NSUTF8StringEncoding];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64Encoding]];    
     [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+    
+    // we'll nil these out if the login fails.
+    self.email = email;
+    self.password = password;
+    self.authString = authString;
+    
     [[NSURLConnection alloc] initWithRequest:request delegate:self];
 }
 
@@ -243,8 +250,25 @@ static RemoteAccess *mSharedInstance  = nil;
 {
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
     int code = [httpResponse statusCode];
-    [self.delegate onResponseReceivedWithStatusCode:code];
     NSLog(@"HTTP status code: %d", code);
+    
+    if([connection.currentRequest.URL.absoluteString isEqualToString:TASK_URL])
+    {
+        BOOL loginSuccess = (code == 200) ? YES : NO;   
+        if(loginSuccess)
+        {
+            self.isLoggedIn = YES;
+        }
+        else 
+        {
+            self.email = nil;
+            self.password = nil;
+            self.authString = nil;
+            self.isLoggedIn = NO;
+        }
+        
+        [self.delegate onResponseReceivedWithStatusCode:loginSuccess];
+    }
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
@@ -284,6 +308,8 @@ static RemoteAccess *mSharedInstance  = nil;
             if(!self.isAPreSubmitSync)
               self.delegate = nil;
         }
+    
+    self.receivedData = nil;
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
