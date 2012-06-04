@@ -95,7 +95,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="-30" y="-544"/>
+            <point key="canvasLocation" x="16" y="-668"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="CPv-CM-zFh">
@@ -157,10 +157,19 @@
                             <outlet property="delegate" destination="S0i-Xs-nq2" id="g7k-Rt-IAW"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Projects" id="P67-V4-aCw"/>
+                    <navigationItem key="navigationItem" title="Projects" id="P67-V4-aCw">
+                        <barButtonItem key="rightBarButtonItem" title="Copy Recent" id="C0a-aH-7Sw">
+                            <connections>
+                                <segue destination="DIU-Ca-ec9" kind="push" identifier="copyRecentTask" id="tDF-IZ-iV7"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="recentTaskCopyButton" destination="C0a-aH-7Sw" id="vM0-RP-BqU"/>
+                    </connections>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="434" y="-520"/>
+            <point key="canvasLocation" x="427" y="-673"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="s2n-Am-n7F">
@@ -350,7 +359,7 @@
                     </connections>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="1351" y="-504"/>
+            <point key="canvasLocation" x="1228" y="-1020"/>
         </scene>
         <!--Tasks ListTVC - Project Name-->
         <scene sceneID="jch-JF-TGk">
@@ -421,49 +430,19 @@
                     <navigationItem key="navigationItem" title="Project Name" id="KDm-x3-vAb"/>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="898" y="-511"/>
+            <point key="canvasLocation" x="868" y="-486"/>
         </scene>
     </scenes>
     <resources>
         <image name="duff_beer.jpg" width="452" height="320"/>
         <image name="homer.jpg" width="358" height="350"/>
     </resources>
-    <classes>
-        <class className="DuffTimeCardViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/DuffTimeCardViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="emailTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="loginButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="loginProgressIndicator" candidateClass="UIActivityIndicatorView"/>
-                <relationship kind="outlet" name="passwordTextField" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="ProjectListTVC" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ProjectListTVC.h"/>
-        </class>
-        <class className="TaskDetailTVC" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TaskDetailTVC.h"/>
-            <relationships>
-                <relationship kind="outlet" name="halfHourStepper" candidateClass="UIStepper"/>
-                <relationship kind="outlet" name="hourStepper" candidateClass="UIStepper"/>
-                <relationship kind="outlet" name="hoursLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="notesLabel" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="projectNameLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="submitButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="submittingProgressIndicator" candidateClass="UIActivityIndicatorView"/>
-                <relationship kind="outlet" name="taskNameLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="TasksListTVC" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TasksListTVC.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="mWe-Ug-8Zh"/>
+        <segue reference="tDF-IZ-iV7"/>
     </inferredMetricsTieBreakers>
 </document>

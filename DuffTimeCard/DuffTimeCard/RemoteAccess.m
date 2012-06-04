@@ -105,25 +105,26 @@ static RemoteAccess *mSharedInstance  = nil;
 }
 
 
-- (void)findAndSetMostRecentTask
+- (Task *)findMostRecentTask
 {
     
-//    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-//    [formatter setDateFormat:@"yyyy-MM-dd"];
-//    
-//    //set the mostRecent to the first task in self.tasks, and loop through, changing it if necessary.
-//    NSDate *mostRecentSoFar = [formatter dateFromString:((Task *)[self.tasks objectAtIndex:0]).date];
-//    int maxIndex = 0;
-//    
-//    for(Task *currentTask in self.tasks)
-//    {        
-//        NSDate *currentDate = [formatter dateFromString:currentTask.date];
-//        
-//        if([mostRecentSoFar compare:currentDate] == NSOrderedAscending && currentTask.projectIndex != -1)
-//            maxIndex = [self.tasks indexOfObject:currentTask];
-//    }
-//    
-//    self.mostRecentTask = (Task *)[self.tasks objectAtIndex:maxIndex];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    
+    //set the mostRecent to the first task in self.tasks, and loop through, changing it if necessary.
+    NSDate *mostRecentSoFar = [formatter dateFromString:((Task *)[self.tasks objectAtIndex:0]).date];
+    int maxIndex = 0;
+    
+    for(Task *currentTask in self.tasks)
+    {        
+        NSDate *currentDate = [formatter dateFromString:currentTask.date];
+        
+        if([mostRecentSoFar compare:currentDate] == NSOrderedAscending && currentTask.projectIndex.intValue != -1)
+            maxIndex = [self.tasks indexOfObject:currentTask];
+    }
+    
+    self.mostRecentTask = (Task *)[self.tasks objectAtIndex:maxIndex];
+    return self.mostRecentTask;
 }
 
 
@@ -227,6 +228,9 @@ static RemoteAccess *mSharedInstance  = nil;
     NSData *newTaskData = [NSJSONSerialization dataWithJSONObject:[task createJSONObjectFromTask] options:nil error:nil];                    
     request.HTTPBody = newTaskData;
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    // the upload might fail, so we shouldn't set the most recent task to a task that never went through.  We use possibleMostRecentTask as a temp. placeholder, and if the upload is successful
+    // then we set self.mostRecentTask to this guy:
     self.possibleMostRecentTask = task;
     [[NSURLConnection alloc] initWithRequest:request delegate:self];
 }
@@ -300,8 +304,6 @@ static RemoteAccess *mSharedInstance  = nil;
             
             if(!self.isAPreSubmitSync)
               self.delegate = nil;
-            
-            [self findAndSetMostRecentTask];
         }
 }
 

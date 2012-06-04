@@ -25,7 +25,7 @@
 
 //#define NEW_TASK_VIEW_HEIGHT 66
 #define REFRESH_HEADER_HEIGHT 52.0f
-#define LOADING_STRING @"Loading"
+#define SYNCING_STRING @"Syncing"
 #define PULL_DOWN_REFRESH_MESSAGE @"Pull down to refresh"
 
 @synthesize projectName = mProjectName;
@@ -110,7 +110,7 @@
     if(show)
     {
         targetContentInset = UIEdgeInsetsMake(REFRESH_HEADER_HEIGHT, 0, 0, 0);
-        stringToSet = LOADING_STRING;
+        stringToSet = SYNCING_STRING;
         [self.refreshSpinner startAnimating];
     }
     else
@@ -143,7 +143,7 @@
     
     Task *currentTask = [self.tasks objectAtIndex:indexPath.row];
     cell.textLabel.text = currentTask.name;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%g hrs",currentTask.hours];
+    cell.detailTextLabel.text = currentTask.date;
     
     return cell;
 }

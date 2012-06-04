@@ -12,6 +12,7 @@
 @interface ProjectListTVC ()
 
 @property (strong, nonatomic) NSArray *projectList;
+@property (strong, nonatomic) UIView *noProjectFooterView;
 
 // properties for the refresh header
 @property (strong, nonatomic) UIView *refreshHeaderContainer;
@@ -26,8 +27,13 @@
 @implementation ProjectListTVC
 
 #define REFRESH_HEADER_HEIGHT 52.0f
-#define LOADING_STRING @"Loading"
+#define SYNCING_STRING @"Syncing"
 #define PULL_DOWN_REFRESH_MESSAGE @"Pull down to refresh"
+#define NO_PROJECTS_STRING @"No projects"
+
+@synthesize recentTaskCopyButton = mRecentTaskCopyButton;
+
+@synthesize noProjectFooterView = mNoProjectFooterView;
 
 @synthesize projectList = mProjectList;
 @synthesize refreshHeaderContainer = mRefreshHeaderContainer;
@@ -52,7 +58,9 @@
     [super viewDidLoad];
 
     self.tableView.delegate = self;
+    [self addNoProjectsTextView];
     [self addPullToRefreshHeader];
+    
     [self startSync];
 }
 
@@ -62,7 +70,27 @@
     [self setRefreshArrowImageView:nil];
     [self setRefreshLabel:nil];
     [self setRefreshSpinner:nil];
+    [self setRecentTaskCopyButton:nil];
     [super viewDidUnload];
+}
+
+- (void)addNoProjectsTextView
+{
+    CGSize s = self.tableView.frame.size;
+    UIFont *font = [UIFont boldSystemFontOfSize:20.0f];
+    CGSize noProjectLabelDimensions = [NO_PROJECTS_STRING sizeWithFont:font];
+    
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, s.width, s.height - 100)];
+    UILabel *textView = [[UILabel alloc] initWithFrame:CGRectMake((s.width / 2) - noProjectLabelDimensions.width / 2, (s.height / 2) - noProjectLabelDimensions.height / 2, noProjectLabelDimensions.width, noProjectLabelDimensions.height)];
+    
+    textView.text = NO_PROJECTS_STRING;
+    textView.font = font;
+    
+    self.noProjectFooterView = view;
+    self.noProjectFooterView.hidden = YES;
+
+    [view addSubview:textView];    
+    self.tableView.tableFooterView = view;
 }
 
 
@@ -106,7 +134,7 @@
     if(show)
     {
         targetContentInset = UIEdgeInsetsMake(REFRESH_HEADER_HEIGHT, 0, 0, 0);
-        stringToSet = LOADING_STRING;
+        stringToSet = SYNCING_STRING;
         [self.refreshSpinner startAnimating];
     }
     else
@@ -159,6 +187,9 @@
     RemoteAccess *remoteAccess = [RemoteAccess getInstance];
     self.projectList = [remoteAccess.projects allValues];
     
+    self.noProjectFooterView.hidden = (self.projectList.count == 0) ? NO : YES;
+    self.recentTaskCopyButton.enabled = (self.projectList.count == 0) ? NO: YES;
+    
     [self.tableView reloadData];
 }
 
@@ -196,6 +227,13 @@
         ((TasksListTVC *)[segue destinationViewController]).projectName = selectedProject.name;
         ((TasksListTVC *)[segue destinationViewController]).projectID = selectedProject.projectID;
         ((TasksListTVC *)[segue destinationViewController]).tasks = [selectedProject getTaskArray];
+    }
+    else if([[segue identifier] isEqualToString:@"copyRecentTask"])
+    {
+        Task *mostRecentTask = [RemoteAccess getInstance].mostRecentTask;
+        
+        // mostRecentTask will be null if we haven't submitted anything yet, so just get the most recent task from the task list.
+        ((TaskDetailTVC *) [segue destinationViewController]).task = (mostRecentTask) ? mostRecentTask : [[RemoteAccess getInstance] findMostRecentTask];
     }
 }
 

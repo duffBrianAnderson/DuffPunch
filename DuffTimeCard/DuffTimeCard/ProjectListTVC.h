@@ -12,4 +12,6 @@
 
 @interface ProjectListTVC : UITableViewController <RemoteAccessProtocol, UITableViewDelegate>
 
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *recentTaskCopyButton;
+
 @end

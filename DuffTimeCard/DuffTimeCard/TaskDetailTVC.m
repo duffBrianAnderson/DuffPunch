@@ -58,6 +58,8 @@
     
     self.taskNameLabel.text = self.task.name;
     self.hoursLabel.text = [NSString stringWithFormat:@"%g", self.task.hours];
+    self.hourStepper.value = self.task.hours;
+    self.halfHourStepper.value = self.task.hours;
     self.notesLabel.text = self.task.notes;
     
     BOOL cancelTouch = NO;

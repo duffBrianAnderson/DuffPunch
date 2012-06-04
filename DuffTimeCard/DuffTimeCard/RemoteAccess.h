@@ -35,5 +35,6 @@
 - (void)logout;
 - (void)synchronizeWithServer:(id <RemoteAccessProtocol>)delegate;
 - (void)submitNewTask:(Task *)task delegate:(id <RemoteAccessProtocol>)delgate;
+- (Task *)findMostRecentTask;
 
 @end
