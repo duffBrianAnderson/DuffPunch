@@ -91,7 +91,7 @@
                         <outlet property="loginButton" destination="dHN-HT-Qvw" id="mWu-0b-udp"/>
                         <outlet property="loginProgressIndicator" destination="vaO-KQ-eAq" id="O9V-QV-tj4"/>
                         <outlet property="passwordTextField" destination="nDh-Ty-vDt" id="hRE-My-Qb7"/>
-                        <segue destination="S0i-Xs-nq2" kind="push" identifier="loginComplete2" id="ssH-Nl-glX"/>
+                        <segue destination="S0i-Xs-nq2" kind="push" identifier="loginComplete" id="ssH-Nl-glX"/>
                     </connections>
                 </viewController>
             </objects>
@@ -437,39 +437,6 @@
         <image name="duff_beer.jpg" width="452" height="320"/>
         <image name="homer.jpg" width="358" height="350"/>
     </resources>
-    <classes>
-        <class className="LoginScreenViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoginScreenViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="emailTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="loginButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="loginProgressIndicator" candidateClass="UIActivityIndicatorView"/>
-                <relationship kind="outlet" name="passwordTextField" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="ProjectListTVC" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ProjectListTVC.h"/>
-            <relationships>
-                <relationship kind="outlet" name="recentTaskCopyButton" candidateClass="UIBarButtonItem"/>
-            </relationships>
-        </class>
-        <class className="TaskDetailTVC" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TaskDetailTVC.h"/>
-            <relationships>
-                <relationship kind="outlet" name="halfHourStepper" candidateClass="UIStepper"/>
-                <relationship kind="outlet" name="hourStepper" candidateClass="UIStepper"/>
-                <relationship kind="outlet" name="hoursLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="notesLabel" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="projectNameLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="submitButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="submittingProgressIndicator" candidateClass="UIActivityIndicatorView"/>
-                <relationship kind="outlet" name="taskNameLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="TasksListTVC" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TasksListTVC.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

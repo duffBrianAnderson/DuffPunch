@@ -8,7 +8,6 @@
 
 #import "LoginScreenViewController.h"
 #import "NSData+Additions.h"
-#import "RemoteAccess.h"
 
 @interface LoginScreenViewController ()
 
@@ -66,8 +65,8 @@
 
 - (void) animateTextField: (UITextField*) textField up: (BOOL) up
 {
-    const int movementDistance = 90; // tweak as needed
-    const float movementDuration = 0.3f; // tweak as needed
+    const int movementDistance = 90;
+    const float movementDuration = 0.3f;
     
     int movement = (up ? -movementDistance : movementDistance);
     
@@ -92,7 +91,6 @@
     [self setLoginProgressIndicator:nil];
     [self setLoginButton:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -111,36 +109,54 @@
     [self.loginProgressIndicator startAnimating];
     self.loginButton.enabled = NO;
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, NULL), ^{
-        BOOL success = [self loginWithEmail:self.emailTextField.text password:self.passwordTextField.text];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.loginProgressIndicator stopAnimating];
-            self.loginButton.enabled = YES;
-            
-            if(success)
-                [self performSegueWithIdentifier:@"loginComplete2" sender:self];
-            else
-                [self displayInvalidCredentialsDialog];
-        });
-    });
+    [[RemoteAccess getInstance] loginToServer:TASK_URL email:self.emailTextField.text password:self.passwordTextField.text delegate:self];
 }   
 
-- (void)displayInvalidCredentialsDialog
+
+#pragma mark - RemoteAccessProtocol methods:
+
+- (void)onResponseReceivedWithStatusCode:(int)statusCode
 {
-    UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error logging in:" message:@"Please try again" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    [self.loginProgressIndicator stopAnimating];
+    self.loginButton.enabled = YES;
+    
+    if(statusCode == 200)
+       [self performSegueWithIdentifier:@"loginComplete" sender:self];
+    else 
+    {
+        UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error logging in!" message:nil delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [dialog show];
+    }
+}
+
+- (void)onDataSyncComplete
+{
+    [self.loginProgressIndicator stopAnimating];
+    self.loginButton.enabled = YES;
+}
+
+
+- (void)onSyncError
+{
+    [self.loginProgressIndicator stopAnimating];
+    self.loginButton.enabled = YES;
+    UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error logging in!" message:nil delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     [dialog show];
 }
 
-- (BOOL)loginWithEmail:(NSString *)email password:(NSString *)password
-{
-    BOOL success;
-    
-    RemoteAccess *remoteAccess = [RemoteAccess getInstance];
-    success = [remoteAccess loginToServer:TASK_URL email:email password:password];
 
-    
-    return success;
+- (void)onSubmitComplete
+{
+    // do nothing, we're not submitting anything from this ViewController
+}
+
+
+- (void)onAuthError
+{
+    [self.loginProgressIndicator stopAnimating];
+    self.loginButton.enabled = YES;
+    UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Username or password is wrong!" message:nil delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    [dialog show];
 }
 
 @end

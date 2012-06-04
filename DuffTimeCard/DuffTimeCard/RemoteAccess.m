@@ -70,38 +70,15 @@ static RemoteAccess *mSharedInstance  = nil;
 
 
 
-- (BOOL)loginToServer:(NSString *)serverName email:(NSString *)email password:(NSString *)password
+- (void)loginToServer:(NSString *)serverName email:(NSString *)email password:(NSString *)password delegate:(id <RemoteAccessProtocol>)delegate
 {
+    self.delegate = delegate;
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:serverName]];
     
     NSString *authString = [NSString stringWithFormat:@"%@:%@",email,password]; 
     NSData *authData = [authString dataUsingEncoding:NSUTF8StringEncoding];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64Encoding]];    
     [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-    
-    NSURLResponse *outResponse;
-    NSError *outError;
-    
-    [NSURLConnection sendSynchronousRequest:request returningResponse:&outResponse error:&outError];
-    
-    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) outResponse;
-    int responseStatusCode = [httpResponse statusCode];
-    
-    if(responseStatusCode == 200)
-    {
-        // login succeeded
-        mEmail = email;
-        mPassword = password;
-        mAuthString = authString;
-        self.authString = authString;
-        mIsLoggedIn = YES;
-    }
-    else 
-    {
-        mIsLoggedIn = NO;
-    }
-    
-    return mIsLoggedIn;
 }
 
 
@@ -136,7 +113,7 @@ static RemoteAccess *mSharedInstance  = nil;
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64Encoding]];    
     [request setValue:authValue forHTTPHeaderField:@"Authorization"];
 
-    [[NSURLConnection alloc] initWithRequest:request delegate:self];
+   [[NSURLConnection alloc] initWithRequest:request delegate:self];
 }
 
 
@@ -232,7 +209,7 @@ static RemoteAccess *mSharedInstance  = nil;
     // the upload might fail, so we shouldn't set the most recent task to a task that never went through.  We use possibleMostRecentTask as a temp. placeholder, and if the upload is successful
     // then we set self.mostRecentTask to this guy:
     self.possibleMostRecentTask = task;
-    [[NSURLConnection alloc] initWithRequest:request delegate:self];
+   [[NSURLConnection alloc] initWithRequest:request delegate:self];      
 }
 
 
@@ -265,6 +242,7 @@ static RemoteAccess *mSharedInstance  = nil;
 {
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
     int code = [httpResponse statusCode];
+    [self.delegate onResponseReceivedWithStatusCode:code];
     NSLog(@"HTTP status code: %d", code);
 }
 

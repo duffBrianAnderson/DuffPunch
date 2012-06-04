@@ -16,6 +16,7 @@
 - (void)onSyncError;
 - (void)onSubmitComplete;
 - (void)onAuthError;
+- (void)onResponseReceivedWithStatusCode:(int)statusCode;
 
 @end
 
@@ -31,7 +32,7 @@
 @property (nonatomic) BOOL isLoggedIn;
 
 + (RemoteAccess *)getInstance;
-- (BOOL)loginToServer:(NSString *)serverName email:(NSString *)email password:(NSString *)password;
+- (void)loginToServer:(NSString *)serverName email:(NSString *)email password:(NSString *)password delegate:(id <RemoteAccessProtocol>)delgate;
 - (void)logout;
 - (void)synchronizeWithServer:(id <RemoteAccessProtocol>)delegate;
 - (void)submitNewTask:(Task *)task delegate:(id <RemoteAccessProtocol>)delgate;

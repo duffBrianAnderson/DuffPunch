@@ -176,6 +176,11 @@
 
 #pragma mark - RemoteAccessProtocol
 
+- (void)onResponseReceivedWithStatusCode:(int)statusCode
+{
+    // do nothing.
+}
+
 - (void)onDataSyncComplete
 {
     [self showOrHideRefreshHeader:NO];

@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RemoteAccess.h"
 
-@interface LoginScreenViewController : UIViewController
+@interface LoginScreenViewController : UIViewController <RemoteAccessProtocol>
 
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
