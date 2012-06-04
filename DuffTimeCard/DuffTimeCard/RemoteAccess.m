@@ -293,8 +293,6 @@ static RemoteAccess *mSharedInstance  = nil;
         }
         else if([GET_TASK_URL isEqualToString:connection.currentRequest.URL.absoluteString])
         {            
-//            self.tasks = [self createTaskArrayFromJSON:self.receivedData];
-//            self.projects = [self createProjectDictionaryFromTaskList:self.tasks];
             [self initializeData:self.receivedData];
             
             [self.delegate onDataSyncComplete];

@@ -91,7 +91,6 @@
                         <outlet property="loginButton" destination="dHN-HT-Qvw" id="mWu-0b-udp"/>
                         <outlet property="loginProgressIndicator" destination="vaO-KQ-eAq" id="O9V-QV-tj4"/>
                         <outlet property="passwordTextField" destination="nDh-Ty-vDt" id="hRE-My-Qb7"/>
-                        <segue destination="o13-hm-jlt" kind="push" identifier="loginComplete" id="nh2-tY-Ble"/>
                         <segue destination="S0i-Xs-nq2" kind="push" identifier="loginComplete2" id="ssH-Nl-glX"/>
                     </connections>
                 </viewController>
@@ -116,179 +115,6 @@
                 </viewController>
             </objects>
             <point key="canvasLocation" x="370" y="-1329"/>
-        </scene>
-        <!--Submit Hours View Controller-->
-        <scene sceneID="zQp-iS-pKU">
-            <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="4rN-mM-8sm" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <viewController id="o13-hm-jlt" customClass="SubmitHoursViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="wnw-nZ-5LN" customClass="UIControl">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Selected Project:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="9EE-Wx-M2T">
-                                <rect key="frame" x="20" y="55" width="131" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="New Task Name:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="leR-rj-Ees">
-                                <rect key="frame" x="19" y="162" width="131" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <stepper opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="8" maximumValue="100" id="LEL-wb-lwB" userLabel="fullHour">
-                                <rect key="frame" x="104" y="210" width="94" height="27"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <connections>
-                                    <action selector="onStepperValueChanged:" destination="o13-hm-jlt" eventType="valueChanged" id="2gu-Bh-eRE"/>
-                                </connections>
-                            </stepper>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Hours:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="zqr-5N-hks">
-                                <rect key="frame" x="19" y="257" width="51" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="8" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="PIu-7S-heP">
-                                <rect key="frame" x="76" y="257" width="30" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.1361552748" green="0.15003087479999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="bi2-Gu-YJS">
-                                <rect key="frame" x="123" y="408" width="75" height="37"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Submit">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="onSubmit" destination="o13-hm-jlt" eventType="touchUpInside" id="5fp-76-Qc8"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Notes:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="7gN-iW-W1e">
-                                <rect key="frame" x="20" y="302" width="50" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Notes" minimumFontSize="17" id="yWR-X3-MdQ">
-                                <rect key="frame" x="20" y="336" width="280" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
-                                <connections>
-                                    <action selector="startEditingTextField:" destination="o13-hm-jlt" eventType="editingDidBegin" id="bed-Md-h1v"/>
-                                    <action selector="stopEditingTextField:" destination="o13-hm-jlt" eventType="editingDidEnd" id="6on-wY-azd"/>
-                                    <action selector="textFieldDoneEditing:" destination="o13-hm-jlt" eventType="editingDidEndOnExit" id="ty5-y0-HPW"/>
-                                </connections>
-                            </textField>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="9uU-0A-aDP">
-                                <rect key="frame" x="0.0" y="-44" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <items>
-                                    <barButtonItem title="Logout" id="ld0-PB-tCD">
-                                        <color key="tintColor" red="0.69000509510869568" green="0.0" blue="0.048718899937376055" alpha="1" colorSpace="calibratedRGB"/>
-                                        <connections>
-                                            <action selector="onLogout:" destination="o13-hm-jlt" id="y0H-1F-pjb"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="24R-B3-iGc"/>
-                                    <barButtonItem title="copy most recent" id="kCp-Br-EYz">
-                                        <color key="tintColor" red="0.30203815379782373" green="0.86646569293478259" blue="0.067040295205939252" alpha="1" colorSpace="calibratedRGB"/>
-                                        <connections>
-                                            <action selector="onCopyMostRecentPressed:" destination="o13-hm-jlt" id="8Z1-91-GTz"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="FvD-Wn-6xz"/>
-                                    <barButtonItem title="Sync" id="Afz-36-N2j">
-                                        <connections>
-                                            <action selector="onSync:" destination="o13-hm-jlt" id="o98-Jv-saw"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" style="gray" id="l6u-Gq-jtP">
-                                <rect key="frame" x="234" y="12" width="20" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="color" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                            </activityIndicatorView>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="XMC-f8-7Le">
-                                <rect key="frame" x="20" y="40" width="280" height="55"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <connections>
-                                    <outlet property="delegate" destination="o13-hm-jlt" id="dTs-1O-Ves"/>
-                                </connections>
-                            </scrollView>
-                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" id="cWl-Uv-dXb">
-                                <rect key="frame" x="94" y="136" width="133" height="36"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </pageControl>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="New Task Name" minimumFontSize="17" id="Kle-3z-2uD">
-                                <rect key="frame" x="20" y="200" width="280" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
-                                <connections>
-                                    <action selector="textFieldDoneEditing:" destination="o13-hm-jlt" eventType="editingDidEndOnExit" id="w48-GB-bOI"/>
-                                </connections>
-                            </textField>
-                            <stepper opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="8" maximumValue="100" stepValue="0.5" id="fXb-in-an8" userLabel="halfHour">
-                                <rect key="frame" x="217" y="210" width="94" height="27"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <connections>
-                                    <action selector="onStepperValueChanged:" destination="o13-hm-jlt" eventType="valueChanged" id="21s-F7-moI"/>
-                                </connections>
-                            </stepper>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="1 hr" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="UPS-gk-lKS">
-                                <rect key="frame" x="130" y="281" width="42" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="1" green="0.0" blue="0.07060657998" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="0.5 hr" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="atl-EX-553">
-                                <rect key="frame" x="242" y="281" width="44" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="1" green="0.0" blue="0.07060657998" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                        <connections>
-                            <action selector="backgroundTap:" destination="o13-hm-jlt" eventType="touchDown" id="oI2-Ts-8zb"/>
-                        </connections>
-                    </view>
-                    <navigationItem key="navigationItem" id="pXJ-U3-phY">
-                        <barButtonItem key="backBarButtonItem" title="Logout" id="RrO-1L-rN7"/>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="fullHour" destination="LEL-wb-lwB" id="Tpe-rp-Gjp"/>
-                        <outlet property="halfHour" destination="fXb-in-an8" id="KSF-Yh-021"/>
-                        <outlet property="hoursLabel" destination="PIu-7S-heP" id="Ppz-e6-Ows"/>
-                        <outlet property="loadingView" destination="l6u-Gq-jtP" id="ZMk-OU-05G"/>
-                        <outlet property="notesTextField" destination="yWR-X3-MdQ" id="vqw-Dd-On0"/>
-                        <outlet property="projectPageControl" destination="cWl-Uv-dXb" id="3d0-fe-j9S"/>
-                        <outlet property="projectScroller" destination="XMC-f8-7Le" id="FzA-Lg-5yK"/>
-                        <outlet property="submitButton" destination="bi2-Gu-YJS" id="8mt-NN-3MY"/>
-                        <outlet property="syncButton" destination="Afz-36-N2j" id="xiE-21-rzg"/>
-                        <outlet property="taskNameTextField" destination="Kle-3z-2uD" id="1LJ-Mp-oXv"/>
-                    </connections>
-                </viewController>
-            </objects>
-            <point key="canvasLocation" x="452" y="-724"/>
         </scene>
         <!--Project ListTVC - Projects-->
         <scene sceneID="Jaz-c9-ia9">
@@ -331,16 +157,10 @@
                             <outlet property="delegate" destination="S0i-Xs-nq2" id="g7k-Rt-IAW"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Projects" id="P67-V4-aCw">
-                        <barButtonItem key="rightBarButtonItem" title="Refresh" id="67t-Kx-TSj">
-                            <connections>
-                                <action selector="refreshButtonPressed:" destination="S0i-Xs-nq2" id="0Y0-rZ-hzA"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Projects" id="P67-V4-aCw"/>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="392" y="-146"/>
+            <point key="canvasLocation" x="434" y="-520"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="s2n-Am-n7F">
@@ -530,7 +350,7 @@
                     </connections>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="1340" y="-332"/>
+            <point key="canvasLocation" x="1351" y="-504"/>
         </scene>
         <!--Tasks ListTVC - Project Name-->
         <scene sceneID="jch-JF-TGk">
@@ -598,22 +418,46 @@
                             <outlet property="delegate" destination="pcr-cM-KEC" id="UKC-6o-8vf"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Project Name" id="KDm-x3-vAb">
-                        <barButtonItem key="rightBarButtonItem" title="Refresh" id="1F9-OD-jdg">
-                            <connections>
-                                <action selector="refreshButtonPressed:" destination="pcr-cM-KEC" id="zvi-Ww-Mrw"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Project Name" id="KDm-x3-vAb"/>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="812" y="-165"/>
+            <point key="canvasLocation" x="898" y="-511"/>
         </scene>
     </scenes>
     <resources>
         <image name="duff_beer.jpg" width="452" height="320"/>
         <image name="homer.jpg" width="358" height="350"/>
     </resources>
+    <classes>
+        <class className="DuffTimeCardViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/DuffTimeCardViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="emailTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="loginButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="loginProgressIndicator" candidateClass="UIActivityIndicatorView"/>
+                <relationship kind="outlet" name="passwordTextField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="ProjectListTVC" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ProjectListTVC.h"/>
+        </class>
+        <class className="TaskDetailTVC" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TaskDetailTVC.h"/>
+            <relationships>
+                <relationship kind="outlet" name="halfHourStepper" candidateClass="UIStepper"/>
+                <relationship kind="outlet" name="hourStepper" candidateClass="UIStepper"/>
+                <relationship kind="outlet" name="hoursLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="notesLabel" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="projectNameLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="submitButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="submittingProgressIndicator" candidateClass="UIActivityIndicatorView"/>
+                <relationship kind="outlet" name="taskNameLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="TasksListTVC" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TasksListTVC.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

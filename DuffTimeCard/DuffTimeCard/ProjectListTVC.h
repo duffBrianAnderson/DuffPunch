@@ -10,6 +10,6 @@
 #import "RemoteAccess.h"
 #import "Project.h"
 
-@interface ProjectListTVC : UITableViewController <RemoteAccessProtocol>
+@interface ProjectListTVC : UITableViewController <RemoteAccessProtocol, UITableViewDelegate>
 
 @end

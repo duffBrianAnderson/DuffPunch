@@ -11,13 +11,33 @@
 
 @interface TasksListTVC ()
 
+// properties for the refresh header
+@property (strong, nonatomic) UIView *refreshHeaderContainer;
+@property (strong, nonatomic) UIImageView *refreshArrowImageView;
+@property (strong, nonatomic) UILabel *refreshLabel;
+@property (strong, nonatomic) UIActivityIndicatorView *refreshSpinner;
+@property (nonatomic) BOOL isDragging;
+@property (nonatomic) BOOL syncing;
+
 @end
 
 @implementation TasksListTVC
 
+//#define NEW_TASK_VIEW_HEIGHT 66
+#define REFRESH_HEADER_HEIGHT 52.0f
+#define LOADING_STRING @"Loading"
+#define PULL_DOWN_REFRESH_MESSAGE @"Pull down to refresh"
+
 @synthesize projectName = mProjectName;
 @synthesize projectID = mProjectID;
 @synthesize tasks = mTasks;
+
+@synthesize refreshHeaderContainer = mRefreshHeaderContainer;
+@synthesize refreshArrowImageView = mRefreshArrowImageView;
+@synthesize refreshLabel = mRefreshLabel;
+@synthesize refreshSpinner = mRefreshSpinner;
+@synthesize isDragging = mIsDragging;
+@synthesize syncing = mSyncing;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -34,6 +54,8 @@
     
     self.navigationItem.title = mProjectName;
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Tasks" style:UIBarButtonItemStylePlain target:nil action:nil];
+
+    [self addPullToRefreshHeader];
 }
 
 - (void)viewDidUnload
@@ -43,14 +65,35 @@
     // e.g. self.myOutlet = nil;
 }
 
-
-- (IBAction)refreshButtonPressed:(id)sender 
+- (void)addPullToRefreshHeader
 {
-    [self startSync];
+    int screenWidth = self.view.frame.size.width;
+
+    self.refreshHeaderContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0 - REFRESH_HEADER_HEIGHT, screenWidth, REFRESH_HEADER_HEIGHT)];
+
+    self.refreshLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, screenWidth, REFRESH_HEADER_HEIGHT)];
+    self.refreshLabel.backgroundColor = [UIColor clearColor];
+    self.refreshLabel.font = [UIFont boldSystemFontOfSize:12.0];
+    self.refreshLabel.textAlignment = UITextAlignmentCenter;
+    self.refreshLabel.text = PULL_DOWN_REFRESH_MESSAGE;
+
+    self.refreshSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    self.refreshSpinner.frame = CGRectMake(75.0f, floorf(floorf(REFRESH_HEADER_HEIGHT / 2) - 10), 20.0f, 20.0f);
+    self.refreshSpinner.hidesWhenStopped = YES;
+
+    self.refreshArrowImageView = [[UIImageView alloc] initWithFrame:CGRectMake(75.0f, floorf(floorf(REFRESH_HEADER_HEIGHT / 2) - 10), 20.0f, 20.0f)];
+    self.refreshArrowImageView.image = [UIImage imageNamed:@"arrow.png"];
+
+    [self.refreshHeaderContainer addSubview:self.refreshSpinner];
+    [self.refreshHeaderContainer addSubview:self.refreshArrowImageView];
+    [self.refreshHeaderContainer addSubview:self.refreshLabel];
+    [self.tableView addSubview:self.refreshHeaderContainer];
 }
+
 
 - (void)startSync
 {
+    [self showOrHideRefreshHeader:YES];
     [[RemoteAccess getInstance] synchronizeWithServer:self];
 }
 
@@ -58,6 +101,33 @@
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+
+- (void)showOrHideRefreshHeader:(BOOL)show
+{
+    UIEdgeInsets targetContentInset;
+    NSString *stringToSet;
+
+    if(show)
+    {
+        targetContentInset = UIEdgeInsetsMake(REFRESH_HEADER_HEIGHT, 0, 0, 0);
+        stringToSet = LOADING_STRING;
+        [self.refreshSpinner startAnimating];
+    }
+    else
+    {
+        targetContentInset = UIEdgeInsetsZero;
+        stringToSet = PULL_DOWN_REFRESH_MESSAGE;
+        [self.refreshSpinner stopAnimating];
+    }
+
+    [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:0.3];
+        self.tableView.contentInset = targetContentInset;
+        self.refreshLabel.text = stringToSet;
+        self.refreshArrowImageView.hidden = show;
+    [UIView commitAnimations];
+}
+
 
 #pragma mark - Table view data source
 
@@ -82,6 +152,8 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+    TaskDetailTVC *destinationViewController = ((TaskDetailTVC *)[segue destinationViewController]);
+
     if([[segue identifier] isEqualToString:@"NewTask"])
     {        
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -90,13 +162,14 @@
         
         Task *newTask = [[Task alloc] initWithName:@"New Task" hours:8.0 projectIndex:self.projectID notes:@"" date:todaysDateFormatted];
         
-        ((TaskDetailTVC *)[segue destinationViewController]).task = newTask;
+        destinationViewController.delegate = self;
+        destinationViewController.task = newTask;
     }
     else if([[segue identifier] isEqualToString:@"EditTask"])
     {
-        ((TaskDetailTVC *)[segue destinationViewController]).task = [self.tasks objectAtIndex:indexPath.row];
-        ((TaskDetailTVC *)[segue destinationViewController]).isExistingTask = YES;  
-        ((TaskDetailTVC *)[segue destinationViewController]).delegate = self;
+        destinationViewController.task = [self.tasks objectAtIndex:indexPath.row];
+        destinationViewController.isExistingTask = YES;
+        destinationViewController.delegate = self;
     }
 }
 
@@ -104,9 +177,8 @@
 
 - (void)onDataSyncComplete
 {
+    [self showOrHideRefreshHeader:NO];
     RemoteAccess *remoteAccess = [RemoteAccess getInstance];
-//    self.projectList = [remoteAccess.projects allValues];
-    
     Project *p = [remoteAccess.projects objectForKey:self.projectID];
     self.tasks = p.getTaskArray;
     
@@ -116,8 +188,7 @@
 
 - (void)onSyncError
 {
-    //    [self enableSyncAndSubmitButtons:YES];
-    //    [self.loadingView stopAnimating];
+    [self showOrHideRefreshHeader:NO];
     UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error syncing!" message:nil delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     [dialog show];
 }
@@ -131,6 +202,7 @@
 
 - (void)onAuthError
 {
+    [self showOrHideRefreshHeader:NO];
     UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Username or password is wrong!" message:nil delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     [dialog show];
 }
@@ -140,6 +212,28 @@
 - (void)updateAfterSubmission
 {
     [self startSync];
+}
+
+#pragma mark - UITableViewDelegate methods
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    if(self.syncing)
+        return;
+
+    self.isDragging = YES;
+}
+
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    if(self.syncing)
+        return;
+
+    if(scrollView.contentOffset.y <= -REFRESH_HEADER_HEIGHT)
+    {
+        [self startSync];
+    }
 }
 
 @end

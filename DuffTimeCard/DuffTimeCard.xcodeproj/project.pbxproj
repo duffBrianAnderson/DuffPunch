@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D316FF141564134B00A99F64 /* SubmitHoursViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D316FF131564134B00A99F64 /* SubmitHoursViewController.m */; };
+		D3121B031579913700966BE9 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = D3121B021579913700966BE9 /* arrow.png */; };
 		D3A057871577E433009D06A2 /* TaskDetailTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A057861577E433009D06A2 /* TaskDetailTVC.m */; };
 		D3A0578F15782579009D06A2 /* Icon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D3A0578E15782579009D06A2 /* Icon.jpg */; };
 		D3B4658C1576DEA8003C4CB5 /* TasksListTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D3B4658B1576DEA8003C4CB5 /* TasksListTVC.m */; };
@@ -29,8 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		D316FF121564134B00A99F64 /* SubmitHoursViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubmitHoursViewController.h; sourceTree = "<group>"; };
-		D316FF131564134B00A99F64 /* SubmitHoursViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubmitHoursViewController.m; sourceTree = "<group>"; };
+		D3121B021579913700966BE9 /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
 		D3A057851577E433009D06A2 /* TaskDetailTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskDetailTVC.h; sourceTree = "<group>"; };
 		D3A057861577E433009D06A2 /* TaskDetailTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskDetailTVC.m; sourceTree = "<group>"; };
 		D3A0578E15782579009D06A2 /* Icon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Icon.jpg; sourceTree = "<group>"; };
@@ -94,6 +93,7 @@
 		D3A0578A1577ED8D009D06A2 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				D3121B021579913700966BE9 /* arrow.png */,
 				D3E1403B15784450000398BA /* Launch.jpg */,
 				D3A0578E15782579009D06A2 /* Icon.jpg */,
 				D3EC3C57156DFB2A000938D4 /* homer.jpg */,
@@ -150,8 +150,6 @@
 				D3E16D2C1562F1F800FF2B89 /* DuffTimeCardAppDelegate.h */,
 				D3E16D2D1562F1F800FF2B89 /* DuffTimeCardAppDelegate.m */,
 				D3E16D2F1562F1F900FF2B89 /* MainStoryboard.storyboard */,
-				D316FF121564134B00A99F64 /* SubmitHoursViewController.h */,
-				D316FF131564134B00A99F64 /* SubmitHoursViewController.m */,
 				D3E16D321562F1F900FF2B89 /* DuffTimeCardViewController.h */,
 				D3E16D331562F1F900FF2B89 /* DuffTimeCardViewController.m */,
 				D3E16D241562F1F800FF2B89 /* Supporting Files */,
@@ -231,6 +229,7 @@
 				D3EC3C58156DFB2A000938D4 /* homer.jpg in Resources */,
 				D3A0578F15782579009D06A2 /* Icon.jpg in Resources */,
 				D3E1403C15784450000398BA /* Launch.jpg in Resources */,
+				D3121B031579913700966BE9 /* arrow.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,7 +243,6 @@
 				D3E16D2A1562F1F800FF2B89 /* main.m in Sources */,
 				D3E16D2E1562F1F800FF2B89 /* DuffTimeCardAppDelegate.m in Sources */,
 				D3E16D341562F1F900FF2B89 /* DuffTimeCardViewController.m in Sources */,
-				D316FF141564134B00A99F64 /* SubmitHoursViewController.m in Sources */,
 				D3F2649D15657264001338DC /* Task.m in Sources */,
 				D3F264A015657306001338DC /* RemoteAccess.m in Sources */,
 				D3F9CDEC1576B8D800C7FE14 /* ProjectListTVC.m in Sources */,

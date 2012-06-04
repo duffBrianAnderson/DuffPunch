@@ -12,7 +12,7 @@
 #import "RemoteAccess.h"
 #import "TaskDetailTVC.h"
 
-@interface TasksListTVC : UITableViewController <RemoteAccessProtocol, TaskDetailTVCDelegate>
+@interface TasksListTVC : UITableViewController <RemoteAccessProtocol, TaskDetailTVCDelegate, UITableViewDelegate>
 
 @property (strong, nonatomic) NSString *projectName;
 @property (strong, nonatomic) NSNumber *projectID;

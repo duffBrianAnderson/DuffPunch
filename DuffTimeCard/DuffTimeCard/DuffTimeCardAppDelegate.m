@@ -12,11 +12,10 @@
 @implementation DuffTimeCardAppDelegate
 
 @synthesize window = _window;
-@synthesize submitTaskViewController = mSubmitTaskViewController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    // Override point for customization after application launch.    
     return YES;
 }
 							
@@ -40,7 +39,6 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    [self.submitTaskViewController onResume];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
