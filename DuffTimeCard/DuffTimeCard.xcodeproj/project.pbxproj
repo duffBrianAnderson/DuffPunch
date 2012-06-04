@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D3121B031579913700966BE9 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = D3121B021579913700966BE9 /* arrow.png */; };
+		D333C9FB157D8201008094D4 /* bart.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D333C9FA157D8201008094D4 /* bart.jpg */; };
 		D3A057871577E433009D06A2 /* TaskDetailTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A057861577E433009D06A2 /* TaskDetailTVC.m */; };
 		D3A0578F15782579009D06A2 /* Icon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D3A0578E15782579009D06A2 /* Icon.jpg */; };
 		D3B4658C1576DEA8003C4CB5 /* TasksListTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D3B4658B1576DEA8003C4CB5 /* TasksListTVC.m */; };
@@ -30,6 +31,7 @@
 
 /* Begin PBXFileReference section */
 		D3121B021579913700966BE9 /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
+		D333C9FA157D8201008094D4 /* bart.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bart.jpg; sourceTree = "<group>"; };
 		D3A057851577E433009D06A2 /* TaskDetailTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskDetailTVC.h; sourceTree = "<group>"; };
 		D3A057861577E433009D06A2 /* TaskDetailTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskDetailTVC.m; sourceTree = "<group>"; };
 		D3A0578E15782579009D06A2 /* Icon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Icon.jpg; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 		D3A0578A1577ED8D009D06A2 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				D333C9FA157D8201008094D4 /* bart.jpg */,
 				D3121B021579913700966BE9 /* arrow.png */,
 				D3E1403B15784450000398BA /* Launch.jpg */,
 				D3A0578E15782579009D06A2 /* Icon.jpg */,
@@ -230,6 +233,7 @@
 				D3A0578F15782579009D06A2 /* Icon.jpg in Resources */,
 				D3E1403C15784450000398BA /* Launch.jpg in Resources */,
 				D3121B031579913700966BE9 /* arrow.png in Resources */,
+				D333C9FB157D8201008094D4 /* bart.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -299,9 +299,6 @@
     
     int index = [self.view.subviews indexOfObject:animationView];
     
-    
-    NSLog(@"index = %d", index);
-    
     int rightSide = self.view.frame.size.width;
     animationView.frame = CGRectMake(rightSide, animationView.frame.origin.y, animationView.frame.size.width, animationView.frame.size.height);
     
@@ -318,9 +315,11 @@
 - (void)onEasterEggStop:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context
 {
     int indexToRemove = animationID.intValue;
-    NSLog(@"%d", indexToRemove);
     [[self.view.subviews objectAtIndex:indexToRemove] removeFromSuperview];
+
     self.submitButton.enabled = YES;
+    [self.submitButton setTitle:@"Submit" forState:UIControlStateNormal];    
+    [self.submittingProgressIndicator stopAnimating];
 }
 
 @end

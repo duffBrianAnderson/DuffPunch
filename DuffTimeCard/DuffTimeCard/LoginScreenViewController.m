@@ -109,7 +109,7 @@
     [self.loginProgressIndicator startAnimating];
     self.loginButton.enabled = NO;
     
-    [[RemoteAccess getInstance] loginToServer:TASK_URL email:self.emailTextField.text password:self.passwordTextField.text delegate:self];
+    [[RemoteAccess getInstance] loginToServer:TASK_URL email:[NSString stringWithFormat:@"%@%@", self.emailTextField.text, @"@duffresearch.com"] password:self.passwordTextField.text delegate:self];
 }   
 
 
