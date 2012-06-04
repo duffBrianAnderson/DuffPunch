@@ -79,6 +79,7 @@ static RemoteAccess *mSharedInstance  = nil;
     NSData *authData = [authString dataUsingEncoding:NSUTF8StringEncoding];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64Encoding]];    
     [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+    [[NSURLConnection alloc] initWithRequest:request delegate:self];
 }
 
 
