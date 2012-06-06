@@ -12,10 +12,19 @@
 #import "RemoteAccess.h"
 #import "TaskDetailTVC.h"
 
-@interface TasksListTVC : UITableViewController <RemoteAccessProtocol, TaskDetailTVCDelegate, UITableViewDelegate>
+@protocol TasksListTVCDelegate <NSObject>
+
+@required
+
+- (void)setShouldUpdateAfterDeletingLastTaskFlag;
+
+@end
+
+@interface TasksListTVC : UITableViewController <RemoteAccessProtocol, TaskDetailTVCDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) NSString *projectName;
 @property (strong, nonatomic) NSNumber *projectID;
 @property (strong, nonatomic) NSArray *tasks;
+@property (strong, nonatomic) id <TasksListTVCDelegate> delegate;
 
 @end

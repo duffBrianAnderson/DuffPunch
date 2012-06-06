@@ -38,6 +38,9 @@ NSString * const GET_TASK_URL = @"https://timetrackerservice.herokuapp.com/tasks
 NSString * const GET_PROJECT_URL = @"https://timetrackerservice.herokuapp.com/projects.json";
 NSString * const TASK_URL = @"https://timetrackerservice.herokuapp.com/tasks";
 
+NSString * const POST_COMMAND = @"POST";
+NSString * const DELETE_COMMAND = @"DELETE";
+
 static RemoteAccess *mSharedInstance  = nil;
 
 @synthesize projects = mProjects;
@@ -117,7 +120,7 @@ static RemoteAccess *mSharedInstance  = nil;
 {
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:serverName]];
     
-    NSData *authData = [mAuthString dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *authData = [self.authString dataUsingEncoding:NSUTF8StringEncoding];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64Encoding]];    
     [request setValue:authValue forHTTPHeaderField:@"Authorization"];
 
@@ -148,6 +151,8 @@ static RemoteAccess *mSharedInstance  = nil;
         if([projectID isMemberOfClass:[NSNull class]])
             projectID = [[NSNumber alloc] initWithInt:-1];
         
+        NSNumber *taskIndex = [currentTask objectForKey:@"id"];
+
         id taskDateString = [currentTask objectForKey:@"performed_on"];
         NSString * taskDate = @"null";
         if(![taskDateString isMemberOfClass:[NSNull class]])
@@ -155,7 +160,7 @@ static RemoteAccess *mSharedInstance  = nil;
              
         NSString *notes = [currentTask objectForKey:@"notes"];
         
-        Task *taskToAdd = [[Task alloc] initWithName:name hours:hours projectIndex:projectID notes:notes date:taskDate];
+        Task *taskToAdd = [[Task alloc] initWithName:name hours:hours projectIndex:projectID taskIndex:taskIndex notes:notes date:taskDate];
         [tasksBuilder addObject:taskToAdd];
         
         if(![[projectDictionaryBuilder allKeys] containsObject:projectID])
@@ -204,9 +209,9 @@ static RemoteAccess *mSharedInstance  = nil;
     self.delegate = delegate;
     // do http post and then return whether it was successful or not.
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:GET_TASK_URL]];
-    request.HTTPMethod = @"POST";
+    request.HTTPMethod = POST_COMMAND;
     
-    NSData *authData = [mAuthString dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *authData = [self.authString dataUsingEncoding:NSUTF8StringEncoding];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64Encoding]];    
     [request setValue:authValue forHTTPHeaderField:@"Authorization"];
         
@@ -217,7 +222,43 @@ static RemoteAccess *mSharedInstance  = nil;
     // the upload might fail, so we shouldn't set the most recent task to a task that never went through.  We use possibleMostRecentTask as a temp. placeholder, and if the upload is successful
     // then we set self.mostRecentTask to this guy:
     self.possibleMostRecentTask = task;
-   [[NSURLConnection alloc] initWithRequest:request delegate:self];      
+   [[NSURLConnection alloc] initWithRequest:request delegate:self];
+}
+
+
+- (void)updateTask:(Task *)task taskID:(NSNumber *)taskID delegate:(id <RemoteAccessProtocol>)delegate
+{
+//    NSString *editTaskURL = @"https://timetrackerservice.herokuapp.com/tasks/175.json";
+//    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:editTaskURL]];
+//    request.HTTPMethod = @"PUT";
+//
+//    NSData *authData = [self.authString dataUsingEncoding:NSUTF8StringEncoding];
+//    NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64Encoding]];
+//    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+//
+//    Task *theTask = [[Task alloc] initWithName:@"Updated name" hours:20 projectIndex:[[NSNumber alloc] initWithInt:-1] notes:@"Updated notes" date:@"1987-11-11"];
+//    NSData *newTaskData = [NSJSONSerialization dataWithJSONObject:[theTask createJSONObjectFromTask] options:nil error:nil];
+//    request.HTTPBody = newTaskData;
+//    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+//
+//    [[NSURLConnection alloc] initWithRequest:request delegate:self];
+}
+
+
+- (void)deleteTask:(NSNumber *)taskID delegate:(id <RemoteAccessProtocol>)delegate
+{
+    self.delegate = delegate;
+    NSString *deleteTaskURL = [NSString stringWithFormat:@"%@/%d%@", TASK_URL, taskID.intValue, @".json"];
+
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:deleteTaskURL]];
+    request.HTTPMethod = DELETE_COMMAND;
+
+    NSData *authData = [self.authString dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64Encoding]];
+    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+
+    [[NSURLConnection alloc] initWithRequest:request delegate:self];
 }
 
 
@@ -282,13 +323,19 @@ static RemoteAccess *mSharedInstance  = nil;
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-        if([connection.currentRequest.HTTPMethod isEqualToString:@"POST"])
+    NSString *requestMethod = connection.currentRequest.HTTPMethod;
+        if([connection.currentRequest.HTTPMethod isEqualToString:POST_COMMAND])
         {
             [self.delegate onSubmitComplete];
             self.delegate = nil;
             self.isAPreSubmitSync = NO;
             self.mostRecentTask = self.possibleMostRecentTask;
             self.receivedData = nil;
+        }
+        else if ([requestMethod isEqualToString:DELETE_COMMAND])
+        {
+            [self.delegate onDeleteComplete];
+            self.delegate = nil;
         }
         else if([GET_PROJECT_URL isEqualToString:connection.currentRequest.URL.absoluteString])
         {            

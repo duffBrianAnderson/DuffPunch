@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "RemoteAccess.h"
 #import "Project.h"
+#import "TasksListTVC.h"
 
-@interface ProjectListTVC : UITableViewController <RemoteAccessProtocol, UITableViewDelegate>
+@interface ProjectListTVC : UITableViewController <RemoteAccessProtocol, UITableViewDelegate, TasksListTVCDelegate>
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *recentTaskCopyButton;
 

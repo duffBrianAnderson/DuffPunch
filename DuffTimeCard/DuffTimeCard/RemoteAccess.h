@@ -17,6 +17,7 @@
 - (void)onSubmitComplete;
 - (void)onAuthError;
 - (void)onResponseReceivedWithStatusCode:(BOOL)success;
+- (void)onDeleteComplete;
 
 @end
 
@@ -37,5 +38,7 @@
 - (void)synchronizeWithServer:(id <RemoteAccessProtocol>)delegate;
 - (void)submitNewTask:(Task *)task delegate:(id <RemoteAccessProtocol>)delgate;
 - (Task *)findMostRecentTask;
+- (void)updateTask:(Task *)task taskID:(NSNumber *)taskID delegate:(id <RemoteAccessProtocol>)delegate;
+- (void)deleteTask:(NSNumber *)taskID delegate:(id <RemoteAccessProtocol>)delegate;
 
 @end

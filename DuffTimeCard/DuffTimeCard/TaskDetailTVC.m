@@ -274,6 +274,11 @@
     [dialog show];
 }
 
+- (void)onDeleteComplete
+{
+    // can't delete from here.
+}
+
 #pragma mark - UITextViewDelegate
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text 
@@ -305,7 +310,7 @@
     [UIView beginAnimations: [NSString stringWithFormat:@"%d", index] context: nil];
         [UIView setAnimationDelegate:self];
         [UIView setAnimationBeginsFromCurrentState: NO];
-        [UIView setAnimationDuration:1.0f];
+        [UIView setAnimationDuration:2.0f];
         [UIView setAnimationCurve:UIViewAnimationCurveLinear];
         [UIView setAnimationDidStopSelector:@selector(onEasterEggStop:finished:context:)];
         animationView.frame = CGRectOffset(animationView.frame, -450, 0);

@@ -38,6 +38,8 @@
 @synthesize isDragging = mIsDragging;
 @synthesize syncing = mSyncing;
 
+@synthesize delegate = mDelegate;
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -51,6 +53,8 @@
 {
     [super viewDidLoad];
     
+    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
     self.navigationItem.title = mProjectName;
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Tasks" style:UIBarButtonItemStylePlain target:nil action:nil];
 
@@ -129,6 +133,30 @@
     [UIView commitAnimations];
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+    TaskDetailTVC *destinationViewController = ((TaskDetailTVC *)[segue destinationViewController]);
+
+    if([[segue identifier] isEqualToString:@"NewTask"])
+    {
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd"];
+        NSString *todaysDateFormatted = [formatter stringFromDate:[[NSDate alloc] init]];
+
+        Task *newTask = [[Task alloc] initWithName:@"New Task" hours:8.0 projectIndex:self.projectID taskIndex:[[NSNumber alloc] initWithInt:-1] notes:@"" date:todaysDateFormatted];
+
+        destinationViewController.delegate = self;
+        destinationViewController.task = newTask;
+    }
+    else if([[segue identifier] isEqualToString:@"EditTask"])
+    {
+        destinationViewController.task = [self.tasks objectAtIndex:indexPath.row];
+        destinationViewController.isExistingTask = YES;
+        destinationViewController.delegate = self;
+    }
+}
+
 
 #pragma mark - Table view data source
 
@@ -150,33 +178,21 @@
 }
 
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-    TaskDetailTVC *destinationViewController = ((TaskDetailTVC *)[segue destinationViewController]);
+    Task *taskToRemove = [self.tasks objectAtIndex:indexPath.row];
+    NSMutableArray *tasks = [self.tasks mutableCopy];
+    [tasks removeObjectAtIndex:indexPath.row];
+    self.tasks = [tasks copy];
 
-    if([[segue identifier] isEqualToString:@"NewTask"])
-    {        
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"yyyy-MM-dd"];
-        NSString *todaysDateFormatted = [formatter stringFromDate:[[NSDate alloc] init]];
-        
-        Task *newTask = [[Task alloc] initWithName:@"New Task" hours:8.0 projectIndex:self.projectID notes:@"" date:todaysDateFormatted];
-        
-        destinationViewController.delegate = self;
-        destinationViewController.task = newTask;
-    }
-    else if([[segue identifier] isEqualToString:@"EditTask"])
-    {
-        destinationViewController.task = [self.tasks objectAtIndex:indexPath.row];
-        destinationViewController.isExistingTask = YES;
-        destinationViewController.delegate = self;
-    }
+    NSArray *pathsToDelete = [NSArray arrayWithObject:indexPath];
+    [self.tableView deleteRowsAtIndexPaths:pathsToDelete withRowAnimation:UITableViewRowAnimationFade];
+    [[RemoteAccess getInstance] deleteTask:(taskToRemove).taskIndex delegate:self];
 }
 
 #pragma mark - RemoteAccessProtocol
 
-- (void)onResponseReceivedWithStatusCode:(int)statusCode
+- (void)onResponseReceivedWithStatusCode:(BOOL)success
 {
     // do nothing.
 }
@@ -213,10 +229,21 @@
     [dialog show];
 }
 
+
+- (void)onDeleteComplete
+{
+    if(self.tasks.count <= 0)
+    {
+        [self.delegate setShouldUpdateAfterDeletingLastTaskFlag];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
 #pragma mark - TaskDetailTVC
 
 - (void)updateAfterSubmission
 {
+    NSLog(@"updateAfterSubmission");
     [self startSync];
 }
 

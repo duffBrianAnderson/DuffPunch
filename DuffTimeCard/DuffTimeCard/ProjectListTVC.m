@@ -22,6 +22,8 @@
 @property (nonatomic) BOOL isDragging;
 @property (nonatomic) BOOL syncing;
 
+@property (nonatomic) BOOL shouldUpdateAfterDeleting;
+
 @end
 
 @implementation ProjectListTVC
@@ -42,6 +44,8 @@
 @synthesize refreshSpinner = mRefreshSpinner;
 @synthesize isDragging = mIsDragging;
 @synthesize syncing = mSyncing;
+
+@synthesize shouldUpdateAfterDeleting = mShouldUpdateAfterDeleting;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -74,10 +78,15 @@
     [super viewDidUnload];
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
-    self.projectList = [[RemoteAccess getInstance].projects allValues];
-    [self.tableView reloadData];
+    [super viewDidAppear:animated];
+
+    if(self.shouldUpdateAfterDeleting)
+    {
+        [self startSync];
+        self.shouldUpdateAfterDeleting = NO;
+    }
 }
 
 - (void)addNoProjectsTextView
@@ -136,23 +145,27 @@
 {
     UIEdgeInsets targetContentInset;
     NSString *stringToSet;
+    CGPoint contentOffset;
 
     if(show)
     {
         targetContentInset = UIEdgeInsetsMake(REFRESH_HEADER_HEIGHT, 0, 0, 0);
         stringToSet = SYNCING_STRING;
+        contentOffset = CGPointMake(0, -REFRESH_HEADER_HEIGHT);
         [self.refreshSpinner startAnimating];
     }
     else
     {
         targetContentInset = UIEdgeInsetsZero;
         stringToSet = PULL_DOWN_REFRESH_MESSAGE;
+        contentOffset = CGPointZero;
         [self.refreshSpinner stopAnimating];
     }
 
     [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationDuration:0.3];
         self.tableView.contentInset = targetContentInset;
+        self.tableView.contentOffset = contentOffset;
         self.refreshLabel.text = stringToSet;
         self.refreshArrowImageView.hidden = show;
     [UIView commitAnimations];
@@ -161,6 +174,29 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if([[segue identifier] isEqualToString:@"ShowTasks"])
+    {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+
+
+        Project *selectedProject = [self.projectList objectAtIndex:indexPath.row];
+
+        ((TasksListTVC *)[segue destinationViewController]).projectName = selectedProject.name;
+        ((TasksListTVC *)[segue destinationViewController]).projectID = selectedProject.projectID;
+        ((TasksListTVC *)[segue destinationViewController]).tasks = [selectedProject getTaskArray];
+        ((TasksListTVC *)[segue destinationViewController]).delegate = self;
+    }
+    else if([[segue identifier] isEqualToString:@"copyRecentTask"])
+    {
+        Task *mostRecentTask = [RemoteAccess getInstance].mostRecentTask;
+
+        // mostRecentTask will be null if we haven't submitted anything yet, so just get the most recent task from the task list.
+        ((TaskDetailTVC *) [segue destinationViewController]).task = (mostRecentTask) ? mostRecentTask : [[RemoteAccess getInstance] findMostRecentTask];
+    }
 }
 
 #pragma mark - UITableViewDataSourceProtocol
@@ -184,10 +220,17 @@
     return cell;
 }
 
+#pragma mark - TasksListTVCDeletgate
+
+- (void)setShouldUpdateAfterDeletingLastTaskFlag;
+{
+    self.shouldUpdateAfterDeleting = YES;
+}
+
 
 #pragma mark - RemoteAccessProtocol
 
-- (void)onResponseReceivedWithStatusCode:(int)statusCode
+- (void)onResponseReceivedWithStatusCode:(BOOL)success
 {
     // do nothing.
 }
@@ -226,26 +269,9 @@
     [dialog show];
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (void)onDeleteComplete
 {
-    if([[segue identifier] isEqualToString:@"ShowTasks"])
-    {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        
-        
-        Project *selectedProject = [self.projectList objectAtIndex:indexPath.row];
-        
-        ((TasksListTVC *)[segue destinationViewController]).projectName = selectedProject.name;
-        ((TasksListTVC *)[segue destinationViewController]).projectID = selectedProject.projectID;
-        ((TasksListTVC *)[segue destinationViewController]).tasks = [selectedProject getTaskArray];
-    }
-    else if([[segue identifier] isEqualToString:@"copyRecentTask"])
-    {
-        Task *mostRecentTask = [RemoteAccess getInstance].mostRecentTask;
-        
-        // mostRecentTask will be null if we haven't submitted anything yet, so just get the most recent task from the task list.
-        ((TaskDetailTVC *) [segue destinationViewController]).task = (mostRecentTask) ? mostRecentTask : [[RemoteAccess getInstance] findMostRecentTask];
-    }
+    // can't delete from here.
 }
 
 #pragma mark - UITableViewDelegate methods

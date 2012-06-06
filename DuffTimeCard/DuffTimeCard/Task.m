@@ -13,10 +13,11 @@
 @synthesize name = mName;
 @synthesize hours = mHours;
 @synthesize projectIndex = mProjectIndex;
+@synthesize taskIndex = mTaskIndex;
 @synthesize notes = mNotes;
 @synthesize date = mDate;
 
-- (Task *)initWithName:(NSString *)name hours:(double)hours projectIndex:(NSNumber *)projectIndex notes:(NSString *)notes date:(NSString *)date;
+- (Task *)initWithName:(NSString *)name hours:(double)hours projectIndex:(NSNumber *)projectIndex taskIndex:(NSNumber *)taskIndex notes:(NSString *)notes date:(NSString *)date;
 {
     self = [super init];
     if(self)
@@ -24,6 +25,7 @@
         self.name = name;
         self.hours = hours;
         self.projectIndex = projectIndex;
+        self.taskIndex = taskIndex;
         self.notes = notes;
         self.date = date;
         return self;

@@ -13,10 +13,11 @@
 @property (strong, nonatomic) NSString *name;
 @property (nonatomic) double hours;
 @property (nonatomic) NSNumber *projectIndex;
+@property (nonatomic) NSNumber *taskIndex;
 @property (strong, nonatomic) NSString *notes;
 @property (strong, nonatomic) NSString *date;
 
-- (Task *)initWithName:(NSString *)name hours:(double)hours projectIndex:(NSNumber *)projectIndex notes:(NSString *)notes date:(NSString *)date;
+- (Task *)initWithName:(NSString *)name hours:(double)hours projectIndex:(NSNumber *)projectIndex taskIndex:(NSNumber *)taskIndex notes:(NSString *)notes date:(NSString *)date;
 - (NSDictionary *)createJSONObjectFromTask;
 
 @end
