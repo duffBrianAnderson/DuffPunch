@@ -243,7 +243,6 @@
 
 - (void)updateAfterSubmission
 {
-    NSLog(@"updateAfterSubmission");
     [self startSync];
 }
 

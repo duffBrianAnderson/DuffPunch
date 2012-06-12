@@ -22,7 +22,6 @@
 
 @property (strong, nonatomic) id <TaskDetailTVCDelegate> delegate;
 @property (weak, nonatomic) IBOutlet UILabel *projectNameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *taskNameLabel;
 @property (weak, nonatomic) IBOutlet UIButton *submitButton;
 @property (nonatomic) BOOL isExistingTask;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *submittingProgressIndicator;
@@ -30,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet UIStepper *hourStepper;
 @property (weak, nonatomic) IBOutlet UILabel *hoursLabel;
 @property (weak, nonatomic) IBOutlet UITextView *notesLabel;
+@property (weak, nonatomic) IBOutlet UITextView *taskNameTextView;
 
 @property (strong, nonatomic) Task *task;
 

@@ -11,6 +11,8 @@
 
 @interface TaskDetailTVC ()
 
+@property (nonatomic) BOOL taskNameTextViewAtMax;
+
 @end
 
 @implementation TaskDetailTVC
@@ -26,9 +28,11 @@
 #define OK_STRING @"OK"
 #define OK_BUTTON_INDEX 1
 
+int const TASK_NAME_TEXT_VIEW_TAG = 0;
+int const TASK_NAME_TEXT_VIEW_MAX = 32;
+
 @synthesize delegate = mDelegate;
 @synthesize projectNameLabel = mProjectNameLabel;
-@synthesize taskNameLabel = mTaskNameLabel;
 @synthesize submitButton = mSubmitButton;
 @synthesize task = mTask;
 @synthesize isExistingTask = mIsExistingTask;
@@ -37,6 +41,9 @@
 @synthesize hourStepper = mHourStepper;
 @synthesize hoursLabel = mHoursLabel;
 @synthesize notesLabel = mNotesLabel;
+@synthesize taskNameTextView = mTaskNameTextView;
+
+@synthesize taskNameTextViewAtMax = mTaskNameTextViewAtMax;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -56,7 +63,7 @@
     NSString *projectName = [[RemoteAccess getInstance].projectNames objectForKey:self.task.projectIndex];
     self.projectNameLabel.text = projectName;
     
-    self.taskNameLabel.text = self.task.name;
+    self.taskNameTextView.text = self.task.name;
     self.hoursLabel.text = [NSString stringWithFormat:@"%g", self.task.hours];
     self.hourStepper.value = self.task.hours;
     self.halfHourStepper.value = self.task.hours;
@@ -71,6 +78,7 @@
     }
     
     self.notesLabel.delegate = self;
+    self.taskNameTextView.delegate = self;
     
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     gestureRecognizer.cancelsTouchesInView = cancelTouch;
@@ -85,7 +93,6 @@
 - (void)viewDidUnload
 {
     [self setProjectNameLabel:nil];
-    [self setTaskNameLabel:nil];
     [self setHoursLabel:nil];
     [self setNotesLabel:nil];
     [self setSubmitButton:nil];
@@ -94,6 +101,7 @@
     [self setHourStepper:nil];
     [self setHoursLabel:nil];
     [self setNotesLabel:nil];
+    [self setTaskNameTextView:nil];
     [super viewDidUnload];
 }
 
@@ -113,45 +121,12 @@
 }
 
 
-- (void)showDialog:(int)dialogType
-{
-    UIAlertView *inputDialog;
-    UIAlertViewStyle dialogStyle;
-    NSString *dialogTitle;
-    int dialogTag;
-    NSString *dialogString;
-    
-    switch(dialogType)
-    {
-        case TASK_NAME_SECTION_INDEX:
-        {
-            dialogTitle = @"Task name";
-            dialogStyle = UIAlertViewStylePlainTextInput;
-            dialogTag = TASK_NAME_SECTION_INDEX;
-            dialogString = self.taskNameLabel.text;
-            
-            break;
-        }
-        default:
-        {
-            return;
-        }
-    }
-    
-    inputDialog = [[UIAlertView alloc] initWithTitle:dialogTitle message:nil delegate:self cancelButtonTitle:CANCEL_STRING otherButtonTitles:OK_STRING, nil];
-    inputDialog.alertViewStyle = dialogStyle;
-    inputDialog.tag = dialogTag;
-    [inputDialog textFieldAtIndex:0].text = dialogString;
-    
-    [inputDialog show];
-}
-
 /*
  * check all fields, make sure everything is valid before trying to submit the new task.
  */
 - (BOOL)submitOK
 {
-    self.task.name = self.taskNameLabel.text;
+    self.task.name = self.taskNameTextView.text;
     self.task.hours = self.hoursLabel.text.doubleValue;
     self.task.notes = self.notesLabel.text;
     
@@ -173,7 +148,7 @@
     
     self.submitButton.enabled = NO;
     
-    if([self.taskNameLabel.text isEqualToString:@"DUFF"])
+    if([self.taskNameTextView.text isEqualToString:@"DUFF"])
     {
         [self easterEggAnimate];
     }
@@ -191,13 +166,6 @@
 }
 
 
-#pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [self showDialog:indexPath.section];
-}
-
 
 #pragma mark - UIAlertViewDelegate
 
@@ -208,23 +176,6 @@
         [self.navigationController popViewControllerAnimated:YES];
         [self.delegate updateAfterSubmission];
         return;
-    }
-    
-    
-    if(buttonIndex == OK_BUTTON_INDEX)
-    {
-        UILabel *labelToChange;
-        switch (alertView.tag) 
-        {
-            case TASK_NAME_SECTION_INDEX:
-            {
-                labelToChange = self.taskNameLabel;
-                break;
-            }
-        }
-        
-
-       labelToChange.text = [alertView textFieldAtIndex:0].text;
     }
 
    [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:YES];
@@ -283,12 +234,28 @@
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text 
 {
-    if([text isEqualToString:@"\n"]) {
+    BOOL shouldChange = YES;
+    
+    if([text isEqualToString:@"\n"]) 
+    {
         [textView resignFirstResponder];
-        return NO;
+        shouldChange = NO;
+    }
+    else if(textView.tag == TASK_NAME_TEXT_VIEW_TAG && self.taskNameTextViewAtMax)
+    {
+        shouldChange = NO;
     }
     
-    return YES;
+    return shouldChange;
+}
+
+- (void)textViewDidChange:(UITextView *)textView
+{
+    if(textView.tag != TASK_NAME_TEXT_VIEW_TAG)
+        return;
+    
+    int textLength = textView.text.length;
+    self.taskNameTextViewAtMax = (textLength >= TASK_NAME_TEXT_VIEW_MAX) ? YES : NO;
 }
 
 

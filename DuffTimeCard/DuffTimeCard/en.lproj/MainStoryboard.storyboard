@@ -256,20 +256,19 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="Task Name:" id="xda-vy-SU2">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="h3S-Nh-mAK" style="IBUITableViewCellStyleDefault" id="02Q-NW-dPd">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="02Q-NW-dPd">
                                         <rect key="frame" x="0.0" y="137" width="320" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="1" width="300" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="New Task" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="h3S-Nh-mAK">
-                                                    <rect key="frame" x="10" y="0.0" width="280" height="43"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                </label>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="0Zj-9X-6YQ">
+                                                    <rect key="frame" x="8" y="4" width="285" height="35"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                                </textView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
@@ -335,7 +334,7 @@
                                             <rect key="frame" x="10" y="1" width="300" height="112"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="iJp-hl-nb1">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="scaleToFill" id="iJp-hl-nb1">
                                                     <rect key="frame" x="11" y="8" width="278" height="95"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -362,7 +361,7 @@
                         <outlet property="projectNameLabel" destination="wAZ-fe-Mlo" id="0au-hF-MYW"/>
                         <outlet property="submitButton" destination="yte-cN-4pe" id="TwP-5a-rui"/>
                         <outlet property="submittingProgressIndicator" destination="buF-gv-kZU" id="HBA-L8-mRR"/>
-                        <outlet property="taskNameLabel" destination="h3S-Nh-mAK" id="y9d-E5-hLG"/>
+                        <outlet property="taskNameTextView" destination="0Zj-9X-6YQ" id="0hY-uO-6i1"/>
                     </connections>
                 </tableViewController>
             </objects>
@@ -437,7 +436,7 @@
                     <navigationItem key="navigationItem" title="Project Name" id="KDm-x3-vAb"/>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="868" y="-486"/>
+            <point key="canvasLocation" x="856" y="-525"/>
         </scene>
     </scenes>
     <resources>
@@ -470,7 +469,7 @@
                 <relationship kind="outlet" name="projectNameLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="submitButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="submittingProgressIndicator" candidateClass="UIActivityIndicatorView"/>
-                <relationship kind="outlet" name="taskNameLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="taskNameTextView" candidateClass="UITextView"/>
             </relationships>
         </class>
         <class className="TasksListTVC" superclassName="UITableViewController">

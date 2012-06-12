@@ -137,6 +137,7 @@
 
 - (void)startSync
 {
+    self.syncing = YES;
     [self showOrHideRefreshHeader:YES];
     [[RemoteAccess getInstance] synchronizeWithServer:self];
 }
@@ -237,6 +238,7 @@
 
 - (void)onDataSyncComplete
 {
+    self.syncing = NO;
     [self showOrHideRefreshHeader:NO];
     RemoteAccess *remoteAccess = [RemoteAccess getInstance];
     self.projectList = [remoteAccess.projects allValues];
@@ -250,6 +252,7 @@
 
 - (void)onSyncError
 {
+    self.syncing = NO;
     [self showOrHideRefreshHeader:NO];
     UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Error syncing!" message:nil delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     [dialog show];
@@ -264,6 +267,7 @@
 
 - (void)onAuthError
 {
+    self.syncing = NO;
     [self showOrHideRefreshHeader:NO];
     UIAlertView *dialog = [[UIAlertView alloc] initWithTitle:@"Username or password is wrong!" message:nil delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     [dialog show];
